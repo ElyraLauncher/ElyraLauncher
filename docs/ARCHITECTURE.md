@@ -4,7 +4,7 @@
 
 This repository contains the main ElyraLauncher source.
 
-It is planned to be based on AOSP Launcher3 with Quickstep support.
+It is based on AOSP Launcher3 with Quickstep support.
 
 ## Build Modes
 
@@ -15,6 +15,8 @@ The ROM build is the source of truth.
 ```bash
 m ElyraLauncherQuickStep
 ```
+
+Real Quickstep and Recents must be tested in a full Android ROM tree.
 
 ### Standalone APK Build
 
@@ -34,3 +36,9 @@ It must not include real Quickstep runtime integration or hidden platform APIs.
 - `tools/` — developer tools
 - `flags/` — feature flags
 - `tests/` — tests
+
+## Boundary
+
+The main launcher repository should not contain the full source of companion repositories.
+
+Companion repositories must stay separate and be integrated only through documented interfaces.

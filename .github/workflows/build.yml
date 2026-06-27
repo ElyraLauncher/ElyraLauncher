@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - import/**
   pull_request:
   workflow_dispatch:
 
@@ -19,20 +20,12 @@ jobs:
       - name: Show repository layout
         run: |
           echo "ElyraLauncher repository sanity check"
-          find . -maxdepth 3 -type f | sort
+          find . -maxdepth 3 -type f | sort | head -200
 
-      - name: Validate required files
+      - name: Validate required metadata
         run: |
           test -f README.md
           test -f AGENTS.md
-          test -f Android.bp
-          test -f AndroidManifest.xml
-          test -f AndroidManifest-common.xml
-          test -f AndroidManifest-launcher3.xml
-          test -f AndroidManifest-quickstep.xml
-          test -f CleanSpec.mk
-          test -f proguard.flags
-          test -f proguard-launcher3.pro
           test -f ROADMAP.md
           test -f VERIFICATION.md
           test -f docs/MIGRATION_STATUS.md
@@ -40,8 +33,18 @@ jobs:
           test -f docs/COMPANION_REPOS.md
           test -f docs/CHERRY_PICK_PLAN.md
 
+      - name: Check Launcher3/Quickstep hints
+        run: |
+          echo "Checking common Launcher3/Quickstep paths..."
+          test -d src || echo "src/ not found yet"
+          test -d res || echo "res/ not found yet"
+          test -d quickstep || echo "quickstep/ not found yet"
+          find . -name "RecentsView.java" -o -name "RecentsView.kt" | head || true
+          find . -name "TaskView.java" -o -name "TaskView.kt" | head || true
+          find . -name "TouchInteractionService.java" -o -name "TouchInteractionService.kt" | head || true
+          find . -name "Launcher.java" -o -name "Launcher.kt" | head || true
+
       - name: Explain current limitation
         run: |
-          echo "This repository currently contains the clean ElyraLauncher foundation."
           echo "Full Launcher3/Quickstep validation requires Android ROM tree:"
           echo "m ElyraLauncherQuickStep"

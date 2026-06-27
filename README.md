@@ -2,14 +2,14 @@
 
 ElyraLauncher is the official launcher project for ElyraOS.
 
-It is planned as a Lawnchair-style launcher ecosystem based on AOSP Launcher3 with Quickstep support.
+It is a Lawnchair-style Android launcher ecosystem based on AOSP Launcher3 with Quickstep support.
 
 ## Goals
 
-- Preserve Launcher3 architecture
-- Preserve Quickstep and Recents integration
+- Preserve AOSP Launcher3 architecture
+- Preserve Quickstep, Recents, Overview, Taskbar, and BubbleBar integration
 - Support Android ROM/system builds
-- Provide a clean standalone APK path only for UI testing
+- Provide a standalone APK path only for basic UI testing
 - Build a professional ElyraLauncher ecosystem with icons, feed, docs, and website repositories
 
 ## Main ROM Target
@@ -18,9 +18,23 @@ It is planned as a Lawnchair-style launcher ecosystem based on AOSP Launcher3 wi
 m ElyraLauncherQuickStep
 ```
 
-## Important Note
+## Build Model
 
-Standalone APK builds cannot provide real Android Recents or Quickstep integration. Real Quickstep support requires ROM/system integration.
+### ROM/System Build
+
+The ROM build is the source of truth.
+
+Real Quickstep, Recents, gesture navigation, privileged launcher behavior, and platform integration must be validated inside an Android ROM tree.
+
+### Standalone APK
+
+Standalone APK builds are only for UI smoke testing and GitHub Actions artifacts.
+
+Standalone APK builds cannot provide real Android Recents or Quickstep integration because those require privileged ROM/system integration.
+
+## Current Status
+
+This repository is being rebuilt cleanly from an AOSP Launcher3 Android 16 base.
 
 ## Planned Companion Repositories
 

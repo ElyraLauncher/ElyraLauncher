@@ -4,6 +4,7 @@
 
 - Import clean AOSP Launcher3 Android 16 source
 - Preserve Quickstep and Recents architecture
+- Preserve Overview, Taskbar, and BubbleBar where supported by base source
 - Add ElyraLauncherQuickStep Soong target
 - Keep commit history clean
 
@@ -13,6 +14,7 @@
 - ElyraOS strings
 - Elyra launcher icon
 - Basic theme naming
+- Package/resource naming only where safe
 
 ## Phase 3 — Standalone Validation APK
 
@@ -35,3 +37,7 @@
 - packages_apps_ElyraFeed
 - ElyraLauncherDocs
 - ElyraLauncherWebsite
+
+## Rule
+
+Do not add advanced features before the clean Launcher3/Quickstep base is stable.
