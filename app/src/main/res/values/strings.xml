@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ElyraLauncher</string>
+    <string name="derived_app_name">ElyraLauncher</string>
+    <string name="standalone_smoke_title">ElyraLauncher</string>
+    <string name="standalone_smoke_body">Standalone APK UI smoke test only. Real Recents and Quickstep require an Android ROM build with m ElyraLauncherQuickStep.</string>
+</resources>

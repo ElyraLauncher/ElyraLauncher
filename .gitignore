@@ -11,9 +11,14 @@ bin/
 .idea/
 .gradle/
 local.properties
-gradle/
+gradle/*
+!gradle/wrapper/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 build/
 gradlew*
+!gradlew
+!gradlew.bat
 .DS_Store
 bootstraps.sh
 bootstrap.sh

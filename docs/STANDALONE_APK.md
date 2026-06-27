@@ -1,0 +1,39 @@
+# Standalone APK
+
+The standalone APK exists only for basic ElyraLauncher UI smoke testing in
+GitHub Actions.
+
+It is not the source of truth for ElyraLauncher. The ROM/System build remains
+authoritative, and the main ROM target remains:
+
+```bash
+m ElyraLauncherQuickStep
+```
+
+The standalone APK cannot validate real Android Recents, real Quickstep gesture
+integration, privileged launcher behavior, platform hidden APIs, or
+system-level task management. Those paths require an Android ROM tree and must
+be validated with:
+
+```bash
+m ElyraLauncherQuickStep
+```
+
+## Build
+
+Build the debug APK with:
+
+```bash
+./gradlew :app:assembleDebug
+```
+
+The output is:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+The Gradle `:app` module is a standalone UI smoke target. It does not compile
+or replace the ROM `Launcher3QuickStep` or `ElyraLauncherQuickStep` Soong
+targets, does not register as a Home activity, and does not package platform
+hidden API stubs.

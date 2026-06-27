@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="icon_background">#E0E0E0</color>
+    <color name="smoke_background">#FAFAFA</color>
+    <color name="smoke_text">#202124</color>
+</resources>
