@@ -27,3 +27,5 @@ Landing page, download page, screenshots, and release notes.
 ## Rule
 
 Do not mix all companion repository code into the main launcher repository.
+
+The main repository must remain focused on Launcher3/Quickstep.

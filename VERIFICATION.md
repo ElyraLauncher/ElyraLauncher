@@ -10,8 +10,17 @@ m ElyraLauncherQuickStep
 
 ## Standalone Verification
 
-Standalone APK builds are only for UI smoke testing. They cannot validate real Recents or Quickstep.
+Standalone APK builds are only for UI smoke testing.
+
+Standalone builds cannot validate:
+
+- real Recents
+- real Quickstep
+- gesture navigation integration
+- privileged launcher behavior
+- hidden platform APIs
+- system-level task management
 
 ## Current Status
 
-This repository currently contains the clean project foundation. Real AOSP Launcher3/Quickstep source still needs to be imported.
+This repository is being rebuilt cleanly from an AOSP Launcher3 Android 16 base.
