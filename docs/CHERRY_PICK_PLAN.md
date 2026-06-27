@@ -2,7 +2,7 @@
 
 Old experimental source should not be copied all at once.
 
-## Phase A — Safe Identity Changes
+## Phase A: Safe Identity Changes
 
 - App name
 - Strings
@@ -10,20 +10,20 @@ Old experimental source should not be copied all at once.
 - Basic theme names
 - ROM target naming
 
-## Phase B — Launcher UI
+## Phase B: Launcher UI
 
 - Basic settings entry
 - Onboarding shell
 - Drawer customization
 - Search UI shell
 
-## Phase C — Ecosystem
+## Phase C: Ecosystem
 
 - ElyraIcons integration
 - ElyraFeed integration
 - Widget layer
 
-## Phase D — Advanced Modules
+## Phase D: Advanced Modules
 
 - ElyraKIT
 - Native optimization
@@ -33,3 +33,6 @@ Old experimental source should not be copied all at once.
 ## Rule
 
 Only cherry-pick code after the clean Launcher3/Quickstep base builds.
+
+Do not cherry-pick changes that remove Launcher3, Quickstep, Recents, or the
+current `com.android.launcher3` package assumptions.

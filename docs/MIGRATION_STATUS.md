@@ -1,6 +1,7 @@
 # Migration Status
 
-ElyraLauncher is being restarted as a clean Launcher3/Quickstep-based project.
+ElyraLauncher is being restarted as a clean Launcher3/Quickstep-based
+project.
 
 ## Current State
 
@@ -15,11 +16,11 @@ The clean AOSP Launcher3 Android 16 base has been imported.
 
 Important source areas:
 
-- `src/` — Launcher3 core source
-- `res/` — Launcher resources
-- `quickstep/` — Quickstep, Recents, Overview, Taskbar, and gesture integration
-- `protos/` — Launcher protocol buffers
-- `tests/` — Launcher tests
+- `src/`: Launcher3 core source
+- `res/`: Launcher resources
+- `quickstep/`: Quickstep, Recents, Overview, Taskbar, and gesture integration
+- `protos/`: Launcher protocol buffers
+- `tests/`: Launcher tests
 
 Important preserved classes:
 
@@ -46,10 +47,12 @@ ElyraOS exposes the ROM build target:
 m ElyraLauncherQuickStep
 ```
 
-The Java package is intentionally kept as `com.android.launcher3` in this phase to avoid breaking Launcher3/Quickstep assumptions.
+The Java package is intentionally kept as `com.android.launcher3` in this
+phase to avoid breaking Launcher3/Quickstep assumptions.
 
 ## Important Limitation
 
-Standalone APK builds cannot provide real Android Recents or Quickstep integration.
+Standalone APK builds cannot provide real Android Recents or Quickstep
+integration.
 
 Real Quickstep requires privileged ROM/system integration.

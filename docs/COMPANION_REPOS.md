@@ -29,3 +29,6 @@ Landing page, download page, screenshots, and release notes.
 Do not mix all companion repository code into the main launcher repository.
 
 The main repository must remain focused on Launcher3/Quickstep.
+
+The standalone APK path remains limited to UI smoke testing and must not be
+used to claim real Recents or Quickstep integration.
