@@ -607,6 +607,53 @@ android_app {
 
 }
 
+// ElyraOS ROM launcher target.
+//
+// This target intentionally reuses the clean AOSP Launcher3QuickStep
+// source/libs while exposing a ROM-friendly module name for ElyraOS:
+//
+//     m ElyraLauncherQuickStep
+//
+// Java package renaming is intentionally not done in this phase.
+android_app {
+    name: "ElyraLauncherQuickStep",
+    static_libs: ["Launcher3QuickStepLib"],
+    optimize: {
+        proguard_flags_files: [":launcher-proguard-rules"],
+        enabled: true,
+        shrink_resources: true,
+    },
+
+    platform_apis: true,
+    min_sdk_version: "current",
+    target_sdk_version: "current",
+
+    privileged: true,
+    system_ext_specific: true,
+    overrides: [
+        "Home",
+        "Launcher2",
+        "Launcher3",
+    ],
+    required: [
+        "privapp_whitelist_com.android.launcher3",
+        "launcher.quickstep.protolog.pb",
+    ],
+
+    resource_dirs: ["quickstep/res"],
+
+    additional_manifests: [
+        "quickstep/AndroidManifest-launcher.xml",
+        "AndroidManifest-common.xml",
+    ],
+
+    manifest: "quickstep/AndroidManifest.xml",
+    jacoco: {
+        include_filter: ["com.android.launcher3.*"],
+    },
+
+}
+
 // Build rule for Launcher3 Go app with quickstep for Android Go devices.
 // Note that the following two rules are exactly same, and should
 // eventually be merged into a single target

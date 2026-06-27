@@ -39,10 +39,11 @@ jobs:
           test -d src || echo "src/ not found yet"
           test -d res || echo "res/ not found yet"
           test -d quickstep || echo "quickstep/ not found yet"
+          find . -name "Launcher.java" -o -name "Launcher.kt" | head || true
+          find . -name "QuickstepLauncher.java" -o -name "QuickstepLauncher.kt" | head || true
           find . -name "RecentsView.java" -o -name "RecentsView.kt" | head || true
           find . -name "TaskView.java" -o -name "TaskView.kt" | head || true
           find . -name "TouchInteractionService.java" -o -name "TouchInteractionService.kt" | head || true
-          find . -name "Launcher.java" -o -name "Launcher.kt" | head || true
 
       - name: Explain current limitation
         run: |
