@@ -1,0 +1,48 @@
+// ElyraLauncher Soong build entry.
+//
+// Real Launcher3/Quickstep source must be imported before this target can be
+// built inside an Android ROM tree.
+//
+// Target ROM build command:
+//
+//     m ElyraLauncherQuickStep
+//
+// This file intentionally documents the final ROM target early so the project
+// direction stays clear from the first commits.
+
+package {
+    default_applicable_licenses: ["ElyraLauncher_license"],
+}
+
+license {
+    name: "ElyraLauncher_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-Apache-2.0",
+    ],
+}
+
+// TODO: Convert this placeholder into a real android_app target after importing
+// AOSP Launcher3/Quickstep source.
+//
+// Expected final target:
+//
+// android_app {
+//     name: "ElyraLauncherQuickStep",
+//     srcs: [
+//         "src/**/*.java",
+//         "src/**/*.kt",
+//         "quickstep/**/*.java",
+//         "quickstep/**/*.kt",
+//     ],
+//     manifest: "AndroidManifest.xml",
+//     platform_apis: true,
+//     privileged: true,
+//     certificate: "platform",
+//     overrides: [
+//         "Home",
+//         "Launcher3",
+//         "Launcher3QuickStep",
+//     ],
+//     system_ext_specific: true,
+// }

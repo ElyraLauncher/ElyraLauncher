@@ -21,3 +21,11 @@ m ElyraLauncherQuickStep
 ## Important Note
 
 Standalone APK builds cannot provide real Android Recents or Quickstep integration. Real Quickstep support requires ROM/system integration.
+
+## Planned Companion Repositories
+
+- platform_frameworks_libs_systemui
+- packages_apps_ElyraIcons
+- packages_apps_ElyraFeed
+- ElyraLauncherDocs
+- ElyraLauncherWebsite

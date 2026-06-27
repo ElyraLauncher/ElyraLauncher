@@ -1,0 +1,47 @@
+name: ElyraLauncher Validation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  repository-sanity:
+    name: Repository sanity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show repository layout
+        run: |
+          echo "ElyraLauncher repository sanity check"
+          find . -maxdepth 3 -type f | sort
+
+      - name: Validate required files
+        run: |
+          test -f README.md
+          test -f AGENTS.md
+          test -f Android.bp
+          test -f AndroidManifest.xml
+          test -f AndroidManifest-common.xml
+          test -f AndroidManifest-launcher3.xml
+          test -f AndroidManifest-quickstep.xml
+          test -f CleanSpec.mk
+          test -f proguard.flags
+          test -f proguard-launcher3.pro
+          test -f ROADMAP.md
+          test -f VERIFICATION.md
+          test -f docs/MIGRATION_STATUS.md
+          test -f docs/ARCHITECTURE.md
+          test -f docs/COMPANION_REPOS.md
+          test -f docs/CHERRY_PICK_PLAN.md
+
+      - name: Explain current limitation
+        run: |
+          echo "This repository currently contains the clean ElyraLauncher foundation."
+          echo "Full Launcher3/Quickstep validation requires Android ROM tree:"
+          echo "m ElyraLauncherQuickStep"

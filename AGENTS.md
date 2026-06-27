@@ -18,6 +18,7 @@ Expected ROM build command:
 
 ```bash
 m ElyraLauncherQuickStep
+```
 
 ## Architecture Rules
 
@@ -65,8 +66,8 @@ Those will be created later as separate repos or separate clean commits.
 ## Planned Companion Repositories
 
 - platform_frameworks_libs_systemui
-- ElyraIcons
-- ElyraFeed
+- packages_apps_ElyraIcons
+- packages_apps_ElyraFeed
 - ElyraLauncherDocs
 - ElyraLauncherWebsite
 

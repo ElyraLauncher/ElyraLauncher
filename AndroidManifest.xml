@@ -1,0 +1,8 @@
+<!--
+    ElyraLauncher main manifest placeholder.
+
+    The real manifest must be imported from AOSP Launcher3/Quickstep and adapted
+    carefully for ElyraOS ROM integration.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+</manifest>
