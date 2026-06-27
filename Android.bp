@@ -634,6 +634,7 @@ android_app {
         "Home",
         "Launcher2",
         "Launcher3",
+        "Launcher3QuickStep",
     ],
     required: [
         "privapp_whitelist_com.android.launcher3",
