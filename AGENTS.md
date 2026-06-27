@@ -18,3 +18,64 @@ Expected ROM build command:
 
 ```bash
 m ElyraLauncherQuickStep
+
+## Architecture Rules
+
+- ROM/System build is the source of truth.
+- Android.bp is required for ROM integration.
+- Gradle standalone APK is only for UI testing and GitHub Actions.
+- Standalone APK must not claim to support real Recents or Quickstep.
+- Real Recents/Quickstep must be validated inside an Android ROM tree.
+
+## Must Preserve
+
+Do not remove:
+
+- Launcher3 core
+- Quickstep core
+- RecentsView
+- TaskView
+- TouchInteractionService
+- QuickstepLauncher
+- LauncherModel
+- LauncherProvider
+- IconCache
+- DeviceProfile
+- OverviewCommandHelper
+- LauncherActivityInterface
+- Taskbar
+- BubbleBar
+
+## First Phase Restrictions
+
+Do not add these in the first phase:
+
+- ElyraKIT
+- native module
+- benchmark module
+- samples
+- website source
+- docs website source
+- ElyraFeed source
+- ElyraIcons source
+- complex Compose feature layer
+
+Those will be created later as separate repos or separate clean commits.
+
+## Planned Companion Repositories
+
+- platform_frameworks_libs_systemui
+- ElyraIcons
+- ElyraFeed
+- ElyraLauncherDocs
+- ElyraLauncherWebsite
+
+## Commit Style
+
+Use clean commits:
+
+- rebase(launcher3): import clean Android 16 Launcher3 base
+- build(soong): add ElyraLauncherQuickStep target
+- brand: apply ElyraLauncher identity
+- docs: define ElyraLauncher ecosystem architecture
+- ci: add initial validation workflow
