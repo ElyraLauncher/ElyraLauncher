@@ -1,0 +1,68 @@
+name: Feature request
+description: Propose a Launcher3, Quickstep, or ElyraLauncher improvement
+title: "[Feature]: "
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected launcher area
+      options:
+        - Launcher3 core
+        - Quickstep/Recents
+        - Taskbar
+        - Workspace
+        - All Apps
+        - Settings
+        - Theme/resources
+        - Icons
+        - CI/docs
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What user or maintainer problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: build_scope
+    attributes:
+      label: ROM-only or standalone-safe
+      options:
+        - Requires ROM/system build
+        - Safe for standalone smoke APK
+        - Documentation or CI only
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: ux_notes
+    attributes:
+      label: UX notes
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation notes

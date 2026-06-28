@@ -1,0 +1,21 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  dependencyDashboard: true,
+  automerge: false,
+  packageRules: [
+    {
+      matchManagers: ["github-actions"],
+      groupName: "GitHub Actions updates"
+    },
+    {
+      matchManagers: ["gradle", "gradle-wrapper"],
+      groupName: "Gradle and Android tooling updates"
+    },
+    {
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      dependencyDashboardApproval: true
+    }
+  ]
+}
