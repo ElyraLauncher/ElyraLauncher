@@ -103,13 +103,12 @@ public final class StandaloneSmokeActivity extends Activity {
         titleGroup.addView(status, statusParams);
 
         TextView warning = label(R.string.standalone_smoke_body, 14, Typeface.NORMAL);
+        warning.setGravity(Gravity.CENTER);
         warning.setTextColor(mutedTextColor());
         warning.setLineSpacing(dp(2), 1.0f);
-        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(warningBackgroundColor(), dp(18),
-                dp(1), warningBorderColor()));
+        warning.setPadding(dp(10), 0, dp(10), 0);
         LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
-        warningParams.topMargin = dp(24);
+        warningParams.topMargin = dp(20);
         root.addView(warning, warningParams);
 
         TextView search = label(R.string.standalone_search_placeholder, 15, Typeface.NORMAL);
@@ -236,11 +235,9 @@ public final class StandaloneSmokeActivity extends Activity {
         addDrawerApp(apps, R.string.standalone_drawer_weather, "W", false);
 
         TextView warning = label(R.string.standalone_app_drawer_notice, 14, Typeface.NORMAL);
+        warning.setGravity(Gravity.CENTER);
         warning.setTextColor(mutedTextColor());
-        warning.setLineSpacing(dp(2), 1.0f);
-        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(warningBackgroundColor(), dp(18),
-                dp(1), warningBorderColor()));
+        warning.setPadding(dp(10), 0, dp(10), 0);
         LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
         warningParams.topMargin = dp(16);
         root.addView(warning, warningParams);
@@ -297,11 +294,9 @@ public final class StandaloneSmokeActivity extends Activity {
                 });
 
         TextView warning = label(R.string.standalone_search_notice, 14, Typeface.NORMAL);
+        warning.setGravity(Gravity.CENTER);
         warning.setTextColor(mutedTextColor());
-        warning.setLineSpacing(dp(2), 1.0f);
-        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(warningBackgroundColor(), dp(18),
-                dp(1), warningBorderColor()));
+        warning.setPadding(dp(10), 0, dp(10), 0);
         LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
         warningParams.topMargin = dp(16);
         root.addView(warning, warningParams);
@@ -358,25 +353,25 @@ public final class StandaloneSmokeActivity extends Activity {
     private void createHeroInfoCard(LinearLayout root) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(dp(18), dp(18), dp(18), dp(18));
-        card.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+        card.setPadding(dp(20), dp(20), dp(20), dp(20));
+        card.setBackground(rounded(surfaceColor(), dp(22), dp(1), borderColor()));
 
         TextView icon = label(R.string.standalone_settings_hero_icon, 14, Typeface.BOLD);
         icon.setGravity(Gravity.CENTER);
         icon.setTextColor(accentColor());
         icon.setBackground(rounded(accentSoftColor(), dp(12), 0, Color.TRANSPARENT));
-        card.addView(icon, size(dp(34), dp(34)));
+        card.addView(icon, size(dp(32), dp(32)));
 
         TextView title = label(R.string.standalone_settings_hero_title, 18, Typeface.BOLD);
         LinearLayout.LayoutParams titleParams = matchWidthWrapHeight();
-        titleParams.topMargin = dp(14);
+        titleParams.topMargin = dp(16);
         card.addView(title, titleParams);
 
         TextView body = label(R.string.standalone_settings_hero_body, 14, Typeface.NORMAL);
         body.setTextColor(mutedTextColor());
-        body.setLineSpacing(dp(3), 1.0f);
+        body.setLineSpacing(dp(4), 1.0f);
         LinearLayout.LayoutParams bodyParams = matchWidthWrapHeight();
-        bodyParams.topMargin = dp(6);
+        bodyParams.topMargin = dp(8);
         card.addView(body, bodyParams);
 
         LinearLayout.LayoutParams params = matchWidthWrapHeight();
@@ -385,15 +380,13 @@ public final class StandaloneSmokeActivity extends Activity {
     }
 
     private void createStandaloneNotice(LinearLayout root) {
-        TextView warning = label(R.string.standalone_settings_notice, 13, Typeface.NORMAL);
-        warning.setTextColor(mutedTextColor());
-        warning.setLineSpacing(dp(2), 1.0f);
-        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(warningBackgroundColor(), dp(18), dp(1),
-                warningBorderColor()));
-        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
-        warningParams.topMargin = dp(16);
-        root.addView(warning, warningParams);
+        TextView note = label(R.string.standalone_settings_notice, 12, Typeface.NORMAL);
+        note.setGravity(Gravity.CENTER);
+        note.setTextColor(mutedTextColor());
+        note.setPadding(dp(10), 0, dp(10), 0);
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(16);
+        root.addView(note, params);
     }
 
     private LinearLayout createGroupedSection(LinearLayout root, int titleResId) {
@@ -467,16 +460,16 @@ public final class StandaloneSmokeActivity extends Activity {
         GridLayout icons = new GridLayout(this);
         icons.setColumnCount(4);
         LinearLayout.LayoutParams iconsParams = matchWidthWrapHeight();
-        iconsParams.topMargin = dp(16);
+        iconsParams.topMargin = dp(18);
         card.addView(icons, iconsParams);
-        addPreviewIcon(icons, "P");
-        addPreviewIcon(icons, "M");
-        addPreviewIcon(icons, "B");
-        addPreviewIcon(icons, "C");
-        addPreviewIcon(icons, "S");
-        addPreviewIcon(icons, "F");
-        addPreviewIcon(icons, "G");
-        addPreviewIcon(icons, "W");
+        addPreviewIcon(icons, R.string.standalone_drawer_phone, 0);
+        addPreviewIcon(icons, R.string.standalone_drawer_messages, 1);
+        addPreviewIcon(icons, R.string.standalone_drawer_browser, 2);
+        addPreviewIcon(icons, R.string.standalone_drawer_camera, 3);
+        addPreviewIcon(icons, R.string.standalone_drawer_settings, 4);
+        addPreviewIcon(icons, R.string.standalone_drawer_gallery, 5);
+        addPreviewIcon(icons, R.string.standalone_drawer_files, 6);
+        addPreviewIcon(icons, R.string.standalone_drawer_weather, 7);
 
         LinearLayout dock = new LinearLayout(this);
         dock.setGravity(Gravity.CENTER);
@@ -484,12 +477,12 @@ public final class StandaloneSmokeActivity extends Activity {
         dock.setPadding(dp(10), dp(10), dp(10), dp(10));
         dock.setBackground(rounded(previewGlassColor(), dp(24), dp(1), previewGlassBorderColor()));
         LinearLayout.LayoutParams dockParams = matchWidthWrapHeight();
-        dockParams.topMargin = dp(16);
+        dockParams.topMargin = dp(14);
         card.addView(dock, dockParams);
-        addPreviewDockIcon(dock, "P");
-        addPreviewDockIcon(dock, "M");
-        addPreviewDockIcon(dock, "B");
-        addPreviewDockIcon(dock, "C");
+        addPreviewDockIcon(dock, 0);
+        addPreviewDockIcon(dock, 1);
+        addPreviewDockIcon(dock, 2);
+        addPreviewDockIcon(dock, 3);
 
         LinearLayout.LayoutParams params = matchWidthWrapHeight();
         params.topMargin = dp(22);
@@ -929,27 +922,39 @@ public final class StandaloneSmokeActivity extends Activity {
     }
 
 
-    private void addPreviewIcon(GridLayout icons, String text) {
-        TextView icon = label(text, 13, Typeface.BOLD);
-        icon.setGravity(Gravity.CENTER);
-        icon.setTextColor(accentColor());
-        icon.setBackground(rounded(previewIconColor(), dp(15), 0, Color.TRANSPARENT));
+    private void addPreviewIcon(GridLayout icons, int labelResId, int colorIndex) {
+        LinearLayout item = new LinearLayout(this);
+        item.setGravity(Gravity.CENTER);
+        item.setOrientation(LinearLayout.VERTICAL);
+
+        View icon = new View(this);
+        icon.setBackground(rounded(previewIconColor(colorIndex), dp(14), 0,
+                Color.TRANSPARENT));
+        item.addView(icon, size(dp(34), dp(34)));
+
+        TextView label = label(labelResId, 9, Typeface.NORMAL);
+        label.setGravity(Gravity.CENTER);
+        label.setSingleLine(true);
+        label.setTextColor(previewTextColor());
+        LinearLayout.LayoutParams labelParams = matchWidthWrapHeight();
+        labelParams.topMargin = dp(5);
+        item.addView(label, labelParams);
+
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
-        params.height = dp(46);
+        params.height = dp(62);
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        params.setMargins(dp(6), dp(5), dp(6), dp(5));
-        icons.addView(icon, params);
+        params.setMargins(dp(4), dp(4), dp(4), dp(6));
+        icons.addView(item, params);
     }
 
-    private void addPreviewDockIcon(LinearLayout dock, String text) {
-        TextView icon = label(text, 13, Typeface.BOLD);
-        icon.setGravity(Gravity.CENTER);
-        icon.setTextColor(accentColor());
-        icon.setBackground(rounded(previewIconColor(), dp(14), 0, Color.TRANSPARENT));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(42), 1f);
-        params.leftMargin = dp(4);
-        params.rightMargin = dp(4);
+    private void addPreviewDockIcon(LinearLayout dock, int colorIndex) {
+        View icon = new View(this);
+        icon.setBackground(rounded(previewIconColor(colorIndex), dp(13), 0,
+                Color.TRANSPARENT));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(36), 1f);
+        params.leftMargin = dp(5);
+        params.rightMargin = dp(5);
         dock.addView(icon, params);
     }
 
@@ -1145,8 +1150,29 @@ public final class StandaloneSmokeActivity extends Activity {
         return mDarkPreview ? Color.rgb(82, 96, 103) : Color.rgb(224, 239, 235);
     }
 
-    private int previewIconColor() {
-        return mDarkPreview ? Color.rgb(44, 73, 69) : Color.rgb(230, 245, 241);
+    private int previewIconColor(int index) {
+        int[][] light = {
+                { 72, 153, 133 },
+                { 76, 132, 170 },
+                { 92, 105, 170 },
+                { 181, 128, 70 },
+                { 93, 149, 118 },
+                { 164, 111, 143 },
+                { 88, 137, 177 },
+                { 205, 157, 74 }
+        };
+        int[][] dark = {
+                { 62, 142, 124 },
+                { 58, 112, 148 },
+                { 82, 90, 150 },
+                { 158, 112, 66 },
+                { 72, 124, 98 },
+                { 142, 88, 120 },
+                { 70, 112, 150 },
+                { 170, 132, 64 }
+        };
+        int[] color = (mDarkPreview ? dark : light)[index % light.length];
+        return Color.rgb(color[0], color[1], color[2]);
     }
 
     private int seekInactiveColor() {
