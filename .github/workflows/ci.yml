@@ -88,25 +88,52 @@ jobs:
   gradle-smoke:
     name: Gradle smoke
     runs-on: ubuntu-latest
-    if: ${{ hashFiles('settings.gradle', 'settings.gradle.kts', 'build.gradle', 'build.gradle.kts', 'gradlew') != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Detect Gradle project
+        id: gradle-project
+        shell: bash
+        run: |
+          has_gradle=false
+          has_app=false
+
+          if [[ -f gradlew ]] \
+            && { [[ -f settings.gradle ]] || [[ -f settings.gradle.kts ]]; } \
+            && { [[ -f build.gradle ]] || [[ -f build.gradle.kts ]]; }; then
+            has_gradle=true
+          fi
+
+          if [[ -f app/build.gradle ]] || [[ -f app/build.gradle.kts ]]; then
+            has_app=true
+          fi
+
+          echo "has-gradle=${has_gradle}" >> "${GITHUB_OUTPUT}"
+          echo "has-app=${has_app}" >> "${GITHUB_OUTPUT}"
+
       - name: Set up JDK
+        if: ${{ steps.gradle-project.outputs.has-gradle == 'true' }}
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: '21'
 
       - name: Show Gradle tasks
+        if: ${{ steps.gradle-project.outputs.has-gradle == 'true' }}
         run: |
           chmod +x ./gradlew
           ./gradlew --no-daemon tasks
 
       - name: Build standalone smoke APK when app module exists
-        if: ${{ hashFiles('app/build.gradle', 'app/build.gradle.kts') != '' }}
+        if: ${{ steps.gradle-project.outputs.has-gradle == 'true' && steps.gradle-project.outputs.has-app == 'true' }}
         run: |
           echo "Standalone smoke APK is not Recents or Quickstep validation."
           echo "ROM target remains ElyraLauncherQuickStep."
           ./gradlew --no-daemon :app:assembleDebug
+
+      - name: Skip Gradle smoke when no Gradle project exists
+        if: ${{ steps.gradle-project.outputs.has-gradle != 'true' }}
+        run: |
+          echo "No Gradle wrapper and root build files were detected."
+          echo "Use m ElyraLauncherQuickStep inside a configured Android source tree for ROM validation."
