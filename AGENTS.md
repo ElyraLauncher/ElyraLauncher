@@ -23,7 +23,7 @@ Do not remove or replace:
 - Do not create fake Recents or fake Quickstep behavior.
 - Do not delete platform code to make Gradle pass.
 - Do not package hidden API stubs into release APKs.
-- Do not claim a standalone smoke APK validates real Recents or Quickstep.
+- Do not present a standalone smoke APK as evidence for Recents or Quickstep integration.
 - Do not add unrelated companion projects in this repository phase.
 
 ## Testing Expectations
