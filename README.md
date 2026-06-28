@@ -10,7 +10,7 @@ with Quickstep support.
 - Preserve AOSP Launcher3 architecture.
 - Preserve Quickstep, Recents, Overview, Taskbar, and BubbleBar integration.
 - Support Android ROM/system builds.
-- Provide a standalone APK path only for basic UI testing.
+- Provide a Private Preview APK path only for owner UI testing.
 - Build a professional ElyraLauncher ecosystem with separate icons, feed,
   docs, and website repositories.
 
@@ -33,12 +33,12 @@ The ROM build is the source of truth.
 Real Quickstep, Recents, gesture navigation, privileged launcher behavior, and
 platform integration must be validated inside an Android ROM tree.
 
-### Standalone APK
+### Private Preview APK
 
-Standalone APK builds are only for UI smoke testing and GitHub Actions
-artifacts.
+Standalone Private Preview APK builds are only for owner UI testing and
+GitHub Actions artifacts.
 
-Standalone APK builds cannot provide real Android Recents or Quickstep
+Private Preview APK builds cannot provide real Android Recents or Quickstep
 integration because those require privileged ROM/system integration.
 
 ## Package Naming
