@@ -32,9 +32,17 @@ jobs:
       - name: Build standalone debug APK
         run: ./gradlew --no-daemon :app:assembleDebug
 
+      - name: Prepare standalone APK artifact
+        run: |
+          mkdir -p app/build/outputs/apk/standalone
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk
+
       - name: Upload standalone UI smoke APK
         uses: actions/upload-artifact@v4
         with:
-          name: ElyraLauncher-standalone-ui-smoke-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: ElyraLauncher-standalone-debug
+          path: app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk
           if-no-files-found: error
+
+      - name: Print standalone APK path
+        run: echo "Standalone APK: app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk"
