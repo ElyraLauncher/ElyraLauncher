@@ -4,9 +4,9 @@
     <string name="derived_app_name">ElyraLauncher</string>
     <string name="standalone_home_logo">EL</string>
     <string name="standalone_smoke_title">ElyraLauncher</string>
-    <string name="standalone_smoke_status">Private Preview APK</string>
-    <string name="standalone_smoke_body">Standalone Private Preview only. Real Recents/Quickstep require ROM build validation.</string>
-    <string name="standalone_smoke_footer">Private Preview APK only · Real Quickstep requires ROM build</string>
+    <string name="standalone_smoke_status">Standalone smoke APK</string>
+    <string name="standalone_smoke_body">Standalone smoke APK only. Real Recents/Quickstep require ROM build validation.</string>
+    <string name="standalone_smoke_footer">Standalone smoke APK only · Real Quickstep requires ROM build</string>
     <string name="standalone_preview_toast">%1$s preview only</string>
     <string name="standalone_home_date">Sunday, 28 June</string>
     <string name="standalone_home_weather">28° · Calm and clear</string>
@@ -45,8 +45,8 @@
 
     <string name="standalone_settings_back">Back</string>
     <string name="standalone_settings_title">ElyraLauncher Settings</string>
-    <string name="standalone_settings_subtitle">Private Preview APK</string>
-    <string name="standalone_settings_notice">Private Preview APK only · Real Quickstep requires ROM build</string>
+    <string name="standalone_settings_subtitle">Standalone smoke APK</string>
+    <string name="standalone_settings_notice">Standalone smoke APK only · Real Quickstep requires ROM build</string>
     <string name="standalone_settings_appearance">Appearance</string>
     <string name="standalone_settings_home_screen">Home screen</string>
     <string name="standalone_settings_dock">Dock</string>
@@ -107,7 +107,7 @@
 
     <string name="standalone_search_back">Back</string>
     <string name="standalone_search_title">Search</string>
-    <string name="standalone_search_subtitle">Private Preview APK</string>
+    <string name="standalone_search_subtitle">Standalone smoke APK</string>
     <string name="standalone_search_provider_initial">G</string>
     <string name="standalone_google_search_placeholder">Google-style search</string>
     <string name="standalone_search_suggested_apps">Suggested apps</string>
@@ -135,7 +135,7 @@
     <string name="standalone_search_lens_button">Lens / Visual Search button</string>
     <string name="standalone_customize_search">Customize search</string>
     <string name="standalone_customize_google_search">Customize Google Search</string>
-    <string name="standalone_search_private_preview_only">Private preview only</string>
+    <string name="standalone_search_private_preview_only">Smoke APK only</string>
     <string name="standalone_customize_theme">Theme</string>
     <string name="standalone_search_theme_system">System</string>
     <string name="standalone_search_theme_light">Light</string>
@@ -164,15 +164,15 @@
     <string name="standalone_selector_dock_apps_6">6</string>
 
     <string name="standalone_about_name">ElyraLauncher</string>
-    <string name="standalone_about_preview">Private Preview APK</string>
+    <string name="standalone_about_preview">Standalone smoke APK</string>
     <string name="standalone_about_version">Version:</string>
     <string name="standalone_about_version_value">Preview</string>
     <string name="standalone_about_build_type">Build type:</string>
-    <string name="standalone_about_build_type_value">Standalone private APK</string>
+    <string name="standalone_about_build_type_value">Standalone smoke APK</string>
     <string name="standalone_about_rom_target">ROM target:</string>
     <string name="standalone_about_rom_target_value">m ElyraLauncherQuickStep</string>
     <string name="standalone_about_quickstep_status">Quickstep/Recents status:</string>
     <string name="standalone_about_recents_status">Launcher3QuickStep status:</string>
     <string name="standalone_about_requires_rom_build">Requires ROM build</string>
-    <string name="standalone_about_note">Private Preview APK is for personal UI/Home preview only. Google-style search is preview/provider styling only with no real Google API or account integration. Real Recents and Quickstep require ROM validation, and the ROM target remains m ElyraLauncherQuickStep.</string>
+    <string name="standalone_about_note">Standalone smoke APK is for basic UI smoke testing only. Google-style search is provider styling only with no real Google API or account integration. Real Recents and Quickstep require ROM validation, and the ROM target remains m ElyraLauncherQuickStep.</string>
 </resources>

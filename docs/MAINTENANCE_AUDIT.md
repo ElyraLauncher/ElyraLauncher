@@ -9,15 +9,14 @@ Soong ROM integration must remain intact.
 
 ## Must Be Removed
 
-- Private preview workflow language and artifacts that can be mistaken for a
+- Owner-only APK workflow language and artifacts that can be mistaken for a
   project release path.
-- The experimental `launcher-private` Gradle module, which attempts to package
-  Launcher3 and Quickstep source as a private APK outside the ROM build.
+- The deleted Gradle packaging module attempted to package Launcher3 and Quickstep
+  source as a misleading APK outside the ROM build.
 - GitHub workflows with overlapping APK preview purpose:
-  `.github/workflows/private-launcher3-apk.yml` and the old private preview APK
-  workflow.
+  old owner-only APK workflows.
 - Documentation that presents private owner APKs as project infrastructure.
-- Scripts that only validate deleted private preview paths.
+- Scripts that only validate deleted owner-only APK paths.
 
 ## Must Be Preserved
 
@@ -52,8 +51,7 @@ Soong ROM integration must remain intact.
 - Broad text searches for "preview" produce many legitimate Launcher3 widget and
   resource references. Cleanup must target project infrastructure wording, not
   platform feature names.
-- Removing `launcher-private` requires updating `settings.gradle.kts` and any
-  workflow or script references to avoid broken Gradle includes.
+- Deleted Gradle packaging module references must be removed from settings, workflows, scripts, and docs.
 - CI must guard architecture without deleting or stubbing hidden platform
   integration code.
 
@@ -64,7 +62,7 @@ Soong ROM integration must remain intact.
   `AndroidManifest-common.xml`.
 - Check that `Android.bp` and docs continue to mention
   `ElyraLauncherQuickStep`.
-- Check that private preview workflows and misleading private APK references are
+- Check that owner-only APK workflows and misleading APK references are
   removed.
 - Run Gradle smoke discovery only when Gradle files are present. Treat Gradle as
   a smoke path, not as Recents or Quickstep validation.
