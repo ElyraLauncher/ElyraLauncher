@@ -57,8 +57,12 @@ preview. It uses a grouped settings layout with a hero information card and
 Appearance, Home screen, Dock, Search, and About rows. Appearance opens a
 standalone visual concept screen with a launcher mock preview, grouped Tema,
 Elyra Glass, Ikon, and Layout sections, and lightweight preview-only controls.
-Theme mode changes update the standalone Home, All apps, Search, Settings, and
-Appearance preview colors for the current process only.
+Home screen opens a standalone preview-only detail screen with a mock launcher
+card and grouped Layout, Workspace, and Motion rows. These controls are only for
+standalone UI smoke testing and do not validate real Launcher3 workspace,
+Recents, or Quickstep behavior. Theme mode changes update the standalone Home,
+All apps, Search, Settings, Appearance, and Home screen preview colors for the
+current process only.
 
 Elyra Glass is ElyraLauncher's visual surface system for dock, search bar,
 drawer, settings cards, folders, widgets, app icon containers, shortcut cards,
