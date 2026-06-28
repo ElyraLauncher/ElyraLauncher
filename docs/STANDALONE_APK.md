@@ -52,12 +52,29 @@ Phone, Messages, Browser, Camera, Settings, Files, Gallery, Clock, Calculator,
 Calendar, Contacts, and Weather. The Settings item opens the same standalone
 settings shell as the home Settings action.
 
-The Settings action opens a simple placeholder settings shell with a theme
-mode preview plus Appearance, Home screen, Dock, Search, and About sections.
-The Light preview and Dark preview options update the standalone Home, All apps,
-Search, and Settings shell colors for the current process only. Preview screens have a back
-button, and Android back returns from a preview to the previous standalone shell
-where practical.
+The Settings action opens the standalone ElyraLauncher Settings concept
+preview. It uses a grouped settings layout with a hero information card and
+Appearance, Home screen, Dock, Search, and About rows. Appearance opens a
+standalone visual concept screen with a launcher mock preview, grouped Tema,
+Elyra Glass, Ikon, and Layout sections, and lightweight preview-only controls.
+Theme mode changes update the standalone Home, All apps, Search, Settings, and
+Appearance preview colors for the current process only.
+
+Elyra Glass is ElyraLauncher's visual surface system for dock, search bar,
+drawer, settings cards, folders, widgets, app icon containers, shortcut cards,
+and visual depth. In this standalone APK it is only a concept preview. Glass
+style, icon glass, and card surface rows are placeholders, while Glass depth
+opens a detail screen with a calm modern seekbar, percentage text, and Light,
+Medium, Deep, and Custom presets.
+
+The Ikon section includes an Icon pack row that points to ElyraIcons as the
+intended future icon source. This is preview-only: the standalone APK does not
+parse icon packs, does not add ElyraIcons source, and does not embed full icon
+assets. ElyraLauncher controls the launcher experience and visual treatment;
+ElyraIcons will provide icon pack assets and mappings later.
+
+Preview screens have a back button, and Android back returns from a preview to
+the previous standalone shell where practical.
 
 Search result, dock, and placeholder app taps only show preview Toast messages,
 except for the drawer Settings placeholder, which opens the standalone settings
