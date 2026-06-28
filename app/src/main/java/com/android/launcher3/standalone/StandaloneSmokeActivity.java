@@ -25,6 +25,7 @@ public final class StandaloneSmokeActivity extends Activity {
     private static final int SCREEN_SEARCH = 3;
     private static final int SCREEN_APPEARANCE = 4;
     private static final int SCREEN_GLASS_DEPTH = 5;
+    private static final int SCREEN_HOME_SETTINGS = 6;
 
     private static final int GLASS_DEPTH_LIGHT = 35;
     private static final int GLASS_DEPTH_MEDIUM = 65;
@@ -33,6 +34,8 @@ public final class StandaloneSmokeActivity extends Activity {
     private int mCurrentScreen = SCREEN_HOME;
     private int mSearchReturnScreen = SCREEN_HOME;
     private boolean mDarkPreview;
+    private boolean mHomeIconLabels = true;
+    private boolean mHomeWidgetArea = true;
     private int mGlassDepth = GLASS_DEPTH_MEDIUM;
 
     @Override
@@ -49,6 +52,10 @@ public final class StandaloneSmokeActivity extends Activity {
         }
         if (mCurrentScreen == SCREEN_GLASS_DEPTH) {
             showAppearanceScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_HOME_SETTINGS) {
+            showSettingsScreen();
             return;
         }
         if (mCurrentScreen == SCREEN_APPEARANCE) {
@@ -484,6 +491,14 @@ public final class StandaloneSmokeActivity extends Activity {
         addPreviewDockIcon(dock, 2);
         addPreviewDockIcon(dock, 3);
 
+        TextView indicator = label(R.string.standalone_home_page_indicator_preview, 18,
+                Typeface.BOLD);
+        indicator.setGravity(Gravity.CENTER);
+        indicator.setTextColor(previewTextColor());
+        LinearLayout.LayoutParams indicatorParams = matchWidthWrapHeight();
+        indicatorParams.topMargin = dp(10);
+        card.addView(indicator, indicatorParams);
+
         LinearLayout.LayoutParams params = matchWidthWrapHeight();
         params.topMargin = dp(22);
         root.addView(card, params);
@@ -561,8 +576,7 @@ public final class StandaloneSmokeActivity extends Activity {
         createSettingsRow(section, R.string.standalone_settings_appearance, 0, true,
                 view -> showAppearanceScreen());
         createSettingsRow(section, R.string.standalone_settings_home_screen, 0, true,
-                view -> Toast.makeText(this, R.string.standalone_home_screen_preview_only,
-                        Toast.LENGTH_SHORT).show());
+                view -> showHomeSettingsScreen());
         createSettingsRow(section, R.string.standalone_settings_dock, 0, true,
                 view -> Toast.makeText(this, R.string.standalone_dock_preview_only,
                         Toast.LENGTH_SHORT).show());
@@ -621,6 +635,54 @@ public final class StandaloneSmokeActivity extends Activity {
         createSettingsRow(layout, R.string.standalone_grid_density,
                 R.string.standalone_grid_density_value, true,
                 view -> showPreviewToast(R.string.standalone_grid_density));
+    }
+
+    private void showHomeSettingsScreen() {
+        mCurrentScreen = SCREEN_HOME_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_home_settings_title,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+        createPreviewLauncherCard(root);
+
+        LinearLayout layout = createGroupedSection(root, R.string.standalone_home_layout);
+        createSettingsRow(layout, R.string.standalone_home_grid_size,
+                R.string.standalone_home_grid_size_value, true,
+                view -> Toast.makeText(this, R.string.standalone_home_grid_size_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(layout, R.string.standalone_icon_size,
+                R.string.standalone_icon_size_value, true,
+                view -> Toast.makeText(this, R.string.standalone_home_icon_size_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(layout, R.string.standalone_home_icon_labels,
+                mHomeIconLabels ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mHomeIconLabels = !mHomeIconLabels;
+                    showHomeSettingsScreen();
+                });
+
+        LinearLayout workspace = createGroupedSection(root, R.string.standalone_home_workspace);
+        createSettingsRow(workspace, R.string.standalone_home_widget_area,
+                mHomeWidgetArea ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mHomeWidgetArea = !mHomeWidgetArea;
+                    showHomeSettingsScreen();
+                });
+        createSettingsRow(workspace, R.string.standalone_home_page_indicator,
+                R.string.standalone_home_page_indicator_value, true,
+                view -> showPreviewToast(R.string.standalone_home_page_indicator));
+        createSettingsRow(workspace, R.string.standalone_home_empty_slots,
+                R.string.standalone_home_empty_slots_value, true,
+                view -> showPreviewToast(R.string.standalone_home_empty_slots));
+
+        LinearLayout motion = createGroupedSection(root, R.string.standalone_home_motion);
+        createSettingsRow(motion, R.string.standalone_home_animation_style,
+                R.string.standalone_home_animation_style_value, true,
+                view -> showPreviewToast(R.string.standalone_home_animation_style));
+        createSettingsRow(motion, R.string.standalone_home_transition_speed,
+                R.string.standalone_home_transition_speed_value, true,
+                view -> showPreviewToast(R.string.standalone_home_transition_speed));
+
+        createStandaloneNotice(root);
     }
 
     private void showGlassDepthScreen() {
@@ -888,6 +950,8 @@ public final class StandaloneSmokeActivity extends Activity {
             showAppearanceScreen();
         } else if (mCurrentScreen == SCREEN_GLASS_DEPTH) {
             showGlassDepthScreen();
+        } else if (mCurrentScreen == SCREEN_HOME_SETTINGS) {
+            showHomeSettingsScreen();
         } else {
             showSettingsScreen();
         }
