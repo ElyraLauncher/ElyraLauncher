@@ -52,8 +52,10 @@ Phone, Messages, Browser, Camera, Settings, Files, Gallery, Clock, Calculator,
 Calendar, Contacts, and Weather. The Settings item opens the same standalone
 settings shell as the home Settings action.
 
-The Settings action opens a simple placeholder settings shell with Appearance,
-Home screen, Dock, Search, and About sections. Preview screens have a back
+The Settings action opens a simple placeholder settings shell with a theme
+mode preview plus Appearance, Home screen, Dock, Search, and About sections.
+The Light preview and Dark preview options update the standalone Home, All apps,
+Search, and Settings shell colors for the current process only. Preview screens have a back
 button, and Android back returns from a preview to the previous standalone shell
 where practical.
 
