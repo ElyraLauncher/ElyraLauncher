@@ -40,9 +40,9 @@ hidden API stubs.
 
 ## Smoke UI
 
-The APK opens to a simple ElyraLauncher home shell preview with a title, warning
-message, fake search bar, workspace placeholders, dock placeholders, and app
-drawer/settings actions. Tapping either the home search bar or drawer
+The APK opens to a simple ElyraLauncher home shell preview with a title, calmer
+standalone note, fake search bar, workspace placeholders, dock placeholders,
+and app drawer/settings actions. Tapping either the home search bar or drawer
 search/filter placeholder opens a standalone Search preview with Suggested
 apps, Settings results, and Widgets placeholder sections.
 
@@ -63,9 +63,9 @@ Appearance preview colors for the current process only.
 Elyra Glass is ElyraLauncher's visual surface system for dock, search bar,
 drawer, settings cards, folders, widgets, app icon containers, shortcut cards,
 and visual depth. In this standalone APK it is only a concept preview. Glass
-style, icon glass, and card surface rows are placeholders, while Glass depth
-opens a detail screen with a calm modern seekbar, percentage text, and Light,
-Medium, Deep, and Custom presets.
+style, icon glass, and card surface rows are placeholders, while Kedalaman Glass
+opens a detail screen with a calm modern seekbar, percentage text, and Ringan,
+Sedang, Dalam, and Kustom presets.
 
 The Ikon section includes an Icon pack row that points to ElyraIcons as the
 intended future icon source. This is preview-only: the standalone APK does not
