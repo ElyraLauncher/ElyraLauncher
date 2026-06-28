@@ -43,6 +43,10 @@
     <string name="standalone_settings_subtitle">Standalone shell preview</string>
     <string name="standalone_settings_notice">This is a standalone UI smoke test only. These settings are placeholders and do not validate real Recents or Quickstep.</string>
     <string name="standalone_settings_appearance">Appearance</string>
+    <string name="standalone_settings_theme_mode">Theme mode</string>
+    <string name="standalone_settings_theme_mode_body">Preview standalone shell colors for this session.</string>
+    <string name="standalone_settings_theme_light">Light preview</string>
+    <string name="standalone_settings_theme_dark">Dark preview</string>
     <string name="standalone_settings_home_screen">Home screen</string>
     <string name="standalone_settings_dock">Dock</string>
     <string name="standalone_settings_search">Search</string>
