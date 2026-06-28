@@ -20,7 +20,6 @@
     <string name="standalone_app_drawer_button">All apps</string>
     <string name="standalone_settings_button">Settings</string>
     <string name="standalone_smoke_footer">ROM validation remains m ElyraLauncherQuickStep.</string>
-    <string name="standalone_search_toast">Search preview only</string>
     <string name="standalone_preview_toast">%1$s preview only</string>
     <string name="standalone_app_drawer_back">Back</string>
     <string name="standalone_app_drawer_title">All apps</string>
@@ -50,4 +49,21 @@
     <string name="standalone_settings_about">About</string>
     <string name="standalone_settings_placeholder">Placeholder section for standalone APK UI smoke testing.</string>
     <string name="standalone_settings_about_body">ElyraLauncher standalone APK preview. Full launcher, Recents, and Quickstep validation remains in the ROM target m ElyraLauncherQuickStep.</string>
+    <string name="standalone_search_back">Back</string>
+    <string name="standalone_search_title">Search</string>
+    <string name="standalone_search_subtitle">Standalone UI Smoke Test</string>
+    <string name="standalone_search_suggested_apps">Suggested apps</string>
+    <string name="standalone_search_settings_results">Settings results</string>
+    <string name="standalone_search_widgets">Widgets</string>
+    <string name="standalone_search_phone">Phone</string>
+    <string name="standalone_search_messages">Messages</string>
+    <string name="standalone_search_browser">Browser</string>
+    <string name="standalone_search_camera">Camera</string>
+    <string name="standalone_search_appearance">Appearance</string>
+    <string name="standalone_search_home_screen">Home screen</string>
+    <string name="standalone_search_dock">Dock</string>
+    <string name="standalone_search_search">Search</string>
+    <string name="standalone_search_clock">Clock</string>
+    <string name="standalone_search_weather">Weather</string>
+    <string name="standalone_search_notice">Standalone search results are UI smoke-test placeholders only. They do not validate real Launcher3 model search, Recents, Quickstep, privileged launcher behavior, or platform task management.</string>
 </resources>
