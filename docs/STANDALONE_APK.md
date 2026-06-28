@@ -58,27 +58,33 @@ Appearance, Home screen, Dock, Search, and About rows. Appearance opens a
 standalone visual concept screen with a launcher mock preview, grouped Tema,
 Elyra Glass, Ikon, and Layout sections, and lightweight preview-only controls.
 Home screen opens a standalone preview-only detail screen with a mock launcher
-card and grouped Layout, Workspace, and Motion rows. Dock opens a standalone
-preview-only detail screen with a focused dock preview card and grouped Tampilan,
-Aplikasi, and Integrasi rows for dock style, height, radius, app count, labels,
-suggestions, dock search, Elyra Glass, and haptic feedback. These controls are
-only for standalone UI smoke testing and do not validate real Launcher3
-workspace, dock model binding, Recents, or Quickstep behavior. Theme mode changes update the standalone Home,
-All apps, Search, Settings, Appearance, and Home screen preview colors for the
-current process only.
+card and grouped Layout, Workspace, and Motion rows for grid size, icon size,
+labels, widget area, page indicator, empty slots, animation style, and transition
+speed. Dock opens a standalone preview-only detail screen with a focused dock
+preview card and grouped Tampilan, Aplikasi, and Integrasi rows for dock style,
+height, radius, app count, labels, suggestions, dock search, Elyra Glass, and
+haptic feedback. Search opens a standalone preview-only detail screen with a
+search card, suggested apps, settings result, widget result, and grouped
+Tampilan, Sumber, and Perilaku rows. About opens a standalone detail screen that
+identifies the APK as Standalone UI Preview and keeps `m ElyraLauncherQuickStep`
+as the ROM target. These controls are only for standalone UI smoke testing and
+do not validate real Launcher3 workspace, dock model binding, Recents, or
+Quickstep behavior. Theme mode changes update the standalone Home, All apps,
+Search, Settings, Appearance, Home screen, Dock, Search settings, and About
+preview colors for the current process only.
 
 Elyra Glass is ElyraLauncher's visual surface system for dock, search bar,
 drawer, settings cards, folders, widgets, app icon containers, shortcut cards,
-and visual depth. In this standalone APK it is only a concept preview. Glass
-style, icon glass, and card surface rows are placeholders, while Kedalaman Glass
-opens a detail screen with a calm modern seekbar, percentage text, and Ringan,
-Sedang, Dalam, and Kustom presets.
+and visual depth. In this standalone APK it remains preview-only. Glass style,
+icon glass, and card surface rows are placeholders, while Kedalaman Glass opens a
+detail screen with a calm modern seekbar, percentage text, and Ringan, Sedang,
+Dalam, and Kustom presets.
 
 The Ikon section includes an Icon pack row that points to ElyraIcons as the
-intended future icon source. This is preview-only: the standalone APK does not
-parse icon packs, does not add ElyraIcons source, and does not embed full icon
-assets. ElyraLauncher controls the launcher experience and visual treatment;
-ElyraIcons will provide icon pack assets and mappings later.
+intended future icon source. ElyraIcons remains preview-only here: the standalone
+APK does not parse icon packs, does not add ElyraIcons source, and does not embed
+full icon assets. ElyraLauncher controls the launcher experience and visual
+treatment; ElyraIcons will provide icon pack assets and mappings later.
 
 Preview screens have a back button, and Android back returns from a preview to
 the previous standalone shell where practical.
