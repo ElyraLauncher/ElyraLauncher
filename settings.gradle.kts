@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ElyraLauncher"
 include(":app")
+include(":launcher-private")
+include(":launcher-private:launcher3-res")
+include(":launcher-private:quickstep-res")

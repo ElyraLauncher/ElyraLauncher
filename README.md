@@ -41,6 +41,24 @@ GitHub Actions artifacts.
 Private Preview APK builds cannot provide real Android Recents or Quickstep
 integration because those require privileged ROM/system integration.
 
+Build with:
+
+```bash
+./gradlew --no-daemon :app:assembleDebug
+```
+
+### Private Launcher3 APK
+
+The experimental `:launcher-private` module attempts to build a private owner
+APK from the real Launcher3/Quickstep source and resources. It is not a public
+release path and does not validate real Recents or Quickstep integration.
+
+Build attempt:
+
+```bash
+./gradlew --no-daemon :launcher-private:assembleDebug
+```
+
 ## Package Naming
 
 The Java package intentionally remains `com.android.launcher3` for now.
