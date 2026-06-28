@@ -24,13 +24,33 @@ m ElyraLauncherQuickStep
 Build the debug APK with:
 
 ```bash
-./gradlew :app:assembleDebug
+./gradlew --no-daemon :app:assembleDebug
 ```
 
 The output is:
 
 ```text
 app/build/outputs/apk/debug/app-debug.apk
+```
+
+In GitHub Actions, the APK smoke workflow copies that debug build to:
+
+```text
+app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk
+```
+
+The workflow uploads it with this artifact name:
+
+```text
+ElyraLauncher-standalone-debug
+```
+
+Download it from the completed GitHub Actions run by opening the
+`ElyraLauncher APK Smoke Build` workflow run and selecting the
+`ElyraLauncher-standalone-debug` artifact. The downloaded APK file is named:
+
+```text
+ElyraLauncher-standalone-debug.apk
 ```
 
 The Gradle `:app` module is a standalone UI smoke target. It does not compile
