@@ -35,8 +35,23 @@ app/build/outputs/apk/debug/app-debug.apk
 
 The Gradle `:app` module is a standalone UI smoke target. It does not compile
 or replace the ROM `Launcher3QuickStep` or `ElyraLauncherQuickStep` Soong
-targets, does not register as a Home activity, and does not package platform
-hidden API stubs.
+targets and does not package platform hidden API stubs.
+
+## Home Preview
+
+The standalone APK registers its smoke activity for Android Home app picker.
+This lets the APK appear as an available Home launcher option. If selected as
+the default Home app, pressing the device Home button opens the ElyraLauncher
+standalone home shell preview.
+
+This is still a standalone HOME preview only. It is not real Quickstep, does not
+provide real Recents, does not exercise privileged launcher behavior, and does
+not validate platform task management. Real Recents and Quickstep validation
+remain ROM-only and must be done with:
+
+```bash
+m ElyraLauncherQuickStep
+```
 
 ## Smoke UI
 

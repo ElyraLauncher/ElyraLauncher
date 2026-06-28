@@ -5,7 +5,7 @@
     <string name="standalone_home_logo">EL</string>
     <string name="standalone_smoke_title">ElyraLauncher</string>
     <string name="standalone_smoke_status">Standalone UI Smoke Test</string>
-    <string name="standalone_smoke_body">Standalone UI preview only. Real Recents and Quickstep require ROM validation.</string>
+    <string name="standalone_smoke_body">Standalone HOME preview only. Real Recents/Quickstep require ROM build validation.</string>
     <string name="standalone_search_placeholder">Search apps, widgets, and settings</string>
     <string name="standalone_workspace_title">Workspace preview</string>
     <string name="standalone_workspace_tile_widgets">Widgets</string>
