@@ -58,6 +58,9 @@ The Gradle `:app` module is a Standalone Private Preview target. It does not
 compile or replace the ROM `Launcher3QuickStep` or `ElyraLauncherQuickStep`
 Soong targets and does not package platform hidden API stubs.
 
+For the separate experimental Gradle path that attempts to build from the real
+Launcher3/Quickstep source tree, see `docs/PRIVATE_LAUNCHER3_APK.md`.
+
 ## Home Preview
 
 The standalone APK registers its preview activity for Android Home app picker.

@@ -70,6 +70,11 @@ Do not use the standalone Gradle APK output as evidence that Quickstep works.
 The standalone APK is a separate smoke preview and does not replace this ROM
 build target.
 
+The experimental `:launcher-private` Gradle module is also not ROM validation.
+It is a private owner APK build path that points at real Launcher3/Quickstep
+source, but real Recents and Quickstep integration still require this ROM target
+or future system-compatible work.
+
 ## Expected Soong Shape
 
 `ElyraLauncherQuickStep` should stay aligned with `Launcher3QuickStep` for the
