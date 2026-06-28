@@ -42,6 +42,8 @@ hidden API stubs.
 
 The APK opens to a simple ElyraLauncher home shell preview with a title, warning
 message, fake search bar, workspace placeholders, dock placeholders, and app
-drawer/settings placeholders. These controls are visual smoke-test placeholders
-only; they do not exercise real Launcher3 model binding, Recents, Quickstep
-gestures, privileged launcher behavior, or platform task management.
+drawer/settings actions. The Settings action opens a simple placeholder settings
+shell with Appearance, Home screen, Dock, Search, and About sections plus a back
+button. These controls are visual smoke-test placeholders only; they do not
+exercise real Launcher3 model binding, Recents, Quickstep gestures, privileged
+launcher behavior, or platform task management.

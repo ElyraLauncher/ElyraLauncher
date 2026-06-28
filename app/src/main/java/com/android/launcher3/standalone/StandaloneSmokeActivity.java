@@ -15,11 +15,25 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public final class StandaloneSmokeActivity extends Activity {
+    private boolean mShowingSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showHomeShell();
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (mShowingSettings) {
+            showHomeShell();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    private void showHomeShell() {
+        mShowingSettings = false;
         ScrollView scrollView = new ScrollView(this);
         scrollView.setFillViewport(true);
         scrollView.setBackgroundColor(getColor(R.color.smoke_background));
@@ -123,8 +137,9 @@ public final class StandaloneSmokeActivity extends Activity {
 
         actions.addView(actionButton(R.string.standalone_app_drawer_button),
                 actionButtonParams(false));
-        actions.addView(actionButton(R.string.standalone_settings_button),
-                actionButtonParams(true));
+        TextView settingsButton = actionButton(R.string.standalone_settings_button);
+        settingsButton.setOnClickListener(view -> showSettingsShell());
+        actions.addView(settingsButton, actionButtonParams(true));
 
         TextView footer = label(R.string.standalone_smoke_footer, 12, Typeface.NORMAL);
         footer.setGravity(Gravity.CENTER);
@@ -132,6 +147,66 @@ public final class StandaloneSmokeActivity extends Activity {
         LinearLayout.LayoutParams footerParams = matchWidthWrapHeight();
         footerParams.topMargin = dp(24);
         root.addView(footer, footerParams);
+
+        setContentView(scrollView);
+    }
+
+    private void showSettingsShell() {
+        mShowingSettings = true;
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setFillViewport(true);
+        scrollView.setBackgroundColor(getColor(R.color.smoke_background));
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(dp(24), dp(32), dp(24), dp(24));
+        scrollView.addView(root, matchParent());
+
+        LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        root.addView(header, matchWidthWrapHeight());
+
+        TextView backButton = actionButton(R.string.standalone_settings_back);
+        backButton.setOnClickListener(view -> showHomeShell());
+        header.addView(backButton, new LinearLayout.LayoutParams(dp(88), dp(44)));
+
+        LinearLayout titleGroup = new LinearLayout(this);
+        titleGroup.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams titleGroupParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        titleGroupParams.leftMargin = dp(14);
+        header.addView(titleGroup, titleGroupParams);
+
+        TextView title = label(R.string.standalone_settings_title, 24, Typeface.BOLD);
+        titleGroup.addView(title, matchWidthWrapHeight());
+
+        TextView status = label(R.string.standalone_settings_subtitle, 13, Typeface.NORMAL);
+        status.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams statusParams = matchWidthWrapHeight();
+        statusParams.topMargin = dp(2);
+        titleGroup.addView(status, statusParams);
+
+        TextView warning = label(R.string.standalone_settings_notice, 14, Typeface.NORMAL);
+        warning.setTextColor(getColor(R.color.smoke_text_muted));
+        warning.setLineSpacing(dp(2), 1.0f);
+        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
+        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
+                dp(1), getColor(R.color.smoke_warning_border)));
+        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
+        warningParams.topMargin = dp(24);
+        root.addView(warning, warningParams);
+
+        addSettingsSection(root, R.string.standalone_settings_appearance,
+                R.string.standalone_settings_placeholder);
+        addSettingsSection(root, R.string.standalone_settings_home_screen,
+                R.string.standalone_settings_placeholder);
+        addSettingsSection(root, R.string.standalone_settings_dock,
+                R.string.standalone_settings_placeholder);
+        addSettingsSection(root, R.string.standalone_settings_search,
+                R.string.standalone_settings_placeholder);
+        addSettingsSection(root, R.string.standalone_settings_about,
+                R.string.standalone_settings_about_body);
 
         setContentView(scrollView);
     }
@@ -195,6 +270,28 @@ public final class StandaloneSmokeActivity extends Activity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         dock.addView(item, params);
+    }
+
+    private void addSettingsSection(LinearLayout root, int titleResId, int bodyResId) {
+        LinearLayout section = new LinearLayout(this);
+        section.setOrientation(LinearLayout.VERTICAL);
+        section.setPadding(dp(18), dp(16), dp(18), dp(16));
+        section.setBackground(rounded(getColor(R.color.smoke_surface), dp(18), dp(1),
+                getColor(R.color.smoke_border)));
+
+        TextView title = label(titleResId, 16, Typeface.BOLD);
+        section.addView(title, matchWidthWrapHeight());
+
+        TextView body = label(bodyResId, 13, Typeface.NORMAL);
+        body.setTextColor(getColor(R.color.smoke_text_muted));
+        body.setLineSpacing(dp(2), 1.0f);
+        LinearLayout.LayoutParams bodyParams = matchWidthWrapHeight();
+        bodyParams.topMargin = dp(6);
+        section.addView(body, bodyParams);
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(12);
+        root.addView(section, params);
     }
 
     private TextView actionButton(int labelResId) {
