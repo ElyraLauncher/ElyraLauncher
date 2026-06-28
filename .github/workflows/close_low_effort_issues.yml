@@ -1,0 +1,39 @@
+name: Close Low Effort Issues
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  needs-info:
+    name: Request missing issue details
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check issue detail
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || "";
+            const normalized = body.replace(/<!--.*?-->/gs, "").trim();
+            const hasSteps = /reproduction|steps|1\./i.test(normalized);
+            const hasBuild = /ROM\/system build|Standalone smoke APK|build type/i.test(normalized);
+            if (normalized.length >= 300 && hasSteps && hasBuild) {
+              return;
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: ["needs more info"]
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: "Thanks for the report. Please add the missing build type, device/ROM details, reproduction steps, expected result, actual result, and logs where available. Quickstep or Recents reports need ROM build context because standalone smoke APKs cannot validate those paths."
+            });

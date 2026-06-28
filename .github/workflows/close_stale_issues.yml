@@ -1,0 +1,30 @@
+name: Close Stale Issues
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: Mark and close stale issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run stale policy
+        uses: actions/stale@v9
+        with:
+          days-before-stale: 45
+          days-before-close: 14
+          stale-issue-label: stale
+          stale-issue-message: >
+            This issue has been inactive for a while. Please add current ROM/build details, logs,
+            or reproduction notes if it is still valid.
+          close-issue-message: >
+            Closing due to continued inactivity. A new issue with current details can be opened if
+            the problem still reproduces.
+          exempt-issue-labels: security,regression,area:quickstep,build:rom,priority:high,maintainer-pinned
+          operations-per-run: 50
