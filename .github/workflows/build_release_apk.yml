@@ -1,0 +1,72 @@
+name: Build ElyraLauncher Smoke APK
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-apk:
+    name: Build standalone smoke APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Explain build scope
+        run: |
+          echo "This workflow builds a standalone smoke APK only."
+          echo "ROM target remains ElyraLauncherQuickStep."
+          echo "Unsigned artifacts are not production releases and do not validate real Quickstep or Recents."
+
+      - name: Detect Gradle smoke support
+        id: detect
+        run: |
+          if [ -x ./gradlew ] && [ -f settings.gradle.kts ] && [ -f app/build.gradle.kts ]; then
+            echo "supported=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "supported=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up JDK
+        if: steps.detect.outputs.supported == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '21'
+
+      - name: Build smoke APK
+        if: steps.detect.outputs.supported == 'true'
+        run: |
+          ./gradlew --no-daemon :app:assembleDebug
+
+      - name: Prepare artifact
+        if: steps.detect.outputs.supported == 'true'
+        id: artifact
+        run: |
+          apk_path="app/build/outputs/apk/debug/app-debug.apk"
+          if [ -f "$apk_path" ]; then
+            mkdir -p app/build/outputs/apk/smoke
+            cp "$apk_path" app/build/outputs/apk/smoke/ElyraLauncher-smoke-debug.apk
+            echo "path=app/build/outputs/apk/smoke/ElyraLauncher-smoke-debug.apk" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload smoke APK
+        if: steps.detect.outputs.supported == 'true' && steps.artifact.outputs.path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ElyraLauncher-smoke-debug
+          path: ${{ steps.artifact.outputs.path }}
+          if-no-files-found: error
+
+      - name: Exit gracefully when unsupported
+        if: steps.detect.outputs.supported != 'true'
+        run: |
+          echo "No supported standalone smoke APK path was detected."
+          echo "Use m ElyraLauncherQuickStep inside a ROM tree for real launcher validation."

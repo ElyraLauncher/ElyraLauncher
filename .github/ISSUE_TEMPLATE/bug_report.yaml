@@ -1,0 +1,97 @@
+name: Bug report
+description: Report a reproducible ElyraLauncher issue
+title: "[Bug]: "
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the problem clearly.
+    validations:
+      required: true
+  - type: dropdown
+    id: build_type
+    attributes:
+      label: Build type
+      options:
+        - ROM/system build
+        - Standalone smoke APK
+        - Unsure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Launcher version or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: android_version
+    attributes:
+      label: Android version
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and codename
+      placeholder: Pixel 8 Pro / husky
+    validations:
+      required: true
+  - type: input
+    id: rom_base
+    attributes:
+      label: ROM/base
+      placeholder: ElyraOS branch, AOSP base, or downstream ROM
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Attach logcat, build logs, or CI links.
+      render: text
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots or video
+      description: Drag files here when visual evidence helps.
+  - type: dropdown
+    id: quickstep_relevance
+    attributes:
+      label: Quickstep/Recents relevance
+      options:
+        - Affects Quickstep or Recents in ROM build
+        - Does not affect Quickstep or Recents
+        - Unsure
+    validations:
+      required: true
+  - type: checkboxes
+    id: clean_data
+    attributes:
+      label: Clean data check
+      options:
+        - label: I tested after clearing launcher data or can explain why that is not applicable.

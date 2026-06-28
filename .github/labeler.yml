@@ -1,0 +1,65 @@
+area:launcher3:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**'
+area:quickstep:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'quickstep/**'
+area:taskbar:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'quickstep/**/taskbar/**'
+area:workspace:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/Workspace*'
+          - 'res/layout/workspace*'
+area:all-apps:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/allapps/**'
+          - 'res/layout/all_apps*'
+area:settings:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/settings/**'
+          - 'res/layout/*settings*'
+area:theme:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'res/values*/styles.xml'
+          - 'res/values*/colors.xml'
+area:icons:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'res/drawable*/ic_*'
+          - 'res/mipmap*/**'
+area:resources:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'res/**'
+area:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'docs/**'
+area:ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+area:tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+build:rom:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'Android.bp'
+          - 'AndroidManifest*.xml'
+build:standalone-smoke:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'app/**'
+          - 'build.gradle.kts'
+          - 'settings.gradle.kts'

@@ -1,46 +1,35 @@
 # ElyraLauncher Roadmap
 
-## Phase 1: Clean Launcher3 Base
+## Current Phase
 
-- Import clean AOSP Launcher3 Android 16 source.
-- Preserve Quickstep and Recents architecture.
-- Preserve Overview, Taskbar, and BubbleBar where supported by base source.
-- Add the `ElyraLauncherQuickStep` Soong target.
-- Keep commit history clean.
+The current phase is repository professionalization around the existing Launcher3 and Quickstep source tree. The goal is to make documentation, GitHub workflows, and collaboration rules match the ROM-first project model.
 
-## Phase 2: Elyra Branding
+## Short-Term Priorities
 
-- ElyraLauncher app name.
-- ElyraOS strings.
-- Elyra launcher icon.
-- Basic theme naming.
-- Package and resource naming only where safe.
-- Keep the Java package as `com.android.launcher3` until a validated
-  migration plan exists.
+- Keep `ElyraLauncherQuickStep` building as the ROM/system target.
+- Preserve Launcher3 core, Quickstep, Recents, Taskbar, and BubbleBar architecture.
+- Keep standalone Gradle work limited to smoke testing.
+- Add honest CI guards for architecture and documentation.
+- Establish clear issue, pull request, release, and maintainer processes.
 
-## Phase 3: Standalone Validation APK
+## Medium-Term Priorities
 
-- Add a Gradle build only for UI testing.
-- Do not claim real Recents or Quickstep support.
-- Upload debug APK artifacts through GitHub Actions.
+- Apply ElyraLauncher branding through safe resources and configuration.
+- Add small Elyra-specific UX improvements without breaking Launcher3 contracts.
+- Improve ROM-tree validation notes for supported ElyraOS devices.
+- Build integration points for ElyraSystemUILibs and ElyraIcons as separate, reviewed changes.
 
-## Phase 4: Elyra Features
+## Long-Term Priorities
 
-- Settings shell.
-- Onboarding shell.
-- Drawer customization.
-- Search customization.
-- Theme options.
+- Maintain ElyraLauncher as the default ElyraOS launcher.
+- Keep Quickstep behavior aligned with platform changes.
+- Add companion repositories for icons, feed, documentation site, and website work when the launcher base is stable.
+- Expand automated checks without hiding platform integration failures.
 
-## Phase 5: Companion Repositories
+## Non-Goals
 
-- `platform_frameworks_libs_systemui`
-- `packages_apps_ElyraIcons`
-- `packages_apps_ElyraFeed`
-- `ElyraLauncherDocs`
-- `ElyraLauncherWebsite`
-
-## Rule
-
-Do not add advanced features before the clean Launcher3/Quickstep base is
-stable.
+- Replacing Launcher3 with a Compose-only launcher.
+- Faking Recents, Overview, or Quickstep behavior in a standalone APK.
+- Renaming `com.android.launcher3` without a dedicated migration plan.
+- Shipping platform stubs inside release APKs.
+- Claiming production readiness before ROM validation is complete.

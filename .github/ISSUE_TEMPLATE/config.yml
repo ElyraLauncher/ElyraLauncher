@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ElyraLauncher documentation
+    url: https://github.com/ElyraLauncher/ElyraLauncher/tree/main/docs
+    about: Read architecture, testing, and maintainer documentation before filing broad questions.

@@ -1,0 +1,22 @@
+changelog:
+  categories:
+    - title: Launcher3 and Quickstep
+      labels:
+        - area:launcher3
+        - area:quickstep
+    - title: ROM Build
+      labels:
+        - build:rom
+    - title: Standalone Smoke APK
+      labels:
+        - build:standalone-smoke
+    - title: Documentation
+      labels:
+        - area:docs
+    - title: CI and Maintenance
+      labels:
+        - area:ci
+        - chore
+    - title: Other Changes
+      labels:
+        - '*'
