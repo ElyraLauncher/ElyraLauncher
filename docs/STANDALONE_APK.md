@@ -37,3 +37,11 @@ The Gradle `:app` module is a standalone UI smoke target. It does not compile
 or replace the ROM `Launcher3QuickStep` or `ElyraLauncherQuickStep` Soong
 targets, does not register as a Home activity, and does not package platform
 hidden API stubs.
+
+## Smoke UI
+
+The APK opens to a simple ElyraLauncher home shell preview with a title, warning
+message, fake search bar, workspace placeholders, dock placeholders, and app
+drawer/settings placeholders. These controls are visual smoke-test placeholders
+only; they do not exercise real Launcher3 model binding, Recents, Quickstep
+gestures, privileged launcher behavior, or platform task management.
