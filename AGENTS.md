@@ -1,131 +1,37 @@
 # ElyraLauncher Agent Rules
 
-ElyraLauncher is a Lawnchair-style Android launcher ecosystem project based on
-AOSP Launcher3 with Quickstep support.
+ElyraLauncher is a ROM-first Launcher3 and Quickstep launcher for ElyraOS. Agents must preserve the AOSP Launcher3 architecture and keep `ElyraLauncherQuickStep` as the main ROM/system target.
 
-## Project Goal
+## Protected Architecture
 
-Create a clean, professional Launcher3/Quickstep-based launcher for ElyraOS.
+Do not remove or replace:
 
-This is not a fake launcher rewrite.
-This is not a simple Compose-only launcher.
-This project must preserve Launcher3 and Quickstep architecture.
+- `Android.bp`
+- `ElyraLauncherQuickStep`
+- package `com.android.launcher3`
+- Launcher3 core under `src/`
+- Quickstep and Recents under `quickstep/`
+- `LauncherModel`, `LauncherProvider`, `IconCache`, `DeviceProfile`
+- Workspace, Hotseat, Folder, All Apps
+- `QuickstepLauncher`, `RecentsView`, `TaskView`, `TouchInteractionService`
+- `OverviewCommandHelper`, `LauncherActivityInterface`
+- Taskbar and BubbleBar integration
 
-## Main ROM Target
+## Forbidden Directions
 
-The main ROM target is:
+- Do not replace Launcher3 with a Compose-only UI.
+- Do not create fake Recents or fake Quickstep behavior.
+- Do not delete platform code to make Gradle pass.
+- Do not package hidden API stubs into release APKs.
+- Do not claim a standalone smoke APK validates real Recents or Quickstep.
+- Do not add unrelated companion projects in this repository phase.
 
-```text
-ElyraLauncherQuickStep
-```
+## Testing Expectations
 
-Expected ROM build command:
+Run the checks relevant to the files changed. Documentation and workflow changes should at least verify required files, protected paths, and forbidden wording. Source changes should include Gradle or ROM-tree validation when available.
 
-```bash
-m ElyraLauncherQuickStep
-```
+Do not run `m ElyraLauncherQuickStep` unless the workspace is inside a configured Android source tree. When ROM validation is required but unavailable, state that limitation clearly.
 
-## Architecture Rules
+## Final Response Expectations
 
-- ROM/System build is the source of truth.
-- Android.bp is required for ROM integration.
-- Gradle standalone APK is only for UI testing and GitHub Actions.
-- Standalone APK must not claim to support real Recents or Quickstep.
-- Real Recents/Quickstep must be validated inside an Android ROM tree.
-- Do not package platform stubs into a release APK.
-- Do not fake hidden API behavior.
-- Do not remove platform integration code just to make standalone builds pass.
-- Do not convert this project into a fake minimal launcher.
-- Do not replace Launcher3 with Compose-only source.
-- Do not rename package `com.android.launcher3` in this phase.
-
-## Must Preserve
-
-Do not remove Launcher3 or Quickstep architecture.
-
-Do not remove these Launcher3 areas:
-
-- Launcher3 core
-- `LauncherModel`
-- `LauncherProvider`
-- `IconCache`
-- `DeviceProfile`
-
-Do not remove these Quickstep and Recents areas:
-
-- Quickstep core
-- `RecentsView`
-- `TaskView`
-- `TouchInteractionService`
-- `QuickstepLauncher`
-- `OverviewCommandHelper`
-- `LauncherActivityInterface`
-
-Do not remove these system integration areas:
-
-- Taskbar
-- BubbleBar
-
-## First Phase Restrictions
-
-Do not add these in the first phase:
-
-- ElyraKIT
-- native module
-- benchmark module
-- samples
-- website source
-- docs website source
-- ElyraFeed source
-- ElyraIcons source
-- complex Compose feature layer
-
-Those will be created later as separate repositories or separate clean commits.
-
-## Planned Companion Repositories
-
-- `platform_frameworks_libs_systemui`
-- `packages_apps_ElyraIcons`
-- `packages_apps_ElyraFeed`
-- `ElyraLauncherDocs`
-- `ElyraLauncherWebsite`
-
-## Commit Style
-
-Use clean commits:
-
-- `rebase(launcher3): import clean Android 16 Launcher3 base`
-- `build(soong): add ElyraLauncherQuickStep target`
-- `brand: apply ElyraLauncher identity`
-- `docs: define ElyraLauncher ecosystem architecture`
-- `ci: add initial validation workflow`
-
-## Important Rule For Agents
-
-Before changing source code, inspect the existing Launcher3/Quickstep
-structure.
-
-Do not rewrite unrelated files.
-Do not delete source to hide build errors.
-Do not remove Quickstep/Recents just to make Gradle build pass.
-Do not package hidden API stubs into release APKs.
-Do not claim standalone APK supports real Recents or Quickstep.
-
-## Standalone APK Rule
-
-Standalone APK builds are only for basic UI smoke testing.
-
-Standalone builds cannot validate:
-
-- real Android Recents
-- Quickstep gesture integration
-- privileged launcher behavior
-- platform hidden APIs
-- system-level task management
-
-Full validation must be done inside an Android ROM tree using:
-
-```bash
-m ElyraLauncherQuickStep
-```
-
+Report the branch, commits, validation commands, skipped commands with reasons, known limitations, and the exact next Git commands. Keep the response factual and do not overstate the standalone APK path.
