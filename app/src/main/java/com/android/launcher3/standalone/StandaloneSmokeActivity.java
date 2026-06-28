@@ -27,6 +27,9 @@ public final class StandaloneSmokeActivity extends Activity {
     private static final int SCREEN_GLASS_DEPTH = 5;
     private static final int SCREEN_HOME_SETTINGS = 6;
     private static final int SCREEN_DOCK_SETTINGS = 7;
+    private static final int SCREEN_SEARCH_SETTINGS = 8;
+    private static final int SCREEN_ABOUT_SETTINGS = 9;
+    private static final int SCREEN_SELECTOR = 10;
 
     private static final int GLASS_DEPTH_LIGHT = 35;
     private static final int GLASS_DEPTH_MEDIUM = 65;
@@ -37,10 +40,57 @@ public final class StandaloneSmokeActivity extends Activity {
     private boolean mDarkPreview;
     private boolean mHomeIconLabels = true;
     private boolean mHomeWidgetArea = true;
+    private boolean mSearchApps = true;
+    private boolean mSearchSettings = true;
+    private boolean mSearchWidgets = true;
+    private boolean mSearchSuggestions = true;
+    private boolean mSearchKeyboardOnOpen = true;
     private boolean mDockLabels;
     private boolean mDockSuggestedApps;
     private boolean mDockSearch;
     private int mGlassDepth = GLASS_DEPTH_MEDIUM;
+    private int mHomeGridSizeIndex = 1;
+    private int mHomeIconSizeIndex = 1;
+    private int mHomeAnimationStyleIndex;
+    private int mDockAppsIndex;
+    private int mSearchStyleIndex;
+    private int mSearchPositionIndex;
+    private Runnable mSelectorBackAction = this::showSettingsScreen;
+
+    private final int[] mHomeGridSizeValues = {
+            R.string.standalone_selector_grid_4x5,
+            R.string.standalone_selector_grid_4x6,
+            R.string.standalone_selector_grid_5x6,
+            R.string.standalone_selector_grid_5x7
+    };
+    private final int[] mHomeIconSizeValues = {
+            R.string.standalone_selector_size_small,
+            R.string.standalone_selector_size_medium,
+            R.string.standalone_selector_size_large
+    };
+    private final int[] mAnimationStyleValues = {
+            R.string.standalone_selector_animation_smooth,
+            R.string.standalone_selector_animation_fast,
+            R.string.standalone_selector_animation_calm
+    };
+    private final int[] mDockAppsValues = {
+            R.string.standalone_selector_dock_apps_4,
+            R.string.standalone_selector_dock_apps_5,
+            R.string.standalone_selector_dock_apps_6
+    };
+    private final int[] mSearchPositionValues = {
+            R.string.standalone_selector_search_top,
+            R.string.standalone_selector_search_bottom
+    };
+    private final int[] mSearchStyleValues = {
+            R.string.standalone_selector_search_pill,
+            R.string.standalone_selector_search_bar,
+            R.string.standalone_selector_search_minimal
+    };
+
+    private interface SelectionHandler {
+        void onSelected(int index);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +114,18 @@ public final class StandaloneSmokeActivity extends Activity {
         }
         if (mCurrentScreen == SCREEN_DOCK_SETTINGS) {
             showSettingsScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_SEARCH_SETTINGS) {
+            showSettingsScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_ABOUT_SETTINGS) {
+            showSettingsScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_SELECTOR) {
+            mSelectorBackAction.run();
             return;
         }
         if (mCurrentScreen == SCREEN_APPEARANCE) {
@@ -541,10 +603,18 @@ public final class StandaloneSmokeActivity extends Activity {
         dock.setBackground(rounded(previewGlassColor(), dp(26), dp(1),
                 previewGlassBorderColor()));
         workspace.addView(dock, matchWidthWrapHeight());
-        addPreviewDockIcon(dock, R.string.standalone_dock_phone, 0, mDockLabels);
-        addPreviewDockIcon(dock, R.string.standalone_dock_messages, 1, mDockLabels);
-        addPreviewDockIcon(dock, R.string.standalone_dock_browser, 2, mDockLabels);
-        addPreviewDockIcon(dock, R.string.standalone_dock_camera, 3, mDockLabels);
+        int[] dockLabels = {
+                R.string.standalone_dock_phone,
+                R.string.standalone_dock_messages,
+                R.string.standalone_dock_browser,
+                R.string.standalone_dock_camera,
+                R.string.standalone_drawer_files,
+                R.string.standalone_drawer_clock
+        };
+        int dockAppCount = mDockAppsIndex + 4;
+        for (int i = 0; i < dockAppCount; i++) {
+            addPreviewDockIcon(dock, dockLabels[i], i, mDockLabels);
+        }
 
         LinearLayout.LayoutParams params = matchWidthWrapHeight();
         params.topMargin = dp(22);
@@ -627,9 +697,9 @@ public final class StandaloneSmokeActivity extends Activity {
         createSettingsRow(section, R.string.standalone_settings_dock, 0, true,
                 view -> showDockSettingsScreen());
         createSettingsRow(section, R.string.standalone_settings_search, 0, true,
-                view -> showSearchShell(SCREEN_SETTINGS));
+                view -> showSearchSettingsScreen());
         createSettingsRow(section, R.string.standalone_settings_about, 0, true,
-                view -> showAboutPreview());
+                view -> showAboutSettingsScreen());
         createStandaloneNotice(root);
     }
 
@@ -692,13 +762,23 @@ public final class StandaloneSmokeActivity extends Activity {
 
         LinearLayout layout = createGroupedSection(root, R.string.standalone_home_layout);
         createSettingsRow(layout, R.string.standalone_home_grid_size,
-                R.string.standalone_home_grid_size_value, true,
-                view -> Toast.makeText(this, R.string.standalone_home_grid_size_preview_only,
-                        Toast.LENGTH_SHORT).show());
+                mHomeGridSizeValues[mHomeGridSizeIndex], true,
+                view -> showSelectorScreen(R.string.standalone_home_grid_size,
+                        mHomeGridSizeValues, mHomeGridSizeIndex,
+                        index -> {
+                            mHomeGridSizeIndex = index;
+                            showHomeSettingsScreen();
+                        },
+                        this::showHomeSettingsScreen));
         createSettingsRow(layout, R.string.standalone_icon_size,
-                R.string.standalone_icon_size_value, true,
-                view -> Toast.makeText(this, R.string.standalone_home_icon_size_preview_only,
-                        Toast.LENGTH_SHORT).show());
+                mHomeIconSizeValues[mHomeIconSizeIndex], true,
+                view -> showSelectorScreen(R.string.standalone_icon_size,
+                        mHomeIconSizeValues, mHomeIconSizeIndex,
+                        index -> {
+                            mHomeIconSizeIndex = index;
+                            showHomeSettingsScreen();
+                        },
+                        this::showHomeSettingsScreen));
         createSettingsRow(layout, R.string.standalone_home_icon_labels,
                 mHomeIconLabels ? R.string.standalone_value_on : R.string.standalone_value_off,
                 true, view -> {
@@ -722,8 +802,14 @@ public final class StandaloneSmokeActivity extends Activity {
 
         LinearLayout motion = createGroupedSection(root, R.string.standalone_home_motion);
         createSettingsRow(motion, R.string.standalone_home_animation_style,
-                R.string.standalone_home_animation_style_value, true,
-                view -> showPreviewToast(R.string.standalone_home_animation_style));
+                mAnimationStyleValues[mHomeAnimationStyleIndex], true,
+                view -> showSelectorScreen(R.string.standalone_home_animation_style,
+                        mAnimationStyleValues, mHomeAnimationStyleIndex,
+                        index -> {
+                            mHomeAnimationStyleIndex = index;
+                            showHomeSettingsScreen();
+                        },
+                        this::showHomeSettingsScreen));
         createSettingsRow(motion, R.string.standalone_home_transition_speed,
                 R.string.standalone_home_transition_speed_value, true,
                 view -> showPreviewToast(R.string.standalone_home_transition_speed));
@@ -754,9 +840,14 @@ public final class StandaloneSmokeActivity extends Activity {
 
         LinearLayout apps = createGroupedSection(root, R.string.standalone_dock_apps_section);
         createSettingsRow(apps, R.string.standalone_dock_apps,
-                R.string.standalone_dock_apps_value, true,
-                view -> Toast.makeText(this, R.string.standalone_dock_apps_preview_only,
-                        Toast.LENGTH_SHORT).show());
+                mDockAppsValues[mDockAppsIndex], true,
+                view -> showSelectorScreen(R.string.standalone_dock_apps,
+                        mDockAppsValues, mDockAppsIndex,
+                        index -> {
+                            mDockAppsIndex = index;
+                            showDockSettingsScreen();
+                        },
+                        this::showDockSettingsScreen));
         createSettingsRow(apps, R.string.standalone_dock_labels,
                 mDockLabels ? R.string.standalone_value_on : R.string.standalone_value_off,
                 true, view -> {
@@ -787,6 +878,127 @@ public final class StandaloneSmokeActivity extends Activity {
         createStandaloneNotice(root);
     }
 
+    private void showSearchSettingsScreen() {
+        mCurrentScreen = SCREEN_SEARCH_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_search_title,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+        createSearchPreviewCard(root);
+
+        LinearLayout display = createGroupedSection(root, R.string.standalone_search_display);
+        createSettingsRow(display, R.string.standalone_search_style,
+                mSearchStyleValues[mSearchStyleIndex], true,
+                view -> showSelectorScreen(R.string.standalone_search_style,
+                        mSearchStyleValues, mSearchStyleIndex,
+                        index -> {
+                            mSearchStyleIndex = index;
+                            showSearchSettingsScreen();
+                        },
+                        this::showSearchSettingsScreen));
+        createSettingsRow(display, R.string.standalone_search_position,
+                mSearchPositionValues[mSearchPositionIndex], true,
+                view -> showSelectorScreen(R.string.standalone_search_position,
+                        mSearchPositionValues, mSearchPositionIndex,
+                        index -> {
+                            mSearchPositionIndex = index;
+                            showSearchSettingsScreen();
+                        },
+                        this::showSearchSettingsScreen));
+        createSettingsRow(display, R.string.standalone_search_surface,
+                R.string.standalone_search_surface_value, true,
+                view -> showAppearanceScreen());
+
+        LinearLayout sources = createGroupedSection(root, R.string.standalone_search_sources);
+        createSettingsRow(sources, R.string.standalone_search_apps,
+                mSearchApps ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mSearchApps = !mSearchApps;
+                    showSearchSettingsScreen();
+                });
+        createSettingsRow(sources, R.string.standalone_search_settings_source,
+                mSearchSettings ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mSearchSettings = !mSearchSettings;
+                    showSearchSettingsScreen();
+                });
+        createSettingsRow(sources, R.string.standalone_search_widgets_source,
+                mSearchWidgets ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mSearchWidgets = !mSearchWidgets;
+                    showSearchSettingsScreen();
+                });
+        createSettingsRow(sources, R.string.standalone_search_web_suggestions,
+                R.string.standalone_value_off, true,
+                view -> showPreviewToast(R.string.standalone_search_web_suggestions));
+
+        LinearLayout behavior = createGroupedSection(root, R.string.standalone_search_behavior);
+        createSettingsRow(behavior, R.string.standalone_search_suggestions,
+                mSearchSuggestions ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mSearchSuggestions = !mSearchSuggestions;
+                    showSearchSettingsScreen();
+                });
+        createSettingsRow(behavior, R.string.standalone_search_recent_searches,
+                R.string.standalone_value_off, true,
+                view -> showPreviewToast(R.string.standalone_search_recent_searches));
+        createSettingsRow(behavior, R.string.standalone_search_keyboard_on_open,
+                mSearchKeyboardOnOpen ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mSearchKeyboardOnOpen = !mSearchKeyboardOnOpen;
+                    showSearchSettingsScreen();
+                });
+
+        createStandaloneNotice(root);
+    }
+
+    private void showAboutSettingsScreen() {
+        mCurrentScreen = SCREEN_ABOUT_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_settings_about,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(20), dp(20), dp(20), dp(20));
+        card.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+
+        TextView name = label(R.string.standalone_about_name, 22, Typeface.BOLD);
+        card.addView(name, matchWidthWrapHeight());
+
+        TextView preview = label(R.string.standalone_about_preview, 14, Typeface.NORMAL);
+        preview.setTextColor(mutedTextColor());
+        LinearLayout.LayoutParams previewParams = matchWidthWrapHeight();
+        previewParams.topMargin = dp(4);
+        card.addView(preview, previewParams);
+
+        addAboutRow(card, R.string.standalone_about_version, R.string.standalone_about_version_value);
+        addAboutRow(card, R.string.standalone_about_build_type,
+                R.string.standalone_about_build_type_value);
+        addAboutRow(card, R.string.standalone_about_rom_target,
+                R.string.standalone_about_rom_target_value);
+        addAboutRow(card, R.string.standalone_about_quickstep_status,
+                R.string.standalone_about_requires_rom_build);
+        addAboutRow(card, R.string.standalone_about_recents_status,
+                R.string.standalone_about_requires_rom_build);
+        addAboutRow(card, R.string.standalone_about_elyraicons,
+                R.string.standalone_about_preview_only);
+        addAboutRow(card, R.string.standalone_about_elyra_glass,
+                R.string.standalone_about_preview_only);
+
+        LinearLayout.LayoutParams cardParams = matchWidthWrapHeight();
+        cardParams.topMargin = dp(24);
+        root.addView(card, cardParams);
+
+        TextView note = label(R.string.standalone_about_note, 14, Typeface.NORMAL);
+        note.setTextColor(mutedTextColor());
+        note.setLineSpacing(dp(3), 1.0f);
+        note.setPadding(dp(18), dp(16), dp(18), dp(16));
+        note.setBackground(rounded(surfaceColor(), dp(22), dp(1), borderColor()));
+        LinearLayout.LayoutParams noteParams = matchWidthWrapHeight();
+        noteParams.topMargin = dp(16);
+        root.addView(note, noteParams);
+    }
+
     private void showGlassDepthScreen() {
         mCurrentScreen = SCREEN_GLASS_DEPTH;
         LinearLayout root = createScreenContainer();
@@ -815,20 +1027,6 @@ public final class StandaloneSmokeActivity extends Activity {
                 mGlassDepth);
     }
 
-    private void showAboutPreview() {
-        mCurrentScreen = SCREEN_SETTINGS;
-        LinearLayout root = createScreenContainer();
-        createHeader(root, R.string.standalone_settings_about,
-                R.string.standalone_settings_subtitle, this::showSettingsScreen);
-        TextView body = label(R.string.standalone_settings_about_body, 14, Typeface.NORMAL);
-        body.setTextColor(mutedTextColor());
-        body.setLineSpacing(dp(3), 1.0f);
-        body.setPadding(dp(18), dp(18), dp(18), dp(18));
-        body.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
-        LinearLayout.LayoutParams params = matchWidthWrapHeight();
-        params.topMargin = dp(24);
-        root.addView(body, params);
-    }
 
     private TextView label(int resId, float textSizeSp, int typefaceStyle) {
         TextView view = new TextView(this);
@@ -1056,9 +1254,140 @@ public final class StandaloneSmokeActivity extends Activity {
             showHomeSettingsScreen();
         } else if (mCurrentScreen == SCREEN_DOCK_SETTINGS) {
             showDockSettingsScreen();
+        } else if (mCurrentScreen == SCREEN_SEARCH_SETTINGS) {
+            showSearchSettingsScreen();
+        } else if (mCurrentScreen == SCREEN_ABOUT_SETTINGS) {
+            showAboutSettingsScreen();
+        } else if (mCurrentScreen == SCREEN_SELECTOR) {
+            mSelectorBackAction.run();
         } else {
             showSettingsScreen();
         }
+    }
+
+    private void createSearchPreviewCard(LinearLayout root) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(14), dp(14), dp(14), dp(14));
+        card.setBackground(previewWallpaperBackground());
+
+        TextView search = label(R.string.standalone_search_placeholder, 12, Typeface.NORMAL);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        search.setTextColor(previewTextColor());
+        search.setPadding(dp(14), 0, dp(14), 0);
+        search.setBackground(rounded(previewGlassColor(),
+                mSearchStyleIndex == 1 ? dp(10) : dp(19), dp(1), previewGlassBorderColor()));
+        LinearLayout.LayoutParams searchParams = matchWidth(dp(40));
+        if (mSearchPositionIndex == 1) {
+            addSearchPreviewResults(card);
+            searchParams.topMargin = dp(12);
+            card.addView(search, searchParams);
+        } else {
+            card.addView(search, searchParams);
+            addSearchPreviewResults(card);
+        }
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(22);
+        root.addView(card, params);
+    }
+
+    private void addSearchPreviewResults(LinearLayout card) {
+        LinearLayout results = new LinearLayout(this);
+        results.setOrientation(LinearLayout.VERTICAL);
+        results.setPadding(dp(12), dp(12), dp(12), dp(12));
+        results.setBackground(rounded(previewGlassColor(), dp(22), dp(1),
+                previewGlassBorderColor()));
+        LinearLayout.LayoutParams resultsParams = matchWidthWrapHeight();
+        resultsParams.topMargin = dp(12);
+        card.addView(results, resultsParams);
+
+        TextView appsTitle = label(R.string.standalone_search_suggested_apps, 12, Typeface.BOLD);
+        appsTitle.setTextColor(previewTextColor());
+        results.addView(appsTitle, matchWidthWrapHeight());
+
+        LinearLayout apps = new LinearLayout(this);
+        apps.setGravity(Gravity.CENTER);
+        apps.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams appsParams = matchWidthWrapHeight();
+        appsParams.topMargin = dp(10);
+        results.addView(apps, appsParams);
+        addPreviewDockIcon(apps, 0);
+        addPreviewDockIcon(apps, 1);
+        addPreviewDockIcon(apps, 2);
+        addPreviewDockIcon(apps, 3);
+
+        addSearchPreviewResult(results, R.string.standalone_search_settings_result_preview);
+        addSearchPreviewResult(results, R.string.standalone_search_widget_result_preview);
+    }
+
+    private void addSearchPreviewResult(LinearLayout results, int labelResId) {
+        TextView item = label(labelResId, 12, Typeface.NORMAL);
+        item.setGravity(Gravity.CENTER_VERTICAL);
+        item.setTextColor(previewTextColor());
+        item.setPadding(dp(12), 0, dp(12), 0);
+        item.setBackground(rounded(previewGlassColor(), dp(14), dp(1),
+                previewGlassBorderColor()));
+        LinearLayout.LayoutParams params = matchWidth(dp(38));
+        params.topMargin = dp(10);
+        results.addView(item, params);
+    }
+
+    private void showSelectorScreen(int titleResId, int[] options, int selectedIndex,
+            SelectionHandler selectionHandler, Runnable backAction) {
+        mCurrentScreen = SCREEN_SELECTOR;
+        mSelectorBackAction = backAction;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, titleResId, R.string.standalone_settings_subtitle, backAction);
+
+        LinearLayout section = createGroupedSection(root, 0);
+        for (int i = 0; i < options.length; i++) {
+            final int index = i;
+            createSelectableRow(section, options[i], index == selectedIndex,
+                    view -> selectionHandler.onSelected(index));
+        }
+        createStandaloneNotice(root);
+    }
+
+    private void createSelectableRow(LinearLayout section, int titleResId, boolean selected,
+            View.OnClickListener listener) {
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setPadding(dp(18), 0, dp(18), 0);
+        row.setMinimumHeight(dp(54));
+        row.setOnClickListener(listener);
+
+        TextView title = label(titleResId, 15, Typeface.NORMAL);
+        row.addView(title, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView mark = label(selected ? R.string.standalone_settings_selected
+                : R.string.standalone_settings_empty, 14, Typeface.BOLD);
+        mark.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        mark.setTextColor(accentColor());
+        row.addView(mark, new LinearLayout.LayoutParams(dp(34),
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        section.addView(row, matchWidth(dp(56)));
+    }
+
+    private void addAboutRow(LinearLayout card, int titleResId, int valueResId) {
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams rowParams = matchWidthWrapHeight();
+        rowParams.topMargin = dp(12);
+        card.addView(row, rowParams);
+
+        TextView title = label(titleResId, 14, Typeface.NORMAL);
+        title.setTextColor(mutedTextColor());
+        row.addView(title, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView value = label(valueResId, 14, Typeface.BOLD);
+        value.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        row.addView(value, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     private void addSearchSection(LinearLayout root, int titleResId, int[] itemResIds) {
