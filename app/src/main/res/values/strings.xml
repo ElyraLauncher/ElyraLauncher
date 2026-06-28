@@ -24,8 +24,9 @@
     <string name="standalone_preview_toast">%1$s preview only</string>
     <string name="standalone_app_drawer_back">Back</string>
     <string name="standalone_app_drawer_title">All apps</string>
-    <string name="standalone_app_drawer_subtitle">Standalone drawer preview</string>
-    <string name="standalone_app_drawer_notice">Standalone APK UI smoke test only. This drawer is a placeholder and does not validate real Recents or Quickstep.</string>
+    <string name="standalone_app_drawer_subtitle">Standalone UI Smoke Test</string>
+    <string name="standalone_app_drawer_notice">Standalone APK UI smoke test only. Real Recents and Quickstep require ROM validation with m ElyraLauncherQuickStep.</string>
+    <string name="standalone_app_drawer_search_placeholder">Search or filter preview apps</string>
     <string name="standalone_drawer_phone">Phone</string>
     <string name="standalone_drawer_messages">Messages</string>
     <string name="standalone_drawer_browser">Browser</string>
@@ -34,6 +35,10 @@
     <string name="standalone_drawer_files">Files</string>
     <string name="standalone_drawer_gallery">Gallery</string>
     <string name="standalone_drawer_clock">Clock</string>
+    <string name="standalone_drawer_calculator">Calculator</string>
+    <string name="standalone_drawer_calendar">Calendar</string>
+    <string name="standalone_drawer_contacts">Contacts</string>
+    <string name="standalone_drawer_weather">Weather</string>
     <string name="standalone_settings_back">Back</string>
     <string name="standalone_settings_title">Settings</string>
     <string name="standalone_settings_subtitle">Standalone shell preview</string>

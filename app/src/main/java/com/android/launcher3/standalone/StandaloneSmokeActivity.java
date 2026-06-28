@@ -175,18 +175,21 @@ public final class StandaloneSmokeActivity extends Activity {
                 R.string.standalone_app_drawer_title,
                 R.string.standalone_app_drawer_subtitle);
 
-        TextView warning = label(R.string.standalone_app_drawer_notice, 14, Typeface.NORMAL);
-        warning.setTextColor(getColor(R.color.smoke_text_muted));
-        warning.setLineSpacing(dp(2), 1.0f);
-        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
-                dp(1), getColor(R.color.smoke_warning_border)));
-        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
-        warningParams.topMargin = dp(24);
-        root.addView(warning, warningParams);
+        TextView search = label(R.string.standalone_app_drawer_search_placeholder, 15,
+                Typeface.NORMAL);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        search.setTextColor(getColor(R.color.smoke_text_muted));
+        search.setPadding(dp(18), 0, dp(18), 0);
+        search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
+                getColor(R.color.smoke_border)));
+        search.setOnClickListener(view -> Toast.makeText(this, R.string.standalone_search_toast,
+                Toast.LENGTH_SHORT).show());
+        LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
+        searchParams.topMargin = dp(22);
+        root.addView(search, searchParams);
 
         GridLayout apps = new GridLayout(this);
-        apps.setColumnCount(2);
+        apps.setColumnCount(4);
         apps.setPadding(dp(10), dp(10), dp(10), dp(10));
         apps.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
                 getColor(R.color.smoke_border)));
@@ -194,14 +197,28 @@ public final class StandaloneSmokeActivity extends Activity {
         appsParams.topMargin = dp(16);
         root.addView(apps, appsParams);
 
-        addDrawerApp(apps, R.string.standalone_drawer_phone);
-        addDrawerApp(apps, R.string.standalone_drawer_messages);
-        addDrawerApp(apps, R.string.standalone_drawer_browser);
-        addDrawerApp(apps, R.string.standalone_drawer_camera);
-        addDrawerApp(apps, R.string.standalone_drawer_settings);
-        addDrawerApp(apps, R.string.standalone_drawer_files);
-        addDrawerApp(apps, R.string.standalone_drawer_gallery);
-        addDrawerApp(apps, R.string.standalone_drawer_clock);
+        addDrawerApp(apps, R.string.standalone_drawer_phone, "P", false);
+        addDrawerApp(apps, R.string.standalone_drawer_messages, "M", false);
+        addDrawerApp(apps, R.string.standalone_drawer_browser, "B", false);
+        addDrawerApp(apps, R.string.standalone_drawer_camera, "C", false);
+        addDrawerApp(apps, R.string.standalone_drawer_settings, "S", true);
+        addDrawerApp(apps, R.string.standalone_drawer_files, "F", false);
+        addDrawerApp(apps, R.string.standalone_drawer_gallery, "G", false);
+        addDrawerApp(apps, R.string.standalone_drawer_clock, "C", false);
+        addDrawerApp(apps, R.string.standalone_drawer_calculator, "C", false);
+        addDrawerApp(apps, R.string.standalone_drawer_calendar, "C", false);
+        addDrawerApp(apps, R.string.standalone_drawer_contacts, "C", false);
+        addDrawerApp(apps, R.string.standalone_drawer_weather, "W", false);
+
+        TextView warning = label(R.string.standalone_app_drawer_notice, 14, Typeface.NORMAL);
+        warning.setTextColor(getColor(R.color.smoke_text_muted));
+        warning.setLineSpacing(dp(2), 1.0f);
+        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
+        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
+                dp(1), getColor(R.color.smoke_warning_border)));
+        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
+        warningParams.topMargin = dp(16);
+        root.addView(warning, warningParams);
 
         setContentView(scrollView);
     }
@@ -248,6 +265,15 @@ public final class StandaloneSmokeActivity extends Activity {
     private TextView label(int resId, float textSizeSp, int typefaceStyle) {
         TextView view = new TextView(this);
         view.setText(resId);
+        view.setTextColor(getColor(R.color.smoke_text));
+        view.setTextSize(textSizeSp);
+        view.setTypeface(Typeface.DEFAULT, typefaceStyle);
+        return view;
+    }
+
+    private TextView label(CharSequence text, float textSizeSp, int typefaceStyle) {
+        TextView view = new TextView(this);
+        view.setText(text);
         view.setTextColor(getColor(R.color.smoke_text));
         view.setTextSize(textSizeSp);
         view.setTypeface(Typeface.DEFAULT, typefaceStyle);
@@ -337,31 +363,39 @@ public final class StandaloneSmokeActivity extends Activity {
     }
 
 
-    private void addDrawerApp(GridLayout apps, int labelResId) {
+    private void addDrawerApp(GridLayout apps, int labelResId, String iconText,
+            boolean opensSettings) {
         LinearLayout item = new LinearLayout(this);
-        item.setGravity(Gravity.CENTER_VERTICAL);
-        item.setOrientation(LinearLayout.HORIZONTAL);
-        item.setPadding(dp(12), dp(12), dp(12), dp(12));
+        item.setGravity(Gravity.CENTER);
+        item.setOrientation(LinearLayout.VERTICAL);
+        item.setPadding(dp(8), dp(12), dp(8), dp(10));
         item.setBackground(rounded(getColor(R.color.smoke_tile_background), dp(18), 0,
                 Color.TRANSPARENT));
+        item.setOnClickListener(view -> {
+            if (opensSettings) {
+                showSettingsShell();
+                return;
+            }
+            showPreviewToast(labelResId);
+        });
 
-        TextView icon = label(R.string.standalone_dock_dot, 18, Typeface.BOLD);
+        TextView icon = label(iconText, 18, Typeface.BOLD);
         icon.setGravity(Gravity.CENTER);
         icon.setTextColor(getColor(R.color.smoke_accent));
-        icon.setBackground(rounded(getColor(R.color.smoke_accent_soft), dp(12), 0,
+        icon.setBackground(rounded(getColor(R.color.smoke_accent_soft), dp(16), 0,
                 Color.TRANSPARENT));
-        item.addView(icon, size(dp(42), dp(42)));
+        item.addView(icon, size(dp(52), dp(52)));
 
-        TextView label = label(labelResId, 15, Typeface.BOLD);
+        TextView label = label(labelResId, 12, Typeface.NORMAL);
+        label.setGravity(Gravity.CENTER);
         label.setTextColor(getColor(R.color.smoke_text));
-        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        labelParams.leftMargin = dp(12);
+        LinearLayout.LayoutParams labelParams = matchWidthWrapHeight();
+        labelParams.topMargin = dp(8);
         item.addView(label, labelParams);
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
-        params.height = dp(72);
+        params.height = dp(112);
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         params.setMargins(dp(6), dp(6), dp(6), dp(6));
         apps.addView(item, params);
