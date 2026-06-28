@@ -79,47 +79,67 @@ m ElyraLauncherQuickStep
 
 ## Private Preview UI
 
-The APK opens to a simple ElyraLauncher home shell preview with a title, a
-Private Preview APK note, search bar, workspace placeholders, dock placeholders,
-and app drawer/settings actions. Tapping either the home search bar or drawer
-search/filter placeholder opens a Search preview with Suggested apps, Settings
-results, and Widgets placeholder sections.
+The APK opens to a cleaner ElyraLauncher Home preview that behaves like a
+private launcher experience mock instead of a settings preview page. The Home
+surface uses a wallpaper-like background, top date/weather widget area, app
+icons with labels, a page indicator, and an Elyra Glass dock. It does not keep a
+permanent bottom Google search bar on the Home screen.
 
-The All apps action opens a placeholder drawer preview with its own search/filter
-placeholder and twelve preview app placeholders: Phone, Messages, Browser,
-Camera, Settings, Files, Gallery, Clock, Calculator, Calendar, Contacts, and
-Weather. The Settings item opens the same standalone settings shell as the home
-Settings action.
+Search is invoked from preview controls such as the dock search shortcut or the
+Drawer search row. It opens as an overlay on top of the visible Home preview:
+the Home background remains behind a dim/blur-like translucent layer, suggested
+apps and recent/quick actions sit above the search field, and the Google-style
+search input appears near the bottom above a preview keyboard area. Typing and
+result selection are preview-only; tapping suggested apps or shortcuts shows a
+preview Toast.
+
+Google-style search in this APK is only provider styling for private preview.
+There is no real Google API integration, no Google account/login integration,
+and no official Google service dependency. AI Mode, Voice Search, Lens,
+Translate, Song Search, Weather, Sports, Dictionary, Finance, and Saved are
+visual shortcut placeholders only.
+
+The Drawer preview supports All and Categories modes. All mode shows app-like
+placeholders for Phone, Messages, Camera, Gallery, Browser, Files, Settings,
+Clock, Calendar, Calculator, Weather, and Play Store. Categories mode groups the
+preview into Communication, Tools, Media, Games, System, and Finance cards.
+Drawer search opens the same overlay-style Search preview.
 
 The Settings action opens the standalone ElyraLauncher Settings concept preview.
-It uses a grouped settings layout with a hero information card and Appearance,
-Home screen, Dock, Search, and About rows. The main settings rows stay text-only
-with chevrons and no icons.
+It keeps the Umum hero card, grouped plain rows without icons, and a single
+clear row for each area: Appearance, Home screen, Dock, Search, Drawer, and
+About. Preference ownership is intentionally not duplicated:
 
-Appearance opens a visual concept screen with a launcher mock preview, grouped
-Tema, Elyra Glass, Ikon, and Layout sections, and lightweight preview-only
-controls. Elyra Glass depth opens a calm modern seekbar with Ringan, Sedang,
-Dalam, and Kustom presets.
+- Appearance: Theme mode, Accent color, Elyra Glass, Icon pack: ElyraIcons,
+  Icon shape, Visual style.
+- Home screen: Grid size, Icon size, Icon labels, Widget area, Page indicator.
+- Dock: Dock apps, Dock labels, Dock style, Search in dock.
+- Search: Search provider, Search overlay style, Search shortcuts, Voice
+  button, Lens / Visual Search button, Customize search.
+- Drawer: Drawer mode, Categories, Drawer search, App suggestions.
+- About: Version, Build type, ROM target, Quickstep/Recents status.
 
-Home screen opens a preview-only detail screen with a mock launcher card and
-grouped Layout, Workspace, and Motion rows for grid size, icon size, labels,
-widget area, page indicator, empty slots, animation style, and transition speed.
-Dock opens a preview-only detail screen with a focused Elyra Glass dock preview
-card and grouped Tampilan, Aplikasi, and Integrasi rows for dock style, height,
-radius, app count, labels, suggestions, dock search, Elyra Glass, and haptic
-feedback.
+Search settings include a Customize Google Search private-preview screen with a
+live Google-style search bar preview, theme choices, color controls, transparency
+control, and shortcut rows. These controls update simple preview state where
+practical or show preview Toasts.
 
-Search opens a preview-only detail screen with a search card, suggested apps,
-settings result, widget result, and grouped Tampilan, Sumber, and Perilaku rows.
-About opens a detail screen that identifies the APK as Private Preview APK,
-shows the build type as Standalone private APK, and keeps
-`m ElyraLauncherQuickStep` as the ROM target.
+Appearance keeps Elyra Glass as the shared visual surface system. The Glass
+depth detail remains calm and Material-like, with Ringan, Sedang, Dalam, and
+Kustom presets. Theme mode changes update the standalone preview colors for the
+current process only.
+
+About explains the full limitation: Private Preview APK is only for personal
+UI/Home preview, real Recents and Quickstep require ROM validation, and the ROM
+target remains:
+
+```bash
+m ElyraLauncherQuickStep
+```
 
 These controls are only for private UI/Home preview and do not validate real
-Launcher3 workspace, dock model binding, Recents, or Quickstep behavior. Theme
-mode changes update the standalone Home, All apps, Search, Settings, Appearance,
-Home screen, Dock, Search settings, and About preview colors for the current
-process only.
+Launcher3 workspace model binding, Recents, Quickstep gestures, privileged
+launcher behavior, platform hidden APIs, or platform task management.
 
 ## Elyra Glass And ElyraIcons
 
