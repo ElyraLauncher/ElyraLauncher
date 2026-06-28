@@ -3,7 +3,9 @@ package com.android.launcher3.standalone;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +23,17 @@ public final class StandaloneSmokeActivity extends Activity {
     private static final int SCREEN_DRAWER = 1;
     private static final int SCREEN_SETTINGS = 2;
     private static final int SCREEN_SEARCH = 3;
+    private static final int SCREEN_APPEARANCE = 4;
+    private static final int SCREEN_GLASS_DEPTH = 5;
+
+    private static final int GLASS_DEPTH_LIGHT = 35;
+    private static final int GLASS_DEPTH_MEDIUM = 65;
+    private static final int GLASS_DEPTH_DEEP = 88;
 
     private int mCurrentScreen = SCREEN_HOME;
     private int mSearchReturnScreen = SCREEN_HOME;
     private boolean mDarkPreview;
+    private int mGlassDepth = GLASS_DEPTH_MEDIUM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +47,15 @@ public final class StandaloneSmokeActivity extends Activity {
             showSearchReturnShell();
             return;
         }
-        if (mCurrentScreen != SCREEN_HOME) {
+        if (mCurrentScreen == SCREEN_GLASS_DEPTH) {
+            showAppearanceScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_APPEARANCE) {
+            showSettingsScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_SETTINGS || mCurrentScreen == SCREEN_DRAWER) {
             showHomeShell();
             return;
         }
@@ -292,7 +310,10 @@ public final class StandaloneSmokeActivity extends Activity {
     }
 
     private void showSettingsShell() {
-        mCurrentScreen = SCREEN_SETTINGS;
+        showSettingsScreen();
+    }
+
+    private LinearLayout createScreenContainer() {
         ScrollView scrollView = new ScrollView(this);
         scrollView.setFillViewport(true);
         applySystemBarColors();
@@ -302,34 +323,354 @@ public final class StandaloneSmokeActivity extends Activity {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(dp(24), dp(32), dp(24), dp(24));
         scrollView.addView(root, matchParent());
+        setContentView(scrollView);
+        return root;
+    }
 
-        addPreviewHeader(root, R.string.standalone_settings_back,
-                R.string.standalone_settings_title,
-                R.string.standalone_settings_subtitle);
+    private void createHeader(LinearLayout root, int titleResId, int subtitleResId,
+            Runnable backAction) {
+        LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        root.addView(header, matchWidthWrapHeight());
 
-        TextView warning = label(R.string.standalone_settings_notice, 14, Typeface.NORMAL);
+        TextView backButton = actionButton(R.string.standalone_settings_back);
+        backButton.setOnClickListener(view -> backAction.run());
+        header.addView(backButton, new LinearLayout.LayoutParams(dp(88), dp(44)));
+
+        LinearLayout titleGroup = new LinearLayout(this);
+        titleGroup.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams titleGroupParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        titleGroupParams.leftMargin = dp(14);
+        header.addView(titleGroup, titleGroupParams);
+
+        TextView title = label(titleResId, 23, Typeface.BOLD);
+        titleGroup.addView(title, matchWidthWrapHeight());
+
+        TextView subtitle = label(subtitleResId, 13, Typeface.NORMAL);
+        subtitle.setTextColor(mutedTextColor());
+        LinearLayout.LayoutParams subtitleParams = matchWidthWrapHeight();
+        subtitleParams.topMargin = dp(2);
+        titleGroup.addView(subtitle, subtitleParams);
+    }
+
+    private void createHeroInfoCard(LinearLayout root) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(18), dp(18), dp(18), dp(18));
+        card.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+
+        TextView icon = label(R.string.standalone_settings_hero_icon, 14, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        icon.setTextColor(accentColor());
+        icon.setBackground(rounded(accentSoftColor(), dp(12), 0, Color.TRANSPARENT));
+        card.addView(icon, size(dp(34), dp(34)));
+
+        TextView title = label(R.string.standalone_settings_hero_title, 18, Typeface.BOLD);
+        LinearLayout.LayoutParams titleParams = matchWidthWrapHeight();
+        titleParams.topMargin = dp(14);
+        card.addView(title, titleParams);
+
+        TextView body = label(R.string.standalone_settings_hero_body, 14, Typeface.NORMAL);
+        body.setTextColor(mutedTextColor());
+        body.setLineSpacing(dp(3), 1.0f);
+        LinearLayout.LayoutParams bodyParams = matchWidthWrapHeight();
+        bodyParams.topMargin = dp(6);
+        card.addView(body, bodyParams);
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(24);
+        root.addView(card, params);
+    }
+
+    private void createStandaloneNotice(LinearLayout root) {
+        TextView warning = label(R.string.standalone_settings_notice, 13, Typeface.NORMAL);
         warning.setTextColor(mutedTextColor());
         warning.setLineSpacing(dp(2), 1.0f);
         warning.setPadding(dp(16), dp(14), dp(16), dp(14));
-        warning.setBackground(rounded(warningBackgroundColor(), dp(18),
-                dp(1), warningBorderColor()));
+        warning.setBackground(rounded(warningBackgroundColor(), dp(18), dp(1),
+                warningBorderColor()));
         LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
-        warningParams.topMargin = dp(24);
+        warningParams.topMargin = dp(16);
         root.addView(warning, warningParams);
+    }
 
-        addThemeModeSection(root);
-        addSettingsSection(root, R.string.standalone_settings_appearance,
-                R.string.standalone_settings_placeholder);
-        addSettingsSection(root, R.string.standalone_settings_home_screen,
-                R.string.standalone_settings_placeholder);
-        addSettingsSection(root, R.string.standalone_settings_dock,
-                R.string.standalone_settings_placeholder);
-        addSettingsSection(root, R.string.standalone_settings_search,
-                R.string.standalone_settings_placeholder);
-        addSettingsSection(root, R.string.standalone_settings_about,
-                R.string.standalone_settings_about_body);
+    private LinearLayout createGroupedSection(LinearLayout root, int titleResId) {
+        if (titleResId != 0) {
+            TextView title = label(titleResId, 13, Typeface.BOLD);
+            title.setAllCaps(true);
+            title.setTextColor(mutedTextColor());
+            LinearLayout.LayoutParams titleParams = matchWidthWrapHeight();
+            titleParams.leftMargin = dp(4);
+            titleParams.topMargin = dp(24);
+            root.addView(title, titleParams);
+        }
 
-        setContentView(scrollView);
+        LinearLayout section = new LinearLayout(this);
+        section.setOrientation(LinearLayout.VERTICAL);
+        section.setPadding(0, dp(4), 0, dp(4));
+        section.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = titleResId == 0 ? dp(16) : dp(8);
+        root.addView(section, params);
+        return section;
+    }
+
+    private void createSettingsRow(LinearLayout section, int titleResId, int valueResId,
+            boolean chevron, View.OnClickListener listener) {
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setPadding(dp(18), 0, dp(14), 0);
+        row.setMinimumHeight(dp(54));
+        row.setOnClickListener(listener);
+
+        TextView title = label(titleResId, 15, Typeface.NORMAL);
+        row.addView(title, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        if (valueResId != 0) {
+            TextView value = label(valueResId, 14, Typeface.NORMAL);
+            value.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+            value.setTextColor(mutedTextColor());
+            row.addView(value, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        if (chevron) {
+            TextView arrow = label(R.string.standalone_settings_chevron, 20, Typeface.NORMAL);
+            arrow.setGravity(Gravity.CENTER);
+            arrow.setTextColor(mutedTextColor());
+            LinearLayout.LayoutParams arrowParams = new LinearLayout.LayoutParams(dp(22),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            arrowParams.leftMargin = dp(6);
+            row.addView(arrow, arrowParams);
+        }
+
+        section.addView(row, matchWidth(dp(56)));
+    }
+
+    private void createPreviewLauncherCard(LinearLayout root) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(14), dp(14), dp(14), dp(14));
+        card.setBackground(previewWallpaperBackground());
+
+        TextView search = label(R.string.standalone_search_placeholder, 12, Typeface.NORMAL);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        search.setTextColor(previewTextColor());
+        search.setPadding(dp(14), 0, dp(14), 0);
+        search.setBackground(rounded(previewGlassColor(), dp(18), dp(1), previewGlassBorderColor()));
+        card.addView(search, matchWidth(dp(38)));
+
+        GridLayout icons = new GridLayout(this);
+        icons.setColumnCount(4);
+        LinearLayout.LayoutParams iconsParams = matchWidthWrapHeight();
+        iconsParams.topMargin = dp(16);
+        card.addView(icons, iconsParams);
+        addPreviewIcon(icons, "P");
+        addPreviewIcon(icons, "M");
+        addPreviewIcon(icons, "B");
+        addPreviewIcon(icons, "C");
+        addPreviewIcon(icons, "S");
+        addPreviewIcon(icons, "F");
+        addPreviewIcon(icons, "G");
+        addPreviewIcon(icons, "W");
+
+        LinearLayout dock = new LinearLayout(this);
+        dock.setGravity(Gravity.CENTER);
+        dock.setOrientation(LinearLayout.HORIZONTAL);
+        dock.setPadding(dp(10), dp(10), dp(10), dp(10));
+        dock.setBackground(rounded(previewGlassColor(), dp(24), dp(1), previewGlassBorderColor()));
+        LinearLayout.LayoutParams dockParams = matchWidthWrapHeight();
+        dockParams.topMargin = dp(16);
+        card.addView(dock, dockParams);
+        addPreviewDockIcon(dock, "P");
+        addPreviewDockIcon(dock, "M");
+        addPreviewDockIcon(dock, "B");
+        addPreviewDockIcon(dock, "C");
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(22);
+        root.addView(card, params);
+    }
+
+    private void createModernSeekBarRow(LinearLayout root) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(18), dp(16), dp(18), dp(16));
+        card.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+
+        LinearLayout top = new LinearLayout(this);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        card.addView(top, matchWidthWrapHeight());
+
+        TextView title = label(R.string.standalone_glass_depth_control, 15, Typeface.BOLD);
+        top.addView(title, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView value = label(mGlassDepth + "%", 14, Typeface.BOLD);
+        value.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        value.setTextColor(accentColor());
+        top.addView(value, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        SeekBar seekBar = new SeekBar(this);
+        seekBar.setMax(100);
+        seekBar.setProgress(mGlassDepth);
+        seekBar.setProgressDrawable(createSeekBarDrawable());
+        seekBar.setThumb(rounded(accentColor(), dp(8), dp(2), surfaceColor()));
+        seekBar.setPadding(0, dp(10), 0, dp(8));
+        LinearLayout.LayoutParams seekParams = matchWidth(dp(48));
+        seekParams.topMargin = dp(8);
+        card.addView(seekBar, seekParams);
+
+        LinearLayout labels = new LinearLayout(this);
+        labels.setOrientation(LinearLayout.HORIZONTAL);
+        card.addView(labels, matchWidthWrapHeight());
+        addSeekLabel(labels, R.string.standalone_glass_depth_light_label, Gravity.LEFT);
+        addSeekLabel(labels, R.string.standalone_glass_depth_medium_label, Gravity.CENTER);
+        addSeekLabel(labels, R.string.standalone_glass_depth_deep_label, Gravity.RIGHT);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mGlassDepth = progress;
+                value.setText(progress + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(StandaloneSmokeActivity.this,
+                        R.string.standalone_glass_depth_preview_only, Toast.LENGTH_SHORT).show();
+                showGlassDepthScreen();
+            }
+        });
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(18);
+        root.addView(card, params);
+    }
+
+    private void showSettingsScreen() {
+        mCurrentScreen = SCREEN_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_settings_title,
+                R.string.standalone_settings_subtitle, this::showHomeShell);
+        createHeroInfoCard(root);
+
+        LinearLayout section = createGroupedSection(root, 0);
+        createSettingsRow(section, R.string.standalone_settings_appearance, 0, true,
+                view -> showAppearanceScreen());
+        createSettingsRow(section, R.string.standalone_settings_home_screen, 0, true,
+                view -> Toast.makeText(this, R.string.standalone_home_screen_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(section, R.string.standalone_settings_dock, 0, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(section, R.string.standalone_settings_search, 0, true,
+                view -> showSearchShell(SCREEN_SETTINGS));
+        createSettingsRow(section, R.string.standalone_settings_about, 0, true,
+                view -> showAboutPreview());
+        createStandaloneNotice(root);
+    }
+
+    private void showAppearanceScreen() {
+        mCurrentScreen = SCREEN_APPEARANCE;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_appearance_title,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+        createPreviewLauncherCard(root);
+
+        LinearLayout theme = createGroupedSection(root, R.string.standalone_appearance_theme);
+        createSettingsRow(theme, R.string.standalone_appearance_color,
+                R.string.standalone_appearance_color_value, true,
+                view -> showPreviewToast(R.string.standalone_appearance_color));
+        createSettingsRow(theme, R.string.standalone_appearance_theme_mode,
+                mDarkPreview ? R.string.standalone_appearance_dark : R.string.standalone_appearance_light,
+                true, view -> setThemePreview(!mDarkPreview));
+
+        LinearLayout glass = createGroupedSection(root, R.string.standalone_elyra_glass);
+        createSettingsRow(glass, R.string.standalone_glass_style,
+                R.string.standalone_glass_style_value, true,
+                view -> showGlassOptionToast(R.string.standalone_glass_style));
+        createSettingsRow(glass, R.string.standalone_glass_depth,
+                R.string.standalone_glass_depth_value, true,
+                view -> showGlassDepthScreen());
+        createSettingsRow(glass, R.string.standalone_icon_glass,
+                R.string.standalone_icon_glass_value, true,
+                view -> showGlassOptionToast(R.string.standalone_icon_glass));
+        createSettingsRow(glass, R.string.standalone_card_surface,
+                R.string.standalone_card_surface_value, true,
+                view -> showGlassOptionToast(R.string.standalone_card_surface));
+
+        LinearLayout icons = createGroupedSection(root, R.string.standalone_appearance_icons);
+        createSettingsRow(icons, R.string.standalone_icon_pack,
+                R.string.standalone_icon_pack_value, true,
+                view -> Toast.makeText(this, R.string.standalone_elyraicons_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(icons, R.string.standalone_icon_shape,
+                R.string.standalone_icon_shape_value, true,
+                view -> showPreviewToast(R.string.standalone_icon_shape));
+        createSettingsRow(icons, R.string.standalone_themed_icons,
+                R.string.standalone_themed_icons_value, true,
+                view -> showPreviewToast(R.string.standalone_themed_icons));
+
+        LinearLayout layout = createGroupedSection(root, R.string.standalone_appearance_layout);
+        createSettingsRow(layout, R.string.standalone_icon_size,
+                R.string.standalone_icon_size_value, true,
+                view -> showPreviewToast(R.string.standalone_icon_size));
+        createSettingsRow(layout, R.string.standalone_grid_density,
+                R.string.standalone_grid_density_value, true,
+                view -> showPreviewToast(R.string.standalone_grid_density));
+    }
+
+    private void showGlassDepthScreen() {
+        mCurrentScreen = SCREEN_GLASS_DEPTH;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_glass_depth,
+                R.string.standalone_elyra_glass, this::showAppearanceScreen);
+
+        TextView description = label(R.string.standalone_glass_depth_description, 14,
+                Typeface.NORMAL);
+        description.setTextColor(mutedTextColor());
+        description.setLineSpacing(dp(3), 1.0f);
+        LinearLayout.LayoutParams descriptionParams = matchWidthWrapHeight();
+        descriptionParams.topMargin = dp(22);
+        root.addView(description, descriptionParams);
+
+        createPreviewLauncherCard(root);
+        createModernSeekBarRow(root);
+
+        LinearLayout presets = createGroupedSection(root, R.string.standalone_glass_depth_presets);
+        createPresetRow(presets, R.string.standalone_glass_depth_light_preset,
+                GLASS_DEPTH_LIGHT);
+        createPresetRow(presets, R.string.standalone_glass_depth_medium_preset,
+                GLASS_DEPTH_MEDIUM);
+        createPresetRow(presets, R.string.standalone_glass_depth_deep_preset,
+                GLASS_DEPTH_DEEP);
+        createPresetRow(presets, R.string.standalone_glass_depth_custom_preset,
+                mGlassDepth);
+    }
+
+    private void showAboutPreview() {
+        mCurrentScreen = SCREEN_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_settings_about,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+        TextView body = label(R.string.standalone_settings_about_body, 14, Typeface.NORMAL);
+        body.setTextColor(mutedTextColor());
+        body.setLineSpacing(dp(3), 1.0f);
+        body.setPadding(dp(18), dp(18), dp(18), dp(18));
+        body.setBackground(rounded(surfaceColor(), dp(24), dp(1), borderColor()));
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(24);
+        root.addView(body, params);
     }
 
     private TextView label(int resId, float textSizeSp, int typefaceStyle) {
@@ -550,7 +891,13 @@ public final class StandaloneSmokeActivity extends Activity {
             return;
         }
         mDarkPreview = darkPreview;
-        showSettingsShell();
+        if (mCurrentScreen == SCREEN_APPEARANCE) {
+            showAppearanceScreen();
+        } else if (mCurrentScreen == SCREEN_GLASS_DEPTH) {
+            showGlassDepthScreen();
+        } else {
+            showSettingsScreen();
+        }
     }
 
     private void addSearchSection(LinearLayout root, int titleResId, int[] itemResIds) {
@@ -579,6 +926,107 @@ public final class StandaloneSmokeActivity extends Activity {
         LinearLayout.LayoutParams params = matchWidthWrapHeight();
         params.topMargin = dp(14);
         root.addView(section, params);
+    }
+
+
+    private void addPreviewIcon(GridLayout icons, String text) {
+        TextView icon = label(text, 13, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        icon.setTextColor(accentColor());
+        icon.setBackground(rounded(previewIconColor(), dp(15), 0, Color.TRANSPARENT));
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.width = 0;
+        params.height = dp(46);
+        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        params.setMargins(dp(6), dp(5), dp(6), dp(5));
+        icons.addView(icon, params);
+    }
+
+    private void addPreviewDockIcon(LinearLayout dock, String text) {
+        TextView icon = label(text, 13, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        icon.setTextColor(accentColor());
+        icon.setBackground(rounded(previewIconColor(), dp(14), 0, Color.TRANSPARENT));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(42), 1f);
+        params.leftMargin = dp(4);
+        params.rightMargin = dp(4);
+        dock.addView(icon, params);
+    }
+
+    private void addSeekLabel(LinearLayout labels, int labelResId, int gravity) {
+        TextView label = label(labelResId, 12, Typeface.NORMAL);
+        label.setGravity(gravity | Gravity.CENTER_VERTICAL);
+        label.setTextColor(mutedTextColor());
+        labels.addView(label, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+    }
+
+    private void createPresetRow(LinearLayout section, int titleResId, int value) {
+        boolean selected = isPresetSelected(titleResId, value);
+        LinearLayout row = new LinearLayout(this);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setPadding(dp(18), 0, dp(18), 0);
+        row.setMinimumHeight(dp(54));
+        row.setOnClickListener(view -> {
+            mGlassDepth = value;
+            Toast.makeText(this, R.string.standalone_glass_depth_preview_only,
+                    Toast.LENGTH_SHORT).show();
+            showGlassDepthScreen();
+        });
+
+        TextView title = label(titleResId, 15, Typeface.NORMAL);
+        row.addView(title, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView mark = label(selected ? R.string.standalone_settings_selected
+                : R.string.standalone_settings_empty, 14, Typeface.BOLD);
+        mark.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        mark.setTextColor(accentColor());
+        row.addView(mark, new LinearLayout.LayoutParams(dp(34),
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        section.addView(row, matchWidth(dp(56)));
+    }
+
+    private boolean isPresetSelected(int titleResId, int value) {
+        if (titleResId == R.string.standalone_glass_depth_custom_preset) {
+            return nearestPreset(mGlassDepth) == 0;
+        }
+        return nearestPreset(mGlassDepth) == value;
+    }
+
+    private int nearestPreset(int value) {
+        if (Math.abs(value - GLASS_DEPTH_LIGHT) <= 4) {
+            return GLASS_DEPTH_LIGHT;
+        }
+        if (Math.abs(value - GLASS_DEPTH_MEDIUM) <= 4) {
+            return GLASS_DEPTH_MEDIUM;
+        }
+        if (Math.abs(value - GLASS_DEPTH_DEEP) <= 4) {
+            return GLASS_DEPTH_DEEP;
+        }
+        return 0;
+    }
+
+    private void showGlassOptionToast(int labelResId) {
+        Toast.makeText(this, getString(R.string.standalone_glass_option_preview_only,
+                getString(labelResId)), Toast.LENGTH_SHORT).show();
+    }
+
+    private LayerDrawable createSeekBarDrawable() {
+        GradientDrawable inactive = rounded(seekInactiveColor(), dp(5), 0, Color.TRANSPARENT);
+        GradientDrawable active = rounded(accentColor(), dp(5), 0, Color.TRANSPARENT);
+        ClipDrawable progress = new ClipDrawable(active, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+        LayerDrawable drawable = new LayerDrawable(new android.graphics.drawable.Drawable[] {
+                inactive, progress
+        });
+        drawable.setId(0, android.R.id.background);
+        drawable.setId(1, android.R.id.progress);
+        drawable.setLayerHeight(0, dp(8));
+        drawable.setLayerHeight(1, dp(8));
+        drawable.setLayerGravity(0, Gravity.CENTER_VERTICAL);
+        drawable.setLayerGravity(1, Gravity.CENTER_VERTICAL);
+        return drawable;
     }
 
     private TextView actionButton(int labelResId) {
@@ -683,6 +1131,38 @@ public final class StandaloneSmokeActivity extends Activity {
         return mDarkPreview ? Color.rgb(38, 86, 76) : getColor(R.color.smoke_accent_soft);
     }
 
+    private int previewTextColor() {
+        return mDarkPreview ? Color.rgb(238, 242, 245) : Color.rgb(255, 255, 255);
+    }
+
+    private int previewGlassColor() {
+        int light = Math.max(150, 235 - mGlassDepth);
+        return mDarkPreview ? Color.rgb(38 + mGlassDepth / 10, 46 + mGlassDepth / 12, 52 + mGlassDepth / 14)
+                : Color.argb(235, light, 246, 243);
+    }
+
+    private int previewGlassBorderColor() {
+        return mDarkPreview ? Color.rgb(82, 96, 103) : Color.rgb(224, 239, 235);
+    }
+
+    private int previewIconColor() {
+        return mDarkPreview ? Color.rgb(44, 73, 69) : Color.rgb(230, 245, 241);
+    }
+
+    private int seekInactiveColor() {
+        return mDarkPreview ? Color.rgb(67, 76, 83) : Color.rgb(218, 226, 232);
+    }
+
+    private GradientDrawable previewWallpaperBackground() {
+        int[] colors = mDarkPreview
+                ? new int[] { Color.rgb(24, 31, 36), Color.rgb(38, 62, 58), Color.rgb(22, 26, 30) }
+                : new int[] { Color.rgb(110, 151, 169), Color.rgb(73, 122, 111), Color.rgb(238, 242, 238) };
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
+        drawable.setCornerRadius(dp(28));
+        drawable.setStroke(dp(1), borderColor());
+        return drawable;
+    }
+
     private int selectedThemeTextColor() {
         return mDarkPreview ? Color.rgb(7, 31, 27) : Color.WHITE;
     }
@@ -695,6 +1175,10 @@ public final class StandaloneSmokeActivity extends Activity {
     private void showSearchReturnShell() {
         if (mSearchReturnScreen == SCREEN_DRAWER) {
             showAppDrawerShell();
+            return;
+        }
+        if (mSearchReturnScreen == SCREEN_SETTINGS) {
+            showSettingsScreen();
             return;
         }
         showHomeShell();
