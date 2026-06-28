@@ -1,4 +1,4 @@
-name: ElyraLauncher APK Smoke Build
+name: ElyraLauncher Private Preview APK Build
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up Zulu JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: zulu
@@ -30,7 +30,7 @@ jobs:
         run: |
           sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Build standalone private debug APK
+      - name: Build Standalone Private Preview debug APK
         run: |
           ./gradlew --no-daemon :app:assembleDebug
 
