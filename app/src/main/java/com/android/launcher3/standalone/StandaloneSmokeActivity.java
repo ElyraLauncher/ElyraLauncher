@@ -26,6 +26,7 @@ public final class StandaloneSmokeActivity extends Activity {
     private static final int SCREEN_APPEARANCE = 4;
     private static final int SCREEN_GLASS_DEPTH = 5;
     private static final int SCREEN_HOME_SETTINGS = 6;
+    private static final int SCREEN_DOCK_SETTINGS = 7;
 
     private static final int GLASS_DEPTH_LIGHT = 35;
     private static final int GLASS_DEPTH_MEDIUM = 65;
@@ -36,6 +37,9 @@ public final class StandaloneSmokeActivity extends Activity {
     private boolean mDarkPreview;
     private boolean mHomeIconLabels = true;
     private boolean mHomeWidgetArea = true;
+    private boolean mDockLabels;
+    private boolean mDockSuggestedApps;
+    private boolean mDockSearch;
     private int mGlassDepth = GLASS_DEPTH_MEDIUM;
 
     @Override
@@ -55,6 +59,10 @@ public final class StandaloneSmokeActivity extends Activity {
             return;
         }
         if (mCurrentScreen == SCREEN_HOME_SETTINGS) {
+            showSettingsScreen();
+            return;
+        }
+        if (mCurrentScreen == SCREEN_DOCK_SETTINGS) {
             showSettingsScreen();
             return;
         }
@@ -504,6 +512,45 @@ public final class StandaloneSmokeActivity extends Activity {
         root.addView(card, params);
     }
 
+    private void createDockPreviewCard(LinearLayout root) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dp(14), dp(14), dp(14), dp(14));
+        card.setBackground(previewWallpaperBackground());
+
+        TextView hint = label(R.string.standalone_dock_preview_label, 12, Typeface.BOLD);
+        hint.setGravity(Gravity.CENTER);
+        hint.setTextColor(previewTextColor());
+        hint.setPadding(dp(12), 0, dp(12), 0);
+        hint.setBackground(rounded(previewGlassColor(), dp(16), dp(1),
+                previewGlassBorderColor()));
+        card.addView(hint, matchWidth(dp(34)));
+
+        LinearLayout workspace = new LinearLayout(this);
+        workspace.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        workspace.setOrientation(LinearLayout.VERTICAL);
+        workspace.setPadding(dp(10), dp(58), dp(10), dp(10));
+        LinearLayout.LayoutParams workspaceParams = matchWidthWrapHeight();
+        workspaceParams.topMargin = dp(12);
+        card.addView(workspace, workspaceParams);
+
+        LinearLayout dock = new LinearLayout(this);
+        dock.setGravity(Gravity.CENTER);
+        dock.setOrientation(LinearLayout.HORIZONTAL);
+        dock.setPadding(dp(12), dp(12), dp(12), dp(10));
+        dock.setBackground(rounded(previewGlassColor(), dp(26), dp(1),
+                previewGlassBorderColor()));
+        workspace.addView(dock, matchWidthWrapHeight());
+        addPreviewDockIcon(dock, R.string.standalone_dock_phone, 0, mDockLabels);
+        addPreviewDockIcon(dock, R.string.standalone_dock_messages, 1, mDockLabels);
+        addPreviewDockIcon(dock, R.string.standalone_dock_browser, 2, mDockLabels);
+        addPreviewDockIcon(dock, R.string.standalone_dock_camera, 3, mDockLabels);
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(22);
+        root.addView(card, params);
+    }
+
     private void createModernSeekBarRow(LinearLayout root) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
@@ -578,8 +625,7 @@ public final class StandaloneSmokeActivity extends Activity {
         createSettingsRow(section, R.string.standalone_settings_home_screen, 0, true,
                 view -> showHomeSettingsScreen());
         createSettingsRow(section, R.string.standalone_settings_dock, 0, true,
-                view -> Toast.makeText(this, R.string.standalone_dock_preview_only,
-                        Toast.LENGTH_SHORT).show());
+                view -> showDockSettingsScreen());
         createSettingsRow(section, R.string.standalone_settings_search, 0, true,
                 view -> showSearchShell(SCREEN_SETTINGS));
         createSettingsRow(section, R.string.standalone_settings_about, 0, true,
@@ -681,6 +727,62 @@ public final class StandaloneSmokeActivity extends Activity {
         createSettingsRow(motion, R.string.standalone_home_transition_speed,
                 R.string.standalone_home_transition_speed_value, true,
                 view -> showPreviewToast(R.string.standalone_home_transition_speed));
+
+        createStandaloneNotice(root);
+    }
+
+    private void showDockSettingsScreen() {
+        mCurrentScreen = SCREEN_DOCK_SETTINGS;
+        LinearLayout root = createScreenContainer();
+        createHeader(root, R.string.standalone_dock_settings_title,
+                R.string.standalone_settings_subtitle, this::showSettingsScreen);
+        createDockPreviewCard(root);
+
+        LinearLayout appearance = createGroupedSection(root, R.string.standalone_dock_display);
+        createSettingsRow(appearance, R.string.standalone_dock_style,
+                R.string.standalone_dock_style_value, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_style_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(appearance, R.string.standalone_dock_height,
+                R.string.standalone_dock_height_value, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_height_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(appearance, R.string.standalone_dock_corner_radius,
+                R.string.standalone_dock_corner_radius_value, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_corner_radius_preview_only,
+                        Toast.LENGTH_SHORT).show());
+
+        LinearLayout apps = createGroupedSection(root, R.string.standalone_dock_apps_section);
+        createSettingsRow(apps, R.string.standalone_dock_apps,
+                R.string.standalone_dock_apps_value, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_apps_preview_only,
+                        Toast.LENGTH_SHORT).show());
+        createSettingsRow(apps, R.string.standalone_dock_labels,
+                mDockLabels ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mDockLabels = !mDockLabels;
+                    showDockSettingsScreen();
+                });
+        createSettingsRow(apps, R.string.standalone_dock_suggested_apps,
+                mDockSuggestedApps ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mDockSuggestedApps = !mDockSuggestedApps;
+                    showDockSettingsScreen();
+                });
+
+        LinearLayout integration = createGroupedSection(root, R.string.standalone_dock_integration);
+        createSettingsRow(integration, R.string.standalone_dock_search,
+                mDockSearch ? R.string.standalone_value_on : R.string.standalone_value_off,
+                true, view -> {
+                    mDockSearch = !mDockSearch;
+                    showDockSettingsScreen();
+                });
+        createSettingsRow(integration, R.string.standalone_dock_elyra_glass,
+                R.string.standalone_value_on, true, view -> showAppearanceScreen());
+        createSettingsRow(integration, R.string.standalone_dock_haptic_feedback,
+                R.string.standalone_value_on, true,
+                view -> Toast.makeText(this, R.string.standalone_dock_haptic_preview_only,
+                        Toast.LENGTH_SHORT).show());
 
         createStandaloneNotice(root);
     }
@@ -952,6 +1054,8 @@ public final class StandaloneSmokeActivity extends Activity {
             showGlassDepthScreen();
         } else if (mCurrentScreen == SCREEN_HOME_SETTINGS) {
             showHomeSettingsScreen();
+        } else if (mCurrentScreen == SCREEN_DOCK_SETTINGS) {
+            showDockSettingsScreen();
         } else {
             showSettingsScreen();
         }
@@ -1020,6 +1124,34 @@ public final class StandaloneSmokeActivity extends Activity {
         params.leftMargin = dp(5);
         params.rightMargin = dp(5);
         dock.addView(icon, params);
+    }
+
+    private void addPreviewDockIcon(LinearLayout dock, int labelResId, int colorIndex,
+            boolean showLabel) {
+        LinearLayout item = new LinearLayout(this);
+        item.setGravity(Gravity.CENTER);
+        item.setOrientation(LinearLayout.VERTICAL);
+
+        View icon = new View(this);
+        icon.setBackground(rounded(previewIconColor(colorIndex), dp(14), 0,
+                Color.TRANSPARENT));
+        item.addView(icon, size(dp(38), dp(38)));
+
+        if (showLabel) {
+            TextView label = label(labelResId, 9, Typeface.NORMAL);
+            label.setGravity(Gravity.CENTER);
+            label.setSingleLine(true);
+            label.setTextColor(previewTextColor());
+            LinearLayout.LayoutParams labelParams = matchWidthWrapHeight();
+            labelParams.topMargin = dp(5);
+            item.addView(label, labelParams);
+        }
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        params.leftMargin = dp(4);
+        params.rightMargin = dp(4);
+        dock.addView(item, params);
     }
 
     private void addSeekLabel(LinearLayout labels, int labelResId, int gravity) {
