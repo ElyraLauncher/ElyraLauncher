@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   standalone-apk:
-    name: Standalone APK UI smoke build
+    name: Standalone Private APK build
     runs-on: ubuntu-latest
 
     steps:
@@ -27,22 +27,26 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
-
-      - name: Build standalone debug APK
-        run: ./gradlew --no-daemon :app:assembleDebug
-
-      - name: Prepare standalone APK artifact
         run: |
-          mkdir -p app/build/outputs/apk/standalone
-          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Upload standalone UI smoke APK
+      - name: Build standalone private debug APK
+        run: |
+          ./gradlew --no-daemon :app:assembleDebug
+
+      - name: Prepare private APK artifact
+        run: |
+          mkdir -p app/build/outputs/apk/private
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/private/ElyraLauncher-private-debug.apk
+          ls -lah app/build/outputs/apk/private
+
+      - name: Upload private APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ElyraLauncher-standalone-debug
-          path: app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk
+          name: ElyraLauncher-private-debug
+          path: app/build/outputs/apk/private/ElyraLauncher-private-debug.apk
           if-no-files-found: error
 
-      - name: Print standalone APK path
-        run: echo "Standalone APK: app/build/outputs/apk/standalone/ElyraLauncher-standalone-debug.apk"
+      - name: Print private APK path
+        run: |
+          echo "Private APK: app/build/outputs/apk/private/ElyraLauncher-private-debug.apk"
