@@ -42,18 +42,23 @@ hidden API stubs.
 
 The APK opens to a simple ElyraLauncher home shell preview with a title, warning
 message, fake search bar, workspace placeholders, dock placeholders, and app
-drawer/settings actions. The All apps action opens a placeholder drawer preview
-with its own search/filter placeholder and twelve smoke-test app placeholders:
+drawer/settings actions. Tapping either the home search bar or drawer
+search/filter placeholder opens a standalone Search preview with Suggested
+apps, Settings results, and Widgets placeholder sections.
+
+The All apps action opens a placeholder drawer preview with its own search/filter
+placeholder and twelve smoke-test app placeholders:
 Phone, Messages, Browser, Camera, Settings, Files, Gallery, Clock, Calculator,
 Calendar, Contacts, and Weather. The Settings item opens the same standalone
 settings shell as the home Settings action.
 
 The Settings action opens a simple placeholder settings shell with Appearance,
-Home screen, Dock, Search, and About sections. Both previews have a back button,
-and Android back returns from a preview to the home shell.
+Home screen, Dock, Search, and About sections. Preview screens have a back
+button, and Android back returns from a preview to the previous standalone shell
+where practical.
 
-Search, dock, and placeholder app taps only show preview Toast messages, except
-for the drawer Settings placeholder, which opens the standalone settings shell.
-These controls are visual smoke-test placeholders only; they do not exercise real
-Launcher3 model binding, Recents, Quickstep gestures, privileged launcher
-behavior, or platform task management.
+Search result, dock, and placeholder app taps only show preview Toast messages,
+except for the drawer Settings placeholder, which opens the standalone settings
+shell. These controls are visual smoke-test placeholders only; they do not
+exercise real Launcher3 model binding, Recents, Quickstep gestures, privileged
+launcher behavior, or platform task management.

@@ -19,8 +19,10 @@ public final class StandaloneSmokeActivity extends Activity {
     private static final int SCREEN_HOME = 0;
     private static final int SCREEN_DRAWER = 1;
     private static final int SCREEN_SETTINGS = 2;
+    private static final int SCREEN_SEARCH = 3;
 
     private int mCurrentScreen = SCREEN_HOME;
+    private int mSearchReturnScreen = SCREEN_HOME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,10 @@ public final class StandaloneSmokeActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        if (mCurrentScreen == SCREEN_SEARCH) {
+            showSearchReturnShell();
+            return;
+        }
         if (mCurrentScreen != SCREEN_HOME) {
             showHomeShell();
             return;
@@ -92,8 +98,7 @@ public final class StandaloneSmokeActivity extends Activity {
         search.setPadding(dp(18), 0, dp(18), 0);
         search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
                 getColor(R.color.smoke_border)));
-        search.setOnClickListener(view -> Toast.makeText(this, R.string.standalone_search_toast,
-                Toast.LENGTH_SHORT).show());
+        search.setOnClickListener(view -> showSearchShell(SCREEN_HOME));
         LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
         searchParams.topMargin = dp(22);
         root.addView(search, searchParams);
@@ -182,8 +187,7 @@ public final class StandaloneSmokeActivity extends Activity {
         search.setPadding(dp(18), 0, dp(18), 0);
         search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
                 getColor(R.color.smoke_border)));
-        search.setOnClickListener(view -> Toast.makeText(this, R.string.standalone_search_toast,
-                Toast.LENGTH_SHORT).show());
+        search.setOnClickListener(view -> showSearchShell(SCREEN_DRAWER));
         LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
         searchParams.topMargin = dp(22);
         root.addView(search, searchParams);
@@ -211,6 +215,66 @@ public final class StandaloneSmokeActivity extends Activity {
         addDrawerApp(apps, R.string.standalone_drawer_weather, "W", false);
 
         TextView warning = label(R.string.standalone_app_drawer_notice, 14, Typeface.NORMAL);
+        warning.setTextColor(getColor(R.color.smoke_text_muted));
+        warning.setLineSpacing(dp(2), 1.0f);
+        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
+        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
+                dp(1), getColor(R.color.smoke_warning_border)));
+        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
+        warningParams.topMargin = dp(16);
+        root.addView(warning, warningParams);
+
+        setContentView(scrollView);
+    }
+
+    private void showSearchShell(int returnScreen) {
+        mCurrentScreen = SCREEN_SEARCH;
+        mSearchReturnScreen = returnScreen;
+
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setFillViewport(true);
+        scrollView.setBackgroundColor(getColor(R.color.smoke_background));
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(dp(24), dp(32), dp(24), dp(24));
+        scrollView.addView(root, matchParent());
+
+        addPreviewHeader(root, R.string.standalone_search_back,
+                R.string.standalone_search_title,
+                R.string.standalone_search_subtitle);
+
+        TextView search = label(R.string.standalone_search_placeholder, 15, Typeface.NORMAL);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        search.setTextColor(getColor(R.color.smoke_text_muted));
+        search.setPadding(dp(18), 0, dp(18), 0);
+        search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
+                getColor(R.color.smoke_border)));
+        LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
+        searchParams.topMargin = dp(22);
+        root.addView(search, searchParams);
+
+        addSearchSection(root, R.string.standalone_search_suggested_apps,
+                new int[] {
+                        R.string.standalone_search_phone,
+                        R.string.standalone_search_messages,
+                        R.string.standalone_search_browser,
+                        R.string.standalone_search_camera
+                });
+        addSearchSection(root, R.string.standalone_search_settings_results,
+                new int[] {
+                        R.string.standalone_search_appearance,
+                        R.string.standalone_search_home_screen,
+                        R.string.standalone_search_dock,
+                        R.string.standalone_search_search
+                });
+        addSearchSection(root, R.string.standalone_search_widgets,
+                new int[] {
+                        R.string.standalone_search_clock,
+                        R.string.standalone_search_weather
+                });
+
+        TextView warning = label(R.string.standalone_search_notice, 14, Typeface.NORMAL);
         warning.setTextColor(getColor(R.color.smoke_text_muted));
         warning.setLineSpacing(dp(2), 1.0f);
         warning.setPadding(dp(16), dp(14), dp(16), dp(14));
@@ -289,7 +353,13 @@ public final class StandaloneSmokeActivity extends Activity {
         root.addView(header, matchWidthWrapHeight());
 
         TextView backButton = actionButton(backResId);
-        backButton.setOnClickListener(view -> showHomeShell());
+        backButton.setOnClickListener(view -> {
+            if (mCurrentScreen == SCREEN_SEARCH) {
+                showSearchReturnShell();
+                return;
+            }
+            showHomeShell();
+        });
         header.addView(backButton, new LinearLayout.LayoutParams(dp(88), dp(44)));
 
         LinearLayout titleGroup = new LinearLayout(this);
@@ -423,6 +493,34 @@ public final class StandaloneSmokeActivity extends Activity {
         root.addView(section, params);
     }
 
+    private void addSearchSection(LinearLayout root, int titleResId, int[] itemResIds) {
+        LinearLayout section = new LinearLayout(this);
+        section.setOrientation(LinearLayout.VERTICAL);
+        section.setPadding(dp(18), dp(16), dp(18), dp(10));
+        section.setBackground(rounded(getColor(R.color.smoke_surface), dp(18), dp(1),
+                getColor(R.color.smoke_border)));
+
+        TextView title = label(titleResId, 16, Typeface.BOLD);
+        section.addView(title, matchWidthWrapHeight());
+
+        for (int itemResId : itemResIds) {
+            TextView item = label(itemResId, 14, Typeface.NORMAL);
+            item.setGravity(Gravity.CENTER_VERTICAL);
+            item.setPadding(dp(12), 0, dp(12), 0);
+            item.setBackground(rounded(getColor(R.color.smoke_tile_background), dp(14), 0,
+                    Color.TRANSPARENT));
+            item.setOnClickListener(view -> showPreviewToast(itemResId));
+
+            LinearLayout.LayoutParams itemParams = matchWidth(dp(44));
+            itemParams.topMargin = dp(10);
+            section.addView(item, itemParams);
+        }
+
+        LinearLayout.LayoutParams params = matchWidthWrapHeight();
+        params.topMargin = dp(14);
+        root.addView(section, params);
+    }
+
     private TextView actionButton(int labelResId) {
         TextView button = label(labelResId, 14, Typeface.BOLD);
         button.setGravity(Gravity.CENTER);
@@ -475,6 +573,14 @@ public final class StandaloneSmokeActivity extends Activity {
     private void showPreviewToast(int labelResId) {
         Toast.makeText(this, getString(R.string.standalone_preview_toast,
                 getString(labelResId)), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSearchReturnShell() {
+        if (mSearchReturnScreen == SCREEN_DRAWER) {
+            showAppDrawerShell();
+            return;
+        }
+        showHomeShell();
     }
 
     private int dp(float value) {
