@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="icon_background">#E0E0E0</color>
-    <color name="smoke_background">#FAFAFA</color>
+    <color name="smoke_background">#F6F7F9</color>
+    <color name="smoke_surface">#FFFFFF</color>
+    <color name="smoke_tile_background">#EEF2F6</color>
+    <color name="smoke_warning_background">#FFF8E7</color>
+    <color name="smoke_warning_border">#F1D89A</color>
+    <color name="smoke_border">#DDE3EA</color>
     <color name="smoke_text">#202124</color>
+    <color name="smoke_text_muted">#5F6875</color>
+    <color name="smoke_accent">#166B5C</color>
+    <color name="smoke_accent_soft">#CDE9E2</color>
 </resources>

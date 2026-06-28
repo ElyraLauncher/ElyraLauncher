@@ -2,6 +2,22 @@
 <resources>
     <string name="app_name">ElyraLauncher</string>
     <string name="derived_app_name">ElyraLauncher</string>
+    <string name="standalone_home_logo">EL</string>
     <string name="standalone_smoke_title">ElyraLauncher</string>
+    <string name="standalone_smoke_status">Standalone UI Smoke Test</string>
     <string name="standalone_smoke_body">Standalone APK UI smoke test only. Real Recents and Quickstep require an Android ROM build with m ElyraLauncherQuickStep.</string>
+    <string name="standalone_search_placeholder">Search apps, widgets, and settings</string>
+    <string name="standalone_workspace_title">Workspace preview</string>
+    <string name="standalone_workspace_tile_widgets">Widgets</string>
+    <string name="standalone_workspace_tile_shortcuts">Shortcuts</string>
+    <string name="standalone_workspace_tile_preview">Preview</string>
+    <string name="standalone_workspace_tile_empty">Empty slot</string>
+    <string name="standalone_dock_phone">Phone</string>
+    <string name="standalone_dock_messages">Messages</string>
+    <string name="standalone_dock_browser">Browser</string>
+    <string name="standalone_dock_camera">Camera</string>
+    <string name="standalone_dock_dot">.</string>
+    <string name="standalone_app_drawer_button">All apps</string>
+    <string name="standalone_settings_button">Settings</string>
+    <string name="standalone_smoke_footer">ROM validation remains m ElyraLauncherQuickStep.</string>
 </resources>

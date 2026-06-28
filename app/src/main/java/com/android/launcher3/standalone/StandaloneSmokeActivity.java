@@ -1,12 +1,17 @@
 package com.android.launcher3.standalone;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public final class StandaloneSmokeActivity extends Activity {
@@ -15,46 +20,229 @@ public final class StandaloneSmokeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setFillViewport(true);
+        scrollView.setBackgroundColor(getColor(R.color.smoke_background));
+
         LinearLayout root = new LinearLayout(this);
-        root.setGravity(Gravity.CENTER);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setPadding(dp(28), dp(28), dp(28), dp(28));
-        root.setBackgroundColor(getColor(R.color.smoke_background));
+        root.setPadding(dp(24), dp(32), dp(24), dp(24));
+        scrollView.addView(root, matchParent());
 
-        ImageView icon = new ImageView(this);
-        icon.setImageResource(R.drawable.ic_launcher_home);
-        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(dp(88), dp(88));
-        iconParams.bottomMargin = dp(28);
-        root.addView(icon, iconParams);
+        LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        root.addView(header, matchWidthWrapHeight());
 
-        TextView title = text(R.string.standalone_smoke_title, 24, Typeface.BOLD);
-        title.setGravity(Gravity.CENTER);
-        root.addView(title, widthWrapContent());
+        TextView icon = label(R.string.standalone_home_logo, 18, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        icon.setTextColor(getColor(R.color.smoke_accent));
+        icon.setBackground(rounded(getColor(R.color.smoke_surface), dp(16), dp(1),
+                getColor(R.color.smoke_border)));
+        header.addView(icon, size(dp(48), dp(48)));
 
-        TextView body = text(R.string.standalone_smoke_body, 15, Typeface.NORMAL);
-        body.setGravity(Gravity.CENTER);
-        body.setLineSpacing(dp(2), 1.0f);
-        LinearLayout.LayoutParams bodyParams = widthWrapContent();
-        bodyParams.topMargin = dp(12);
-        root.addView(body, bodyParams);
+        LinearLayout titleGroup = new LinearLayout(this);
+        titleGroup.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams titleGroupParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        titleGroupParams.leftMargin = dp(14);
+        header.addView(titleGroup, titleGroupParams);
 
-        setContentView(root);
+        TextView title = label(R.string.standalone_smoke_title, 24, Typeface.BOLD);
+        titleGroup.addView(title, matchWidthWrapHeight());
+
+        TextView status = label(R.string.standalone_smoke_status, 13, Typeface.NORMAL);
+        status.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams statusParams = matchWidthWrapHeight();
+        statusParams.topMargin = dp(2);
+        titleGroup.addView(status, statusParams);
+
+        TextView warning = label(R.string.standalone_smoke_body, 14, Typeface.NORMAL);
+        warning.setTextColor(getColor(R.color.smoke_text_muted));
+        warning.setLineSpacing(dp(2), 1.0f);
+        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
+        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
+                dp(1), getColor(R.color.smoke_warning_border)));
+        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
+        warningParams.topMargin = dp(24);
+        root.addView(warning, warningParams);
+
+        TextView search = label(R.string.standalone_search_placeholder, 15, Typeface.NORMAL);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        search.setTextColor(getColor(R.color.smoke_text_muted));
+        search.setPadding(dp(18), 0, dp(18), 0);
+        search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
+                getColor(R.color.smoke_border)));
+        LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
+        searchParams.topMargin = dp(22);
+        root.addView(search, searchParams);
+
+        TextView workspaceLabel = label(R.string.standalone_workspace_title, 13, Typeface.BOLD);
+        workspaceLabel.setAllCaps(true);
+        workspaceLabel.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams workspaceLabelParams = matchWidthWrapHeight();
+        workspaceLabelParams.topMargin = dp(28);
+        root.addView(workspaceLabel, workspaceLabelParams);
+
+        GridLayout workspace = new GridLayout(this);
+        workspace.setColumnCount(2);
+        workspace.setRowCount(2);
+        workspace.setPadding(dp(12), dp(12), dp(12), dp(12));
+        workspace.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
+                getColor(R.color.smoke_border)));
+        LinearLayout.LayoutParams workspaceParams = matchWidthWrapHeight();
+        workspaceParams.topMargin = dp(10);
+        root.addView(workspace, workspaceParams);
+
+        addWorkspaceTile(workspace, R.string.standalone_workspace_tile_widgets);
+        addWorkspaceTile(workspace, R.string.standalone_workspace_tile_shortcuts);
+        addWorkspaceTile(workspace, R.string.standalone_workspace_tile_preview);
+        addWorkspaceTile(workspace, R.string.standalone_workspace_tile_empty);
+
+        LinearLayout dock = new LinearLayout(this);
+        dock.setGravity(Gravity.CENTER);
+        dock.setOrientation(LinearLayout.HORIZONTAL);
+        dock.setPadding(dp(12), dp(12), dp(12), dp(12));
+        dock.setBackground(rounded(getColor(R.color.smoke_surface), dp(28), dp(1),
+                getColor(R.color.smoke_border)));
+        LinearLayout.LayoutParams dockParams = matchWidthWrapHeight();
+        dockParams.topMargin = dp(18);
+        root.addView(dock, dockParams);
+
+        addDockItem(dock, R.string.standalone_dock_phone);
+        addDockItem(dock, R.string.standalone_dock_messages);
+        addDockItem(dock, R.string.standalone_dock_browser);
+        addDockItem(dock, R.string.standalone_dock_camera);
+
+        LinearLayout actions = new LinearLayout(this);
+        actions.setGravity(Gravity.CENTER);
+        actions.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams actionsParams = matchWidthWrapHeight();
+        actionsParams.topMargin = dp(18);
+        root.addView(actions, actionsParams);
+
+        actions.addView(actionButton(R.string.standalone_app_drawer_button),
+                actionButtonParams(false));
+        actions.addView(actionButton(R.string.standalone_settings_button),
+                actionButtonParams(true));
+
+        TextView footer = label(R.string.standalone_smoke_footer, 12, Typeface.NORMAL);
+        footer.setGravity(Gravity.CENTER);
+        footer.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams footerParams = matchWidthWrapHeight();
+        footerParams.topMargin = dp(24);
+        root.addView(footer, footerParams);
+
+        setContentView(scrollView);
     }
 
-    private TextView text(int resId, float textSizeSp, int typefaceStyle) {
+    private TextView label(int resId, float textSizeSp, int typefaceStyle) {
         TextView view = new TextView(this);
         view.setText(resId);
         view.setTextColor(getColor(R.color.smoke_text));
         view.setTextSize(textSizeSp);
         view.setTypeface(Typeface.DEFAULT, typefaceStyle);
-        view.setMaxWidth(dp(420));
         return view;
     }
 
-    private LinearLayout.LayoutParams widthWrapContent() {
+    private void addWorkspaceTile(GridLayout workspace, int labelResId) {
+        LinearLayout tile = new LinearLayout(this);
+        tile.setGravity(Gravity.CENTER);
+        tile.setOrientation(LinearLayout.VERTICAL);
+        tile.setPadding(dp(10), dp(12), dp(10), dp(12));
+        tile.setBackground(rounded(getColor(R.color.smoke_tile_background), dp(18), 0,
+                Color.TRANSPARENT));
+
+        View marker = new View(this);
+        marker.setBackground(rounded(getColor(R.color.smoke_accent_soft), dp(10), 0,
+                Color.TRANSPARENT));
+        tile.addView(marker, size(dp(42), dp(42)));
+
+        TextView label = label(labelResId, 13, Typeface.NORMAL);
+        label.setGravity(Gravity.CENTER);
+        label.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams labelParams = matchWidthWrapHeight();
+        labelParams.topMargin = dp(10);
+        tile.addView(label, labelParams);
+
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.width = 0;
+        params.height = dp(118);
+        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        params.setMargins(dp(6), dp(6), dp(6), dp(6));
+        workspace.addView(tile, params);
+    }
+
+    private void addDockItem(LinearLayout dock, int labelResId) {
+        LinearLayout item = new LinearLayout(this);
+        item.setGravity(Gravity.CENTER);
+        item.setOrientation(LinearLayout.VERTICAL);
+
+        TextView dot = label(R.string.standalone_dock_dot, 18, Typeface.BOLD);
+        dot.setGravity(Gravity.CENTER);
+        dot.setTextColor(getColor(R.color.smoke_accent));
+        dot.setBackground(rounded(getColor(R.color.smoke_tile_background), dp(14), 0,
+                Color.TRANSPARENT));
+        item.addView(dot, size(dp(48), dp(48)));
+
+        TextView label = label(labelResId, 11, Typeface.NORMAL);
+        label.setGravity(Gravity.CENTER);
+        label.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams labelParams = matchWidthWrapHeight();
+        labelParams.topMargin = dp(6);
+        item.addView(label, labelParams);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        dock.addView(item, params);
+    }
+
+    private TextView actionButton(int labelResId) {
+        TextView button = label(labelResId, 14, Typeface.BOLD);
+        button.setGravity(Gravity.CENTER);
+        button.setTextColor(getColor(R.color.smoke_text));
+        button.setPadding(dp(14), 0, dp(14), 0);
+        button.setBackground(rounded(getColor(R.color.smoke_surface), dp(18), dp(1),
+                getColor(R.color.smoke_border)));
+        return button;
+    }
+
+    private LinearLayout.LayoutParams actionButtonParams(boolean hasLeftMargin) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(48), 1f);
+        if (hasLeftMargin) {
+            params.leftMargin = dp(12);
+        }
+        return params;
+    }
+
+    private LinearLayout.LayoutParams matchWidthWrapHeight() {
         return new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private LinearLayout.LayoutParams matchWidth(int height) {
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+    }
+
+    private LinearLayout.LayoutParams size(int width, int height) {
+        return new LinearLayout.LayoutParams(width, height);
+    }
+
+    private FrameLayout.LayoutParams matchParent() {
+        return new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    private GradientDrawable rounded(int color, int radius, int strokeWidth, int strokeColor) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(color);
+        drawable.setCornerRadius(radius);
+        if (strokeWidth > 0) {
+            drawable.setStroke(strokeWidth, strokeColor);
+        }
+        return drawable;
     }
 
     private int dp(float value) {
