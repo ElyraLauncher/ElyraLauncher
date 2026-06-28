@@ -13,9 +13,14 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public final class StandaloneSmokeActivity extends Activity {
-    private boolean mShowingSettings;
+    private static final int SCREEN_HOME = 0;
+    private static final int SCREEN_DRAWER = 1;
+    private static final int SCREEN_SETTINGS = 2;
+
+    private int mCurrentScreen = SCREEN_HOME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,7 @@ public final class StandaloneSmokeActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (mShowingSettings) {
+        if (mCurrentScreen != SCREEN_HOME) {
             showHomeShell();
             return;
         }
@@ -33,7 +38,7 @@ public final class StandaloneSmokeActivity extends Activity {
     }
 
     private void showHomeShell() {
-        mShowingSettings = false;
+        mCurrentScreen = SCREEN_HOME;
         ScrollView scrollView = new ScrollView(this);
         scrollView.setFillViewport(true);
         scrollView.setBackgroundColor(getColor(R.color.smoke_background));
@@ -87,6 +92,8 @@ public final class StandaloneSmokeActivity extends Activity {
         search.setPadding(dp(18), 0, dp(18), 0);
         search.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
                 getColor(R.color.smoke_border)));
+        search.setOnClickListener(view -> Toast.makeText(this, R.string.standalone_search_toast,
+                Toast.LENGTH_SHORT).show());
         LinearLayout.LayoutParams searchParams = matchWidth(dp(52));
         searchParams.topMargin = dp(22);
         root.addView(search, searchParams);
@@ -135,8 +142,9 @@ public final class StandaloneSmokeActivity extends Activity {
         actionsParams.topMargin = dp(18);
         root.addView(actions, actionsParams);
 
-        actions.addView(actionButton(R.string.standalone_app_drawer_button),
-                actionButtonParams(false));
+        TextView drawerButton = actionButton(R.string.standalone_app_drawer_button);
+        drawerButton.setOnClickListener(view -> showAppDrawerShell());
+        actions.addView(drawerButton, actionButtonParams(false));
         TextView settingsButton = actionButton(R.string.standalone_settings_button);
         settingsButton.setOnClickListener(view -> showSettingsShell());
         actions.addView(settingsButton, actionButtonParams(true));
@@ -151,8 +159,9 @@ public final class StandaloneSmokeActivity extends Activity {
         setContentView(scrollView);
     }
 
-    private void showSettingsShell() {
-        mShowingSettings = true;
+
+    private void showAppDrawerShell() {
+        mCurrentScreen = SCREEN_DRAWER;
         ScrollView scrollView = new ScrollView(this);
         scrollView.setFillViewport(true);
         scrollView.setBackgroundColor(getColor(R.color.smoke_background));
@@ -162,30 +171,55 @@ public final class StandaloneSmokeActivity extends Activity {
         root.setPadding(dp(24), dp(32), dp(24), dp(24));
         scrollView.addView(root, matchParent());
 
-        LinearLayout header = new LinearLayout(this);
-        header.setGravity(Gravity.CENTER_VERTICAL);
-        header.setOrientation(LinearLayout.HORIZONTAL);
-        root.addView(header, matchWidthWrapHeight());
+        addPreviewHeader(root, R.string.standalone_app_drawer_back,
+                R.string.standalone_app_drawer_title,
+                R.string.standalone_app_drawer_subtitle);
 
-        TextView backButton = actionButton(R.string.standalone_settings_back);
-        backButton.setOnClickListener(view -> showHomeShell());
-        header.addView(backButton, new LinearLayout.LayoutParams(dp(88), dp(44)));
+        TextView warning = label(R.string.standalone_app_drawer_notice, 14, Typeface.NORMAL);
+        warning.setTextColor(getColor(R.color.smoke_text_muted));
+        warning.setLineSpacing(dp(2), 1.0f);
+        warning.setPadding(dp(16), dp(14), dp(16), dp(14));
+        warning.setBackground(rounded(getColor(R.color.smoke_warning_background), dp(18),
+                dp(1), getColor(R.color.smoke_warning_border)));
+        LinearLayout.LayoutParams warningParams = matchWidthWrapHeight();
+        warningParams.topMargin = dp(24);
+        root.addView(warning, warningParams);
 
-        LinearLayout titleGroup = new LinearLayout(this);
-        titleGroup.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams titleGroupParams = new LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        titleGroupParams.leftMargin = dp(14);
-        header.addView(titleGroup, titleGroupParams);
+        GridLayout apps = new GridLayout(this);
+        apps.setColumnCount(2);
+        apps.setPadding(dp(10), dp(10), dp(10), dp(10));
+        apps.setBackground(rounded(getColor(R.color.smoke_surface), dp(24), dp(1),
+                getColor(R.color.smoke_border)));
+        LinearLayout.LayoutParams appsParams = matchWidthWrapHeight();
+        appsParams.topMargin = dp(16);
+        root.addView(apps, appsParams);
 
-        TextView title = label(R.string.standalone_settings_title, 24, Typeface.BOLD);
-        titleGroup.addView(title, matchWidthWrapHeight());
+        addDrawerApp(apps, R.string.standalone_drawer_phone);
+        addDrawerApp(apps, R.string.standalone_drawer_messages);
+        addDrawerApp(apps, R.string.standalone_drawer_browser);
+        addDrawerApp(apps, R.string.standalone_drawer_camera);
+        addDrawerApp(apps, R.string.standalone_drawer_settings);
+        addDrawerApp(apps, R.string.standalone_drawer_files);
+        addDrawerApp(apps, R.string.standalone_drawer_gallery);
+        addDrawerApp(apps, R.string.standalone_drawer_clock);
 
-        TextView status = label(R.string.standalone_settings_subtitle, 13, Typeface.NORMAL);
-        status.setTextColor(getColor(R.color.smoke_text_muted));
-        LinearLayout.LayoutParams statusParams = matchWidthWrapHeight();
-        statusParams.topMargin = dp(2);
-        titleGroup.addView(status, statusParams);
+        setContentView(scrollView);
+    }
+
+    private void showSettingsShell() {
+        mCurrentScreen = SCREEN_SETTINGS;
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setFillViewport(true);
+        scrollView.setBackgroundColor(getColor(R.color.smoke_background));
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(dp(24), dp(32), dp(24), dp(24));
+        scrollView.addView(root, matchParent());
+
+        addPreviewHeader(root, R.string.standalone_settings_back,
+                R.string.standalone_settings_title,
+                R.string.standalone_settings_subtitle);
 
         TextView warning = label(R.string.standalone_settings_notice, 14, Typeface.NORMAL);
         warning.setTextColor(getColor(R.color.smoke_text_muted));
@@ -220,6 +254,35 @@ public final class StandaloneSmokeActivity extends Activity {
         return view;
     }
 
+
+    private void addPreviewHeader(LinearLayout root, int backResId, int titleResId,
+            int subtitleResId) {
+        LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        root.addView(header, matchWidthWrapHeight());
+
+        TextView backButton = actionButton(backResId);
+        backButton.setOnClickListener(view -> showHomeShell());
+        header.addView(backButton, new LinearLayout.LayoutParams(dp(88), dp(44)));
+
+        LinearLayout titleGroup = new LinearLayout(this);
+        titleGroup.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams titleGroupParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        titleGroupParams.leftMargin = dp(14);
+        header.addView(titleGroup, titleGroupParams);
+
+        TextView title = label(titleResId, 24, Typeface.BOLD);
+        titleGroup.addView(title, matchWidthWrapHeight());
+
+        TextView status = label(subtitleResId, 13, Typeface.NORMAL);
+        status.setTextColor(getColor(R.color.smoke_text_muted));
+        LinearLayout.LayoutParams statusParams = matchWidthWrapHeight();
+        statusParams.topMargin = dp(2);
+        titleGroup.addView(status, statusParams);
+    }
+
     private void addWorkspaceTile(GridLayout workspace, int labelResId) {
         LinearLayout tile = new LinearLayout(this);
         tile.setGravity(Gravity.CENTER);
@@ -252,6 +315,7 @@ public final class StandaloneSmokeActivity extends Activity {
         LinearLayout item = new LinearLayout(this);
         item.setGravity(Gravity.CENTER);
         item.setOrientation(LinearLayout.VERTICAL);
+        item.setOnClickListener(view -> showPreviewToast(labelResId));
 
         TextView dot = label(R.string.standalone_dock_dot, 18, Typeface.BOLD);
         dot.setGravity(Gravity.CENTER);
@@ -270,6 +334,37 @@ public final class StandaloneSmokeActivity extends Activity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         dock.addView(item, params);
+    }
+
+
+    private void addDrawerApp(GridLayout apps, int labelResId) {
+        LinearLayout item = new LinearLayout(this);
+        item.setGravity(Gravity.CENTER_VERTICAL);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setPadding(dp(12), dp(12), dp(12), dp(12));
+        item.setBackground(rounded(getColor(R.color.smoke_tile_background), dp(18), 0,
+                Color.TRANSPARENT));
+
+        TextView icon = label(R.string.standalone_dock_dot, 18, Typeface.BOLD);
+        icon.setGravity(Gravity.CENTER);
+        icon.setTextColor(getColor(R.color.smoke_accent));
+        icon.setBackground(rounded(getColor(R.color.smoke_accent_soft), dp(12), 0,
+                Color.TRANSPARENT));
+        item.addView(icon, size(dp(42), dp(42)));
+
+        TextView label = label(labelResId, 15, Typeface.BOLD);
+        label.setTextColor(getColor(R.color.smoke_text));
+        LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        labelParams.leftMargin = dp(12);
+        item.addView(label, labelParams);
+
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.width = 0;
+        params.height = dp(72);
+        params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+        params.setMargins(dp(6), dp(6), dp(6), dp(6));
+        apps.addView(item, params);
     }
 
     private void addSettingsSection(LinearLayout root, int titleResId, int bodyResId) {
@@ -340,6 +435,12 @@ public final class StandaloneSmokeActivity extends Activity {
             drawable.setStroke(strokeWidth, strokeColor);
         }
         return drawable;
+    }
+
+
+    private void showPreviewToast(int labelResId) {
+        Toast.makeText(this, getString(R.string.standalone_preview_toast,
+                getString(labelResId)), Toast.LENGTH_SHORT).show();
     }
 
     private int dp(float value) {
