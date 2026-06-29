@@ -19,7 +19,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.launcher3.R;
 
@@ -49,6 +52,7 @@ public final class ElyraSettingsHeroController extends Preference {
     private int mDescriptionIndex = 0;
     private TextView mDescriptionView;
     private boolean mRotating = false;
+    private RecyclerView mRecyclerView;
 
     private final Runnable mRotateRunnable = new Runnable() {
         @Override
@@ -79,14 +83,19 @@ public final class ElyraSettingsHeroController extends Preference {
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
+        // Capture the host RecyclerView for category scroll.
+        if (holder.itemView.getParent() instanceof RecyclerView) {
+            mRecyclerView = (RecyclerView) holder.itemView.getParent();
+        }
+
         mDescriptionView = (TextView) holder.findViewById(R.id.elyra_hero_description);
         if (mDescriptionView != null) {
             mDescriptionView.setText(DESCRIPTIONS[mDescriptionIndex]);
         }
 
         // Wire quick actions to relevant settings destinations.
-        wireAction(holder, R.id.elyra_action_weather,      () -> openCategory("elyra_folder_category"));
-        wireAction(holder, R.id.elyra_action_notification, () -> openCategory("elyra_appearance_category"));
+        wireAction(holder, R.id.elyra_action_weather,      () -> openCategory("elyra_widget_category"));
+        wireAction(holder, R.id.elyra_action_notification, () -> openCategory("elyra_notification_category"));
         wireAction(holder, R.id.elyra_action_location,     () -> openCategory("elyra_home_category"));
 
         startRotation();
@@ -111,10 +120,37 @@ public final class ElyraSettingsHeroController extends Preference {
         if (v != null) v.setOnClickListener(view -> action.run());
     }
 
-    /** Scrolls the preference list to the given category key (best-effort). */
+    /**
+     * Scrolls the settings RecyclerView to the preference with the given key.
+     * Uses a linear traversal of the preference tree to find the adapter position.
+     */
     private void openCategory(String key) {
-        // The host preference screen handles navigation via the normal RecyclerView scrolling.
-        // For now this is a no-op anchor — each quick action is visually distinct and routed
-        // to the correct section when deep-link navigation is available.
+        if (mRecyclerView == null) return;
+        PreferenceScreen screen = getPreferenceManager().getPreferenceScreen();
+        if (screen == null) return;
+
+        int[] counter = {0};
+        int position = findPosition(screen, key, counter);
+        if (position >= 0) {
+            mRecyclerView.smoothScrollToPosition(position);
+        }
+    }
+
+    /**
+     * Depth-first traversal of the preference tree; returns the flattened adapter position
+     * of the preference matching {@code key}, or -1 if not found.
+     */
+    private int findPosition(PreferenceGroup group, String key, int[] counter) {
+        for (int i = 0; i < group.getPreferenceCount(); i++) {
+            Preference pref = group.getPreference(i);
+            if (!pref.isVisible()) continue;
+            if (key.equals(pref.getKey())) return counter[0];
+            counter[0]++;
+            if (pref instanceof PreferenceGroup) {
+                int found = findPosition((PreferenceGroup) pref, key, counter);
+                if (found >= 0) return found;
+            }
+        }
+        return -1;
     }
 }

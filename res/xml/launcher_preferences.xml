@@ -76,6 +76,32 @@
 
     </PreferenceCategory>
 
+    <!-- Elyra: Dock -->
+    <PreferenceCategory
+        android:key="elyra_dock_category"
+        android:title="@string/elyra_dock_category">
+
+        <Preference
+            android:key="elyra_dock_surface"
+            android:title="@string/elyra_dock_surface_title"
+            android:summary="@string/elyra_dock_surface_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Pencarian -->
+    <PreferenceCategory
+        android:key="elyra_search_category"
+        android:title="@string/elyra_search_category">
+
+        <Preference
+            android:key="elyra_search_trigger_pref"
+            android:title="@string/elyra_search_trigger_title"
+            android:summary="@string/elyra_search_trigger_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
     <!-- Elyra: Folder style -->
     <PreferenceCategory
         android:key="elyra_folder_category"
@@ -92,6 +118,45 @@
 
     </PreferenceCategory>
 
+    <!-- Elyra: Widget Cerdas -->
+    <PreferenceCategory
+        android:key="elyra_widget_category"
+        android:title="@string/elyra_widget_category">
+
+        <Preference
+            android:key="elyra_weather_card_pref"
+            android:title="@string/elyra_weather_card_title"
+            android:summary="@string/elyra_weather_card_summary"
+            android:selectable="false" />
+
+        <Preference
+            android:key="elyra_smart_region_pref"
+            android:title="@string/elyra_smart_region_title"
+            android:summary="@string/elyra_smart_region_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Notifikasi -->
+    <PreferenceCategory
+        android:key="elyra_notification_category"
+        android:title="@string/elyra_notification_category">
+
+        <Preference
+            android:key="elyra_notification_takeover_pref"
+            android:title="@string/elyra_notification_takeover_title"
+            android:summary="@string/elyra_notification_takeover_summary"
+            android:selectable="false" />
+
+        <Preference
+            android:key="elyra_charging_takeover_pref"
+            android:title="@string/elyra_charging_takeover_title"
+            android:summary="@string/elyra_charging_takeover_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Tampilan (appearance) -->
     <PreferenceCategory
         android:key="elyra_appearance_category"
         android:title="@string/elyra_appearance_category">

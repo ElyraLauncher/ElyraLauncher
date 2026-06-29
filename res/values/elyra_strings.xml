@@ -43,6 +43,34 @@
     <string name="elyra_folder_style_wide">Melebar</string>
     <string name="elyra_folder_style_tall">Tinggi</string>
 
+    <!-- Dock category -->
+    <string name="elyra_dock_category">Dock</string>
+    <string name="elyra_dock_category_summary">Gaya, latar, dan jumlah ikon</string>
+    <string name="elyra_dock_surface_title">Latar Dock</string>
+    <string name="elyra_dock_surface_summary">Gaya transparan mengambang</string>
+
+    <!-- Pencarian category -->
+    <string name="elyra_search_category">Pencarian</string>
+    <string name="elyra_search_category_summary">Pencarian universal dan saran</string>
+    <string name="elyra_search_trigger_title">Pemicu Pencarian</string>
+    <string name="elyra_search_trigger_summary">Tampilkan area pencarian di atas dock</string>
+
+    <!-- Widget Cerdas category -->
+    <string name="elyra_widget_category">Widget Cerdas</string>
+    <string name="elyra_widget_category_summary">Cuaca, waktu, dan rekomendasi</string>
+    <string name="elyra_weather_card_title">Kartu Cuaca</string>
+    <string name="elyra_weather_card_summary">Tampilkan cuaca dan waktu di sudut kanan atas</string>
+    <string name="elyra_smart_region_title">Area Sapaan Cerdas</string>
+    <string name="elyra_smart_region_summary">Sapaan, identitas Elyra, dan subtitle berputar</string>
+
+    <!-- Notifikasi category -->
+    <string name="elyra_notification_category">Notifikasi</string>
+    <string name="elyra_notification_category_summary">Lencana, titik, dan saran</string>
+    <string name="elyra_notification_takeover_title">Ambil Alih Notifikasi</string>
+    <string name="elyra_notification_takeover_summary">Ganti sapaan dengan notifikasi terbaru</string>
+    <string name="elyra_charging_takeover_title">Ambil Alih Pengisian Daya</string>
+    <string name="elyra_charging_takeover_summary">Tampilkan info baterai saat mengisi daya</string>
+
     <!-- Settings hero card strings -->
     <string name="elyra_hero_title">Pusat Elyra</string>
     <string name="elyra_hero_info_pill">Info dinamis</string>
