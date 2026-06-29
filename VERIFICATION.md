@@ -23,19 +23,19 @@ find src quickstep -name "QuickstepLauncher.*" -o -name "RecentsView.*" -o -name
 
 ## GitHub Actions Checks
 
-GitHub Actions should run architecture guards, source hygiene checks, documentation checks, and optional Gradle smoke checks. These workflows protect repository structure; they do not replace ROM validation.
+GitHub Actions should run architecture guards, source hygiene checks, documentation checks, and Gradle APK builds. These workflows protect repository structure; they do not replace ROM validation.
 
-## Gradle Smoke Checks
+## Gradle APK Build
 
-If Gradle files are present, the standalone smoke APK may be checked with:
+If Gradle files are present, build the real installable launcher APK with:
 
 ```bash
-./gradlew --version
-./gradlew tasks
-./gradlew --no-daemon :app:assembleDebug
+./gradlew assembleDebug
 ```
 
-The smoke APK can catch basic resource, manifest, and UI packaging problems. It cannot validate real Recents, Quickstep gestures, privileged launcher behavior, hidden platform APIs, or system task management.
+Output: `app/build/outputs/apk/debug/app-debug.apk`
+
+The Gradle APK can catch basic resource, manifest, and packaging problems. It cannot validate real Recents, Quickstep gestures, privileged launcher behavior, hidden platform APIs, or system task management.
 
 ## ROM Build Validation
 

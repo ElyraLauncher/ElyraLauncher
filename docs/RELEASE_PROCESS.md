@@ -6,7 +6,7 @@
 - Review protected Launcher3 and Quickstep source paths.
 - Run CI and relevant local checks.
 - Confirm ROM validation status for behavior changes.
-- Confirm docs do not overstate standalone smoke APK capability.
+- Confirm docs describe the Gradle APK as a real installable launcher APK, not as ROM validation.
 
 ## Tag Flow
 
@@ -14,11 +14,11 @@ Use signed, reviewable tags when the project is ready for tagged snapshots. Tags
 
 ## Release Notes
 
-Release notes should separate ROM/system changes, standalone smoke APK artifacts, documentation changes, and known limitations.
+Release notes should separate ROM/system changes, Gradle APK build artifacts, documentation changes, and known limitations.
 
-## Smoke APK Limitation
+## Gradle APK Limitation
 
-A smoke APK can be attached only as a convenience artifact for basic UI inspection. It must not be described as an unsigned production release or as proof of real Quickstep or Recents behavior.
+A Gradle debug APK can be attached as a convenience artifact for device installation and basic launcher testing. It must not be described as proof of real Quickstep or Recents behavior. ROM/ElyraOS integration is future work.
 
 ## ROM Integration Requirement
 

@@ -25,7 +25,7 @@ jobs:
 
           ROM/system validation target: `m ElyraLauncherQuickStep`
 
-          Standalone APK artifacts, when attached, are smoke-test outputs only. They are not production releases and do not validate real Quickstep, Recents, privileged launcher behavior, hidden APIs, or system task management.
+          Gradle APK builds do not validate real Quickstep, Recents, privileged launcher behavior, hidden APIs, or system task management. ROM validation is required for those paths.
 
           Review the changelog and merged pull requests for the full change list.
           EOF

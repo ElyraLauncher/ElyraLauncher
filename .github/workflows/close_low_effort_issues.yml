@@ -21,7 +21,7 @@ jobs:
             const body = issue.body || "";
             const normalized = body.replace(/<!--.*?-->/gs, "").trim();
             const hasSteps = /reproduction|steps|1\./i.test(normalized);
-            const hasBuild = /ROM\/system build|Standalone smoke APK|build type/i.test(normalized);
+            const hasBuild = /ROM\/system build|Gradle debug APK|build type/i.test(normalized);
             if (normalized.length >= 300 && hasSteps && hasBuild) {
               return;
             }
@@ -35,5 +35,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              body: "Thanks for the report. Please add the missing build type, device/ROM details, reproduction steps, expected result, actual result, and logs where available. Quickstep or Recents reports need ROM build context because standalone smoke APKs cannot validate those paths."
+              body: "Thanks for the report. Please add the missing build type, device/ROM details, reproduction steps, expected result, actual result, and logs where available. Quickstep or Recents reports need ROM build context because Gradle APK builds cannot validate those paths."
             });

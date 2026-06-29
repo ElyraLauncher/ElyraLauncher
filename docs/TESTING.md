@@ -30,16 +30,16 @@ ROM validation is required for real Quickstep and Recents changes.
 
 ## CI Checks
 
-CI should guard architecture, source hygiene, documentation wording, and optional Gradle smoke behavior. CI does not replace device or ROM validation for platform features.
+CI should guard architecture, source hygiene, documentation wording, and Gradle APK build correctness. CI does not replace device or ROM validation for platform features.
 
-## Smoke APK Checks
+## Gradle APK Build Checks
 
-If Gradle is available, use the standalone APK only for basic UI and resource smoke testing:
+If Gradle is available, build the real installable launcher APK:
 
 ```bash
 ./gradlew --version
 ./gradlew tasks
-./gradlew --no-daemon :app:assembleDebug
+./gradlew assembleDebug
 ```
 
-Do not use the smoke APK as evidence that real Recents or Quickstep works.
+Do not use the Gradle APK as evidence that real Recents or Quickstep works. Normal APK builds do not validate privileged Quickstep or Recents system behavior.

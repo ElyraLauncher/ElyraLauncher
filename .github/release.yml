@@ -7,9 +7,9 @@ changelog:
     - title: ROM Build
       labels:
         - build:rom
-    - title: Standalone Smoke APK
+    - title: Gradle APK Build
       labels:
-        - build:standalone-smoke
+        - build:gradle-apk
     - title: Documentation
       labels:
         - area:docs
