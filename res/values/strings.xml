@@ -552,4 +552,13 @@
     <!-- Content description for install app icon -->
     <string name="ps_add_button_content_description">Install apps to Private Space</string>
     <string name="ps_app_content_description">Add files and more to Private Space</string>
+
+    <!-- Elyra appearance settings -->
+    <string name="elyra_appearance_category">Elyra Appearance</string>
+    <string name="elyra_about_title">Elyra Launcher</string>
+    <string name="elyra_about_summary">UI foundation — visual tokens, dock surface, folder style</string>
+    <string name="elyra_floating_dock_title">Floating dock surface</string>
+    <string name="elyra_floating_dock_summary">Coming soon</string>
+    <string name="elyra_drawer_blur_title">App drawer blur</string>
+    <string name="elyra_drawer_blur_summary">Coming soon</string>
 </resources>
