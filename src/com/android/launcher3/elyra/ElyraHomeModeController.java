@@ -13,6 +13,8 @@ package com.android.launcher3.elyra;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.android.launcher3.SessionCommitReceiver;
+
 /**
  * Controls the Elyra home mode preference.
  *
@@ -51,5 +53,22 @@ public final class ElyraHomeModeController {
                 .getSharedPreferences(com.android.launcher3.LauncherFiles.SHARED_PREFERENCES_KEY,
                         Context.MODE_PRIVATE);
         return prefs.getString(PREF_KEY, MODE_DRAWER);
+    }
+
+    /**
+     * Called when the user selects a new home mode from settings.
+     *
+     * <p>When switching to {@link #MODE_HOME_ONLY}, automatically enables
+     * "add new apps to home screen" ({@link SessionCommitReceiver#ADD_ICON_PREFERENCE_KEY})
+     * so future installs appear directly on home pages instead of only in the drawer.</p>
+     */
+    public static void onModeChanged(Context context, String newMode) {
+        if (!MODE_HOME_ONLY.equals(newMode)) return;
+        context.getApplicationContext()
+                .getSharedPreferences(com.android.launcher3.LauncherFiles.SHARED_PREFERENCES_KEY,
+                        Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(SessionCommitReceiver.ADD_ICON_PREFERENCE_KEY, true)
+                .apply();
     }
 }

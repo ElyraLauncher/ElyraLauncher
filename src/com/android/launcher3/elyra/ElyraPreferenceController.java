@@ -97,6 +97,7 @@ public final class ElyraPreferenceController {
         updateListSummary(pref);
         pref.setOnPreferenceChangeListener((p, newValue) -> {
             updateListSummary((ListPreference) p, (String) newValue);
+            ElyraHomeModeController.onModeChanged(ctx, (String) newValue);
             return true;
         });
     }

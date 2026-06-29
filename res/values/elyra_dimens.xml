@@ -35,4 +35,8 @@
     <dimen name="elyra_folder_style_corner_radius_large">28dp</dimen>
     <dimen name="elyra_folder_style_corner_radius_wide">20dp</dimen>
     <dimen name="elyra_folder_style_corner_radius_tall">20dp</dimen>
+
+    <!-- Folder style dimensions (informational; actual size derived from numFolderRows/Cols × cell size) -->
+    <dimen name="elyra_folder_preview_padding">12dp</dimen>
+    <dimen name="elyra_folder_preview_icon_gap">6dp</dimen>
 </resources>
