@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Elyra appearance settings screen -->
+    <string name="elyra_appearance_category">Elyra Appearance</string>
+    <string name="elyra_about_title">Elyra Launcher</string>
+    <string name="elyra_about_summary">UI foundation — dock surface, folder style, drawer surface</string>
+    <string name="elyra_floating_dock_title">Floating dock surface</string>
+    <string name="elyra_floating_dock_summary">Coming soon</string>
+    <string name="elyra_drawer_blur_title">App drawer blur</string>
+    <string name="elyra_drawer_blur_summary">Coming soon</string>
+</resources>

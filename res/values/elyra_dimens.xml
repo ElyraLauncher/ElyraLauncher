@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hotseat dock surface -->
+    <dimen name="elyra_dock_corner_radius">28dp</dimen>
+
+    <!-- Folder surface -->
+    <dimen name="elyra_folder_corner_radius">24dp</dimen>
+
+    <!-- All-apps search bar -->
+    <dimen name="elyra_search_corner_radius">16dp</dimen>
+
+    <!-- All-apps drawer top handle -->
+    <dimen name="elyra_drawer_top_corner_radius">28dp</dimen>
+</resources>

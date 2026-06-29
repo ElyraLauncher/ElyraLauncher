@@ -6,8 +6,10 @@
     <!-- Folder surface — dark -->
     <color name="elyra_folder_bg">#201C2E</color>
 
-    <!-- All-apps drawer surface — dark -->
+    <!-- All-apps drawer scrim — dark -->
     <color name="elyra_drawer_scrim">#1A1726</color>
+
+    <!-- Search bar — dark -->
     <color name="elyra_search_bg">#28243A</color>
     <color name="elyra_search_stroke">#3F3A55</color>
 </resources>
