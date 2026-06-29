@@ -50,4 +50,36 @@
         launcher:logIdOn="615"
         launcher:logIdOff="616" />
 
+
+    <PreferenceCategory
+        android:key="elyra_appearance_category"
+        android:title="@string/elyra_appearance_category">
+
+        <!-- Informational entry — always visible and functional -->
+        <Preference
+            android:key="elyra_about"
+            android:title="@string/elyra_about_title"
+            android:summary="@string/elyra_about_summary"
+            android:selectable="false" />
+
+        <!-- Hidden until floating dock toggle is implemented -->
+        <SwitchPreference
+            android:key="elyra_floating_dock"
+            android:title="@string/elyra_floating_dock_title"
+            android:summary="@string/elyra_floating_dock_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+        <!-- Hidden until drawer blur is implemented -->
+        <SwitchPreference
+            android:key="elyra_drawer_blur"
+            android:title="@string/elyra_drawer_blur_title"
+            android:summary="@string/elyra_drawer_blur_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>
