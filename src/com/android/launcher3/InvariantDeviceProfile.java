@@ -453,6 +453,9 @@ public class InvariantDeviceProfile {
         // Supported overrides: numRows, numColumns, iconSize
         applyPartnerDeviceProfileOverrides(context, metrics);
 
+        // Elyra: apply folder style grid override before DeviceProfiles are built
+        com.android.launcher3.elyra.ElyraFolderStyleController.patchIDP(context, this);
+
         final List<DeviceProfile> localSupportedProfiles = new ArrayList<>();
         defaultWallpaperSize = new Point(displayInfo.currentSize);
         SparseArray<DotRenderer> dotRendererCache = new SparseArray<>();

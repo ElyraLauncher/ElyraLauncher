@@ -161,6 +161,186 @@
     </grid-option>
 
     <grid-option
+        launcher:name="4_by_5"
+        launcher:numRows="5"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="4"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_4_by_5.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_4x4"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Normal Phone"
+            launcher:minWidthDps="275"
+            launcher:minHeightDps="500"
+            launcher:iconImageSize="48"
+            launcher:iconTextSize="13.0"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Large Phone"
+            launcher:minWidthDps="359"
+            launcher:minHeightDps="620"
+            launcher:iconImageSize="52"
+            launcher:iconTextSize="13.5"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="4_by_6"
+        launcher:numRows="6"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="4"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_4_by_6.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_4x4"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Normal Phone"
+            launcher:minWidthDps="275"
+            launcher:minHeightDps="580"
+            launcher:iconImageSize="46"
+            launcher:iconTextSize="12.5"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Large Phone"
+            launcher:minWidthDps="359"
+            launcher:minHeightDps="700"
+            launcher:iconImageSize="50"
+            launcher:iconTextSize="13.0"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="5_by_6"
+        launcher:numRows="6"
+        launcher:numColumns="5"
+        launcher:numFolderRows="4"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="5"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_5_by_6.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_5x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Large Phone"
+            launcher:minWidthDps="360"
+            launcher:minHeightDps="680"
+            launcher:iconImageSize="52"
+            launcher:iconTextSize="13.5"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Extra Large Phone"
+            launcher:minWidthDps="406"
+            launcher:minHeightDps="760"
+            launcher:iconImageSize="54"
+            launcher:iconTextSize="14.0"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="5_by_7"
+        launcher:numRows="7"
+        launcher:numColumns="5"
+        launcher:numFolderRows="4"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="5"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_5_by_7.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_5x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Extra Large Phone"
+            launcher:minWidthDps="390"
+            launcher:minHeightDps="800"
+            launcher:iconImageSize="50"
+            launcher:iconTextSize="13.0"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="6_by_6"
+        launcher:numRows="6"
+        launcher:numColumns="6"
+        launcher:numFolderRows="4"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="5"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_6_by_6.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_5x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Extra Large Phone"
+            launcher:minWidthDps="410"
+            launcher:minHeightDps="780"
+            launcher:iconImageSize="48"
+            launcher:iconTextSize="12.5"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="6_by_7"
+        launcher:numRows="7"
+        launcher:numColumns="6"
+        launcher:numFolderRows="4"
+        launcher:numFolderColumns="4"
+        launcher:numHotseatIcons="5"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_6_by_7.db"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_5x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Extra Large Phone"
+            launcher:minWidthDps="410"
+            launcher:minHeightDps="860"
+            launcher:iconImageSize="46"
+            launcher:iconTextSize="12.0"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+    </grid-option>
+
+    <grid-option
         launcher:name="6_by_5"
         launcher:numRows="5"
         launcher:numColumns="6"

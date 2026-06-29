@@ -10,4 +10,7 @@
     <bool name="elyra_feature_all_apps_surface">true</bool>
     <bool name="elyra_feature_search_surface">true</bool>
     <bool name="elyra_feature_appearance_settings">true</bool>
+    <bool name="elyra_feature_home_mode_options">true</bool>
+    <bool name="elyra_feature_grid_presets">true</bool>
+    <bool name="elyra_feature_folder_style_options">true</bool>
 </resources>

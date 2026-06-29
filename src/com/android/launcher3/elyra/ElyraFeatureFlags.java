@@ -32,4 +32,13 @@ public final class ElyraFeatureFlags {
 
     /** Elyra appearance section in launcher settings. */
     public static final boolean APPEARANCE_SETTINGS = true;
+
+    /** Home mode toggle: App Drawer vs All-Apps-on-Home. */
+    public static final boolean HOME_MODE_OPTIONS = true;
+
+    /** Grid preset list for home screen column/row selection. */
+    public static final boolean GRID_PRESETS = true;
+
+    /** Folder style options: Standard, Large, Wide, Tall. */
+    public static final boolean FOLDER_STYLE_OPTIONS = true;
 }

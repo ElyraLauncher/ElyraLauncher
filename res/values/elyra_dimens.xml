@@ -11,4 +11,10 @@
 
     <!-- All-apps drawer top handle -->
     <dimen name="elyra_drawer_top_corner_radius">28dp</dimen>
+
+    <!-- Folder style: grid counts are stored as ints, but corner radii live here -->
+    <dimen name="elyra_folder_style_corner_radius_standard">24dp</dimen>
+    <dimen name="elyra_folder_style_corner_radius_large">28dp</dimen>
+    <dimen name="elyra_folder_style_corner_radius_wide">20dp</dimen>
+    <dimen name="elyra_folder_style_corner_radius_tall">20dp</dimen>
 </resources>

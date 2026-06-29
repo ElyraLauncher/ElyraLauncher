@@ -51,6 +51,47 @@
         launcher:logIdOff="616" />
 
 
+    <!-- Elyra: Layar Utama — home mode and grid -->
+    <PreferenceCategory
+        android:key="elyra_home_category"
+        android:title="@string/elyra_home_category">
+
+        <ListPreference
+            android:key="elyra_home_mode"
+            android:title="@string/elyra_home_mode_title"
+            android:summary="@string/elyra_home_mode_summary"
+            android:entries="@array/elyra_home_mode_entries"
+            android:entryValues="@array/elyra_home_mode_values"
+            android:defaultValue="drawer"
+            android:persistent="true" />
+
+        <ListPreference
+            android:key="elyra_grid_preset"
+            android:title="@string/elyra_grid_preset_title"
+            android:summary="@string/elyra_grid_preset_summary"
+            android:entries="@array/elyra_grid_preset_entries"
+            android:entryValues="@array/elyra_grid_preset_values"
+            android:defaultValue="5_by_5"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Folder style -->
+    <PreferenceCategory
+        android:key="elyra_folder_category"
+        android:title="@string/elyra_folder_category">
+
+        <ListPreference
+            android:key="elyra_folder_style"
+            android:title="@string/elyra_folder_style_title"
+            android:summary="@string/elyra_folder_style_summary"
+            android:entries="@array/elyra_folder_style_entries"
+            android:entryValues="@array/elyra_folder_style_values"
+            android:defaultValue="standard"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="elyra_appearance_category"
         android:title="@string/elyra_appearance_category">

@@ -8,4 +8,82 @@
     <string name="elyra_floating_dock_summary">Coming soon</string>
     <string name="elyra_drawer_blur_title">App drawer blur</string>
     <string name="elyra_drawer_blur_summary">Coming soon</string>
+
+    <!-- Layar Utama category -->
+    <string name="elyra_home_category">Layar Utama</string>
+    <string name="elyra_home_category_summary">Tata letak, grid, dan halaman</string>
+
+    <!-- Home mode preference -->
+    <string name="elyra_home_mode_title">Mode Layar Utama</string>
+    <string name="elyra_home_mode_summary">Pilih cara aplikasi diakses</string>
+    <string name="elyra_home_mode_drawer">Dengan Laci Aplikasi</string>
+    <string name="elyra_home_mode_home_only">Semua Aplikasi di Layar Utama</string>
+
+    <!-- Grid preset preference -->
+    <string name="elyra_grid_preset_title">Grid Layar Utama</string>
+    <string name="elyra_grid_preset_summary">Jumlah kolom dan baris ikon</string>
+    <string name="elyra_grid_4x4">4 × 4</string>
+    <string name="elyra_grid_4x5">4 × 5</string>
+    <string name="elyra_grid_4x6">4 × 6</string>
+    <string name="elyra_grid_5x5">5 × 5</string>
+    <string name="elyra_grid_5x6">5 × 6</string>
+    <string name="elyra_grid_5x7">5 × 7</string>
+    <string name="elyra_grid_6x6">6 × 6</string>
+    <string name="elyra_grid_6x7">6 × 7</string>
+
+    <!-- Folder category -->
+    <string name="elyra_folder_category">Folder</string>
+    <string name="elyra_folder_category_summary">Gaya folder dan pratinjau</string>
+
+    <!-- Folder style preference -->
+    <string name="elyra_folder_style_title">Gaya Folder</string>
+    <string name="elyra_folder_style_summary">Ukuran dan tata letak folder saat dibuka</string>
+    <string name="elyra_folder_style_standard">Standar</string>
+    <string name="elyra_folder_style_large">Besar</string>
+    <string name="elyra_folder_style_wide">Melebar</string>
+    <string name="elyra_folder_style_tall">Tinggi</string>
+
+    <!-- String arrays for ListPreferences -->
+    <string-array name="elyra_home_mode_entries">
+        <item>@string/elyra_home_mode_drawer</item>
+        <item>@string/elyra_home_mode_home_only</item>
+    </string-array>
+    <string-array name="elyra_home_mode_values">
+        <item>drawer</item>
+        <item>home_only</item>
+    </string-array>
+
+    <string-array name="elyra_grid_preset_entries">
+        <item>@string/elyra_grid_4x4</item>
+        <item>@string/elyra_grid_4x5</item>
+        <item>@string/elyra_grid_4x6</item>
+        <item>@string/elyra_grid_5x5</item>
+        <item>@string/elyra_grid_5x6</item>
+        <item>@string/elyra_grid_5x7</item>
+        <item>@string/elyra_grid_6x6</item>
+        <item>@string/elyra_grid_6x7</item>
+    </string-array>
+    <string-array name="elyra_grid_preset_values">
+        <item>4_by_4</item>
+        <item>4_by_5</item>
+        <item>4_by_6</item>
+        <item>5_by_5</item>
+        <item>5_by_6</item>
+        <item>5_by_7</item>
+        <item>6_by_6</item>
+        <item>6_by_7</item>
+    </string-array>
+
+    <string-array name="elyra_folder_style_entries">
+        <item>@string/elyra_folder_style_standard</item>
+        <item>@string/elyra_folder_style_large</item>
+        <item>@string/elyra_folder_style_wide</item>
+        <item>@string/elyra_folder_style_tall</item>
+    </string-array>
+    <string-array name="elyra_folder_style_values">
+        <item>standard</item>
+        <item>large</item>
+        <item>wide</item>
+        <item>tall</item>
+    </string-array>
 </resources>
