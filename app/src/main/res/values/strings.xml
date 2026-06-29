@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ElyraLauncher</string>
-    <string name="derived_app_name">ElyraLauncher</string>
     <string name="standalone_home_logo">EL</string>
     <string name="standalone_smoke_title">ElyraLauncher</string>
     <string name="standalone_smoke_status">Standalone smoke APK</string>

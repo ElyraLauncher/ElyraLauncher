@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ElyraLauncher"
 include(":app")
+include(":modules:launcher-flags-compat")
+include(":modules:animationlib")
+include(":modules:iconloaderlib")

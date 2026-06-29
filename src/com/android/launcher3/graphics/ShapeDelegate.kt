@@ -151,12 +151,10 @@ interface ShapeDelegate {
 
     /** Generic shape delegate with pathString in bounds [0, 0, 100, 100] */
     data class GenericPathShape(private val pathString: String) : ShapeDelegate {
-        private val poly =
-            RoundedPolygon(
-                features = SvgPathParser.parseFeatures(pathString),
-                centerX = 50f,
-                centerY = 50f,
-            )
+        // SvgPathParser.parseFeatures and the RoundedPolygon(features,…) constructor are
+        // AOSP-internal; not present in any released androidx.graphics:graphics-shapes Maven
+        // artifact.  Fall back to a rounded rect for the Gradle APK build milestone.
+        private val poly = createRoundedRect(0f, 0f, 100f, 100f, 25f)
         // This ensures that a valid morph is possible from the provided path
         private val basePath =
             Path().apply {

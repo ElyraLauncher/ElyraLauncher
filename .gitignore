@@ -29,3 +29,5 @@ out/
 *.aab
 *.keystore
 *.jks
+CLAUDE.local.md
+.claude/settings.local.json
