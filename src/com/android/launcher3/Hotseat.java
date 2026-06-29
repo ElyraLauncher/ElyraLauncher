@@ -43,6 +43,7 @@ import com.android.launcher3.util.MultiPropertyFactory;
 import com.android.launcher3.util.MultiPropertyFactory.MultiProperty;
 import com.android.launcher3.util.MultiTranslateDelegate;
 import com.android.launcher3.util.MultiValueAlpha;
+import com.android.launcher3.elyra.ElyraHotseatController;
 import com.android.launcher3.views.ActivityContext;
 
 import java.io.PrintWriter;
@@ -111,6 +112,7 @@ public class Hotseat extends CellLayout implements Insettable {
         mIconsTranslationXFactory = new MultiPropertyFactory<>(getShortcutsAndWidgets(),
                 VIEW_TRANSLATE_X, ICONS_TRANSLATION_X_CHANNELS_COUNT, Float::sum);
         mQsbAlphaChannels = new MultiValueAlpha(mQsb, ALPHA_CHANNEL_CHANNELS_COUNT);
+        ElyraHotseatController.apply(this);
     }
 
     /** Provides translation X for hotseat icons for the channel. */

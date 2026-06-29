@@ -23,5 +23,4 @@
     android:importantForAccessibility="no"
     android:clickable="false"
     android:longClickable="false"
-    android:background="@drawable/elyra_hotseat_bg"
     launcher:containerType="hotseat" />
