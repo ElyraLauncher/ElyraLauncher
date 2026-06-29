@@ -41,4 +41,22 @@ public final class ElyraFeatureFlags {
 
     /** Folder style options: Standard, Large, Wide, Tall. */
     public static final boolean FOLDER_STYLE_OPTIONS = true;
+
+    /** "Pusat Elyra" hero card at the top of the settings screen. */
+    public static final boolean SETTINGS_HERO = true;
+
+    /** Smart region overlay on the home screen (greeting, identity, subtitle). */
+    public static final boolean SMART_REGION = true;
+
+    /** Charging takeover — battery broadcast replaces greeting with charge info. */
+    public static final boolean CHARGING_TAKEOVER = true;
+
+    /** Notification takeover architecture — UI ready, listener integration pending. */
+    public static final boolean NOTIFICATION_TAKEOVER = false;
+
+    /** Lower search trigger pill above the hotseat. */
+    public static final boolean SEARCH_TRIGGER = true;
+
+    /** Weather / time card in the upper-right of the home screen (placeholder data). */
+    public static final boolean WEATHER_TIME_CARD = true;
 }

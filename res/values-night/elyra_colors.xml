@@ -12,4 +12,13 @@
     <!-- Search bar — dark -->
     <color name="elyra_search_bg">#28243A</color>
     <color name="elyra_search_stroke">#3F3A55</color>
+
+    <!-- Hero card — same in dark/light (always dark card) -->
+    <color name="elyra_hero_bg_start">#1A1433</color>
+    <color name="elyra_hero_bg_end">#2D1B5E</color>
+
+    <!-- Smart region — dark (same, used in dark home screen context) -->
+    <color name="elyra_smart_region_bg">#CC0D0B1E</color>
+    <color name="elyra_charging_bg">#CC0A1226</color>
+    <color name="elyra_charging_glow">#667C5CBF</color>
 </resources>

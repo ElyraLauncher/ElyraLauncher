@@ -1413,6 +1413,8 @@ public class Launcher extends StatefulActivity<LauncherState>
         mWorkspace.getPageIndicator().setShouldAutoHide(true);
         mWorkspace.getPageIndicator().setPaintColor(Themes.getAttrBoolean(
                 this, R.attr.isWorkspaceDarkText) ? Color.BLACK : Color.WHITE);
+
+        com.android.launcher3.elyra.ElyraSmartSpaceController.attachTo(this);
     }
 
     /**

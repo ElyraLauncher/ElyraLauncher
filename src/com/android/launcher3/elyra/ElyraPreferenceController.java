@@ -38,11 +38,20 @@ public final class ElyraPreferenceController {
 
     /**
      * Configures Elyra preference entries on the given screen.
+     * Injects the hero card at the top when {@link ElyraFeatureFlags#SETTINGS_HERO} is enabled.
      * Hides the entire appearance category if {@link ElyraFeatureFlags#APPEARANCE_SETTINGS} is
      * disabled. Hides each feature section individually if its flag is off.
      */
     public static void configure(PreferenceGroup screen) {
         final Context ctx = screen.getContext();
+
+        // Inject Pusat Elyra hero card as the first item.
+        if (ElyraFeatureFlags.SETTINGS_HERO) {
+            ElyraSettingsHeroController hero = new ElyraSettingsHeroController(ctx);
+            hero.setOrder(Integer.MIN_VALUE);
+            hero.setKey("elyra_hero_card");
+            screen.addPreference(hero);
+        }
 
         // Legacy appearance category
         Preference appearanceCategory = screen.findPreference(KEY_APPEARANCE_CATEGORY);

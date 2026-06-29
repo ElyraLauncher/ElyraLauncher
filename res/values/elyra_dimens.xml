@@ -12,6 +12,24 @@
     <!-- All-apps drawer top handle -->
     <dimen name="elyra_drawer_top_corner_radius">28dp</dimen>
 
+    <!-- Settings hero card -->
+    <dimen name="elyra_hero_card_corner_radius">20dp</dimen>
+    <dimen name="elyra_hero_card_padding">20dp</dimen>
+    <dimen name="elyra_hero_card_margin_horizontal">16dp</dimen>
+    <dimen name="elyra_hero_action_corner_radius">14dp</dimen>
+
+    <!-- Smart region (home screen overlay) -->
+    <dimen name="elyra_smart_region_padding">20dp</dimen>
+    <dimen name="elyra_smart_region_corner_radius">18dp</dimen>
+    <dimen name="elyra_smart_identity_text_size">32sp</dimen>
+    <dimen name="elyra_smart_greeting_text_size">14sp</dimen>
+    <dimen name="elyra_smart_subtitle_text_size">12sp</dimen>
+
+    <!-- Search trigger -->
+    <dimen name="elyra_search_trigger_height">44dp</dimen>
+    <dimen name="elyra_search_trigger_corner_radius">22dp</dimen>
+    <dimen name="elyra_search_trigger_margin_horizontal">20dp</dimen>
+
     <!-- Folder style: grid counts are stored as ints, but corner radii live here -->
     <dimen name="elyra_folder_style_corner_radius_standard">24dp</dimen>
     <dimen name="elyra_folder_style_corner_radius_large">28dp</dimen>

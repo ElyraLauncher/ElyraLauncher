@@ -43,6 +43,44 @@
     <string name="elyra_folder_style_wide">Melebar</string>
     <string name="elyra_folder_style_tall">Tinggi</string>
 
+    <!-- Settings hero card strings -->
+    <string name="elyra_hero_title">Pusat Elyra</string>
+    <string name="elyra_hero_info_pill">Info dinamis</string>
+    <string name="elyra_hero_desc_1">Atur home, dock, pencarian, dan tampilan dari satu tempat.</string>
+    <string name="elyra_hero_desc_2">Cuaca dan lokasi membantu Elyra menampilkan info relevan.</string>
+    <string name="elyra_hero_desc_3">Notifikasi pintar dapat mengambil alih area sapaan.</string>
+    <string name="elyra_hero_desc_4">Search cepat tersedia di area bawah layar utama.</string>
+    <string name="elyra_hero_desc_5">Grid dan mode home dapat disesuaikan gaya pengguna.</string>
+    <string name="elyra_hero_preview_temp">--°</string>
+    <string name="elyra_hero_preview_condition">Cuaca</string>
+
+    <!-- Hero quick-action labels -->
+    <string name="elyra_action_weather">Cuaca</string>
+    <string name="elyra_action_notification">Notifikasi</string>
+    <string name="elyra_action_location">Lokasi</string>
+
+    <!-- Smart region strings -->
+    <string name="elyra_greeting_morning">Selamat pagi</string>
+    <string name="elyra_greeting_noon">Selamat siang</string>
+    <string name="elyra_greeting_afternoon">Selamat sore</string>
+    <string name="elyra_greeting_night">Selamat malam</string>
+    <string name="elyra_identity">Elyra.</string>
+    <string name="elyra_subtitle_1">Rapi. Cepat. Personal.</string>
+    <string name="elyra_subtitle_2">Siap menemani hari Anda.</string>
+    <string name="elyra_subtitle_3">Semua lebih cepat dari Home.</string>
+    <string name="elyra_subtitle_4">Tenang, rapi, dan personal.</string>
+    <string name="elyra_subtitle_5">Fokus pada yang penting.</string>
+
+    <!-- Charging takeover strings -->
+    <string name="elyra_charging_status_fast">Pengisian cepat</string>
+    <string name="elyra_charging_status_normal">Sedang mengisi daya</string>
+    <string name="elyra_charging_status_wireless">Pengisian nirkabel</string>
+    <string name="elyra_charging_full">Daya penuh</string>
+    <string name="elyra_charging_time_format">Penuh dalam %s menit</string>
+
+    <!-- Search trigger -->
+    <string name="elyra_search_hint">Cari aplikasi atau konten</string>
+
     <!-- String arrays for ListPreferences -->
     <string-array name="elyra_home_mode_entries">
         <item>@string/elyra_home_mode_drawer</item>

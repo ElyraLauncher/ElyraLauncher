@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lower search trigger pill — positioned above the page indicator + hotseat.
+     Added to DragLayer in ElyraSmartSpaceController with Gravity.BOTTOM. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/elyra_search_trigger_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/elyra_search_trigger_height"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/elyra_search_trigger_bg"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:layout_marginStart="@dimen/elyra_search_trigger_margin_horizontal"
+    android:layout_marginEnd="@dimen/elyra_search_trigger_margin_horizontal"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/elyra_ic_search"
+        android:tint="@color/elyra_search_trigger_text"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/elyra_search_trigger_text"
+        android:textSize="14sp"
+        android:text="@string/elyra_search_hint"
+        android:singleLine="true" />
+
+</LinearLayout>
