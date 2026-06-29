@@ -63,7 +63,8 @@
             android:entries="@array/elyra_home_mode_entries"
             android:entryValues="@array/elyra_home_mode_values"
             android:defaultValue="drawer"
-            android:persistent="true" />
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_home" />
 
         <ListPreference
             android:key="elyra_grid_preset"
@@ -72,7 +73,8 @@
             android:entries="@array/elyra_grid_preset_entries"
             android:entryValues="@array/elyra_grid_preset_values"
             android:defaultValue="5_by_5"
-            android:persistent="true" />
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_grid" />
 
     </PreferenceCategory>
 
@@ -98,7 +100,8 @@
             android:key="elyra_search_trigger_pref"
             android:title="@string/elyra_search_trigger_title"
             android:summary="@string/elyra_search_trigger_summary"
-            android:selectable="false" />
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_search" />
 
     </PreferenceCategory>
 
@@ -114,7 +117,8 @@
             android:entries="@array/elyra_folder_style_entries"
             android:entryValues="@array/elyra_folder_style_values"
             android:defaultValue="standard"
-            android:persistent="true" />
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_folder" />
 
     </PreferenceCategory>
 
@@ -127,7 +131,8 @@
             android:key="elyra_weather_card_pref"
             android:title="@string/elyra_weather_card_title"
             android:summary="@string/elyra_weather_card_summary"
-            android:selectable="false" />
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_weather" />
 
         <Preference
             android:key="elyra_smart_region_pref"
@@ -146,13 +151,15 @@
             android:key="elyra_notification_takeover_pref"
             android:title="@string/elyra_notification_takeover_title"
             android:summary="@string/elyra_notification_takeover_summary"
-            android:selectable="false" />
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_notification" />
 
         <Preference
             android:key="elyra_charging_takeover_pref"
             android:title="@string/elyra_charging_takeover_title"
             android:summary="@string/elyra_charging_takeover_summary"
-            android:selectable="false" />
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_charging" />
 
     </PreferenceCategory>
 
