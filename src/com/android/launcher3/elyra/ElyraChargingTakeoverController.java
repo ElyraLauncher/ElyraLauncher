@@ -18,6 +18,8 @@ import android.os.BatteryManager;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.android.launcher3.R;
 
 /**
@@ -59,6 +61,15 @@ public final class ElyraChargingTakeoverController {
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         mContext.registerReceiver(mBatteryReceiver, filter);
+
+        // Unregister when the smart region is detached (launcher destroyed/recreated)
+        // to prevent accumulating duplicate receivers across activity instances.
+        mSmartRegionView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override public void onViewAttachedToWindow(@NonNull View v) {}
+            @Override public void onViewDetachedFromWindow(@NonNull View v) {
+                try { mContext.unregisterReceiver(mBatteryReceiver); } catch (IllegalArgumentException ignored) {}
+            }
+        });
 
         // Read sticky battery intent immediately so we reflect current state at startup.
         Intent sticky = mContext.registerReceiver(null,

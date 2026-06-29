@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -89,9 +91,18 @@ public final class ElyraWeatherTimeController {
         mCardView.setOnClickListener(v -> toggleState());
 
         // Register time tick on application context to avoid leaking the card view.
-        Context appCtx = launcher.getApplicationContext();
+        final Context appCtx = launcher.getApplicationContext();
         appCtx.registerReceiver(mTickReceiver,
                 new IntentFilter(Intent.ACTION_TIME_TICK));
+
+        // Unregister when the card is detached from the window (launcher destroyed/recreated)
+        // to prevent accumulating duplicate receivers across activity instances.
+        mCardView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override public void onViewAttachedToWindow(@NonNull View v) {}
+            @Override public void onViewDetachedFromWindow(@NonNull View v) {
+                try { appCtx.unregisterReceiver(mTickReceiver); } catch (IllegalArgumentException ignored) {}
+            }
+        });
 
         updateClock();
     }

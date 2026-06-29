@@ -57,8 +57,10 @@ public final class ElyraFolderStyleController {
         String style = getStyle(context);
         if (STYLE_STANDARD.equals(style)) return;
 
-        int rows = getRows(style, idp.numFolderRows[0]);
-        int cols = getColumns(style, idp.numFolderColumns[0]);
+        int defaultRows = idp.numFolderRows.length > 0 ? idp.numFolderRows[0] : 3;
+        int defaultCols = idp.numFolderColumns.length > 0 ? idp.numFolderColumns[0] : 3;
+        int rows = getRows(style, defaultRows);
+        int cols = getColumns(style, defaultCols);
 
         // Create new arrays so we do not mutate the GridOption's own arrays.
         int[] newRows = new int[idp.numFolderRows.length];

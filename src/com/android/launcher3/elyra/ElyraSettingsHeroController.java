@@ -83,6 +83,10 @@ public final class ElyraSettingsHeroController extends Preference {
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
+        // Stop any in-flight rotation before rebinding (view recycled or settings reopened).
+        mRotating = false;
+        mHandler.removeCallbacks(mRotateRunnable);
+
         // Capture the host RecyclerView for category scroll.
         if (holder.itemView.getParent() instanceof RecyclerView) {
             mRecyclerView = (RecyclerView) holder.itemView.getParent();
