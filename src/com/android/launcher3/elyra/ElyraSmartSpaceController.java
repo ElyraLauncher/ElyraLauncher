@@ -152,13 +152,20 @@ public final class ElyraSmartSpaceController {
                 .inflate(R.layout.elyra_search_trigger, null, false);
 
         DeviceProfile dp = mLauncher.getDeviceProfile();
-        int bottomMargin = dp.hotseatBarSizePx + dp.workspacePageIndicatorHeight + dpToPx(8);
+        // Position the search trigger in the page-indicator zone — just above the hotseat.
+        // workspacePageIndicatorHeight is already within the hotseat bar on most profiles,
+        // so we only add a small extra gap so the trigger visually overlaps the dot area.
+        int bottomMargin = dp.hotseatBarSizePx + dpToPx(4);
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         lp.bottomMargin = bottomMargin;
+        // Apply horizontal margins here; XML root margins are discarded when inflating
+        // without a parent ViewGroup.
+        lp.leftMargin  = dpToPx(20);
+        lp.rightMargin = dpToPx(20);
 
         mLauncher.getDragLayer().addView(mSearchTriggerView, lp);
 

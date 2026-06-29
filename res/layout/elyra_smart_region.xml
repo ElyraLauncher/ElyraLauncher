@@ -1,133 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Smart region overlay — added to DragLayer in ElyraSmartSpaceController.
-     The outer frame is transparent and non-interactive so workspace icons beneath
-     remain tappable.  Only the inner card is visible and captures touches. -->
+     Transparent background; text floats directly over wallpaper with shadow. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="120dp"
     android:clickable="false"
     android:focusable="false">
 
-    <!-- Inner card -->
+    <!-- Default state: greeting + identity + subtitle (no card background) -->
     <LinearLayout
-        android:id="@+id/elyra_smart_card"
-        android:layout_width="match_parent"
+        android:id="@+id/elyra_smart_default_section"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/elyra_smart_region_bg"
-        android:padding="@dimen/elyra_smart_region_padding"
         android:clickable="false"
         android:focusable="false">
 
-        <!-- Default state: greeting + identity + subtitle -->
-        <LinearLayout
-            android:id="@+id/elyra_smart_default_section"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/elyra_smart_greeting"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clickable="false"
-            android:focusable="false">
+            android:textColor="@color/elyra_smart_text_greeting"
+            android:textSize="@dimen/elyra_smart_greeting_text_size"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:text="@string/elyra_greeting_morning" />
 
-            <TextView
-                android:id="@+id/elyra_smart_greeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/elyra_smart_text_greeting"
-                android:textSize="@dimen/elyra_smart_greeting_text_size"
-                android:text="@string/elyra_greeting_morning" />
-
-            <TextView
-                android:id="@+id/elyra_smart_identity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/elyra_smart_text_identity"
-                android:textSize="@dimen/elyra_smart_identity_text_size"
-                android:textStyle="bold"
-                android:text="@string/elyra_identity" />
-
-            <TextView
-                android:id="@+id/elyra_smart_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/elyra_smart_text_subtitle"
-                android:textSize="@dimen/elyra_smart_subtitle_text_size"
-                android:text="@string/elyra_subtitle_1" />
-
-        </LinearLayout>
-
-        <!-- Charging takeover section (GONE until plugged in) -->
-        <LinearLayout
-            android:id="@+id/elyra_charging_section"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/elyra_smart_identity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:clickable="false"
-            android:focusable="false">
+            android:layout_marginTop="2dp"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="@dimen/elyra_smart_identity_text_size"
+            android:textStyle="bold"
+            android:shadowColor="#BB000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="6"
+            android:text="@string/elyra_identity" />
 
-            <TextView
-                android:id="@+id/elyra_charging_percentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/elyra_smart_text_identity"
-                android:textSize="@dimen/elyra_smart_identity_text_size"
-                android:textStyle="bold"
-                android:text="--%" />
-
-            <TextView
-                android:id="@+id/elyra_charging_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/elyra_smart_text_greeting"
-                android:textSize="@dimen/elyra_smart_greeting_text_size"
-                android:text="@string/elyra_charging_status_normal" />
-
-            <TextView
-                android:id="@+id/elyra_charging_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/elyra_smart_text_subtitle"
-                android:textSize="@dimen/elyra_smart_subtitle_text_size"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-        <!-- Notification takeover section (GONE, architecture placeholder) -->
-        <LinearLayout
-            android:id="@+id/elyra_notification_section"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/elyra_smart_subtitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:clickable="false"
-            android:focusable="false">
+            android:layout_marginTop="4dp"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="@dimen/elyra_smart_subtitle_text_size"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:text="@string/elyra_subtitle_1" />
 
-            <TextView
-                android:id="@+id/elyra_notification_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/elyra_smart_text_identity"
-                android:textSize="@dimen/elyra_smart_greeting_text_size"
-                android:textStyle="bold" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/elyra_notification_body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/elyra_smart_text_subtitle"
-                android:textSize="@dimen/elyra_smart_subtitle_text_size"
-                android:maxLines="2"
-                android:ellipsize="end" />
+    <!-- Charging takeover section (GONE until plugged in) -->
+    <LinearLayout
+        android:id="@+id/elyra_charging_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:clickable="false"
+        android:focusable="false">
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/elyra_charging_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="@dimen/elyra_smart_identity_text_size"
+            android:textStyle="bold"
+            android:shadowColor="#BB000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="6"
+            android:text="--%" />
+
+        <TextView
+            android:id="@+id/elyra_charging_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/elyra_smart_text_greeting"
+            android:textSize="@dimen/elyra_smart_greeting_text_size"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:text="@string/elyra_charging_status_normal" />
+
+        <TextView
+            android:id="@+id/elyra_charging_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="@dimen/elyra_smart_subtitle_text_size"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Notification takeover section (GONE, architecture placeholder) -->
+    <LinearLayout
+        android:id="@+id/elyra_notification_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:clickable="false"
+        android:focusable="false">
+
+        <TextView
+            android:id="@+id/elyra_notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="@dimen/elyra_smart_greeting_text_size"
+            android:textStyle="bold"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4" />
+
+        <TextView
+            android:id="@+id/elyra_notification_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="@dimen/elyra_smart_subtitle_text_size"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
     </LinearLayout>
 
