@@ -16,7 +16,7 @@ body:
       label: Build type
       options:
         - ROM/system build
-        - Standalone smoke APK
+        - Gradle debug APK
         - Unsure
     validations:
       required: true

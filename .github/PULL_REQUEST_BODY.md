@@ -1,15 +1,15 @@
 ## Summary
 
-Rebuild ElyraLauncher repository infrastructure around the real ROM-first Launcher3 and Quickstep architecture. This branch removes misleading old preview build paths, rewrites project documentation, adds maintainer documentation, adds GitHub collaboration templates, and replaces old workflows with honest architecture and smoke validation.
+Rebuild ElyraLauncher repository infrastructure around the real ROM-first Launcher3 and Quickstep architecture. This branch removes misleading old preview build paths, rewrites project documentation, adds maintainer documentation, adds GitHub collaboration templates, and replaces old workflows with honest architecture and APK build validation.
 
 ## What changed
 
 - Added a maintenance audit before cleanup.
 - Removed preview-only/private APK infrastructure that could be mistaken for real launcher validation.
 - Rebuilt root documentation for the ROM-first project model.
-- Rebuilt `docs/` with architecture, ROM build, development, testing, workflow, release, smoke APK, brand, and maintainer guides.
+- Rebuilt `docs/` with architecture, ROM build, development, testing, workflow, release, Gradle APK build, brand, and maintainer guides.
 - Added issue forms, PR template, labeler config, release config, funding placeholder, and Renovate policy.
-- Added GitHub Actions for architecture checks, docs checks, optional Gradle smoke validation, issue maintenance, and release notes.
+- Added GitHub Actions for architecture checks, docs checks, Gradle APK build, issue maintenance, and release notes.
 
 ## What was removed
 
@@ -39,7 +39,7 @@ Rebuild ElyraLauncher repository infrastructure around the real ROM-first Launch
 - `docs/TESTING.md`
 - `docs/GITHUB_WORKFLOWS.md`
 - `docs/RELEASE_PROCESS.md`
-- `docs/STANDALONE_SMOKE_TEST.md`
+- `docs/GRADLE_APK_BUILD.md`
 - `docs/BRAND_INSPIRATION.md`
 - `docs/MAINTAINER_GUIDE.md`
 
@@ -50,7 +50,7 @@ Rebuild ElyraLauncher repository infrastructure around the real ROM-first Launch
 - Labeler and release configuration.
 - Funding placeholder.
 - Conservative Renovate policy.
-- CI, smoke APK, issue maintenance, stale issue, and release note workflows.
+- CI, Gradle APK build, issue maintenance, stale issue, and release note workflows.
 
 ## Validation performed
 
@@ -66,7 +66,7 @@ Rebuild ElyraLauncher repository infrastructure around the real ROM-first Launch
 
 - `m ElyraLauncherQuickStep` was not run because this checkout is not an Android ROM tree.
 - Local YAML parser validation was not available because Ruby is not installed and PyYAML is not installed. Workflow files were checked by structure and review.
-- Standalone APK artifacts remain smoke-test-only and do not validate real Recents, Quickstep, privileged launcher behavior, hidden APIs, or system task management.
+- Gradle APK builds do not validate real Recents, Quickstep, privileged launcher behavior, hidden APIs, or system task management. ROM validation remains required for those paths.
 
 ## ROM build note
 

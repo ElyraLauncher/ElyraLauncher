@@ -2,11 +2,11 @@
 
 ## `ci.yml`
 
-Runs repository architecture guards, source hygiene checks, documentation checks, and optional Gradle smoke discovery. It protects the Launcher3 and Quickstep tree but does not validate ROM-only behavior.
+Runs repository architecture guards, source hygiene checks, documentation checks, and Gradle APK build validation. It protects the Launcher3 and Quickstep tree but does not validate ROM-only behavior.
 
-## `build_release_apk.yml`
+## `build_apk.yml`
 
-Builds a standalone smoke APK when Gradle support is available. Artifacts from this workflow are smoke-test outputs only and are not production launcher releases.
+Builds a real installable launcher APK via `./gradlew assembleDebug`. The APK can be installed and selected as the Home launcher. Artifacts are uploaded as `ElyraLauncher-debug-apk`.
 
 ## `close_low_effort_issues.yml`
 
@@ -18,4 +18,4 @@ Marks inactive issues as stale and closes them after additional inactivity, whil
 
 ## `release_update.yml`
 
-Prepares or updates release notes for tags. Release notes must include the ROM build note and standalone smoke APK limitation.
+Prepares or updates release notes for tags. Release notes must include the ROM build note and Gradle APK build limitations.

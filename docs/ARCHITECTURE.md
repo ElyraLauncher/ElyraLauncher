@@ -22,6 +22,6 @@ Elyra customization should be applied through safe resources, configuration, bra
 
 ElyraSystemUILibs and ElyraIcons should be integrated through separate, reviewed changes. Their purpose is to support system UI relationships and icon identity without embedding unrelated companion projects into this repository.
 
-## Standalone Smoke Limitation
+## Gradle APK Limitation
 
-The standalone smoke APK can check basic UI packaging only. It cannot validate real Recents, Quickstep gestures, privileged launcher behavior, hidden APIs, or system-level task management.
+The Gradle debug APK builds a real installable launcher APK. It cannot validate real Recents, Quickstep gestures, privileged launcher behavior, hidden APIs, or system-level task management. ROM/ElyraOS integration is future work.

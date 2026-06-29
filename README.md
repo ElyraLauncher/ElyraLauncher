@@ -16,12 +16,12 @@ m ElyraLauncherQuickStep
 
 This path is required for Quickstep, Recents, gesture navigation, privileged launcher behavior, hidden platform APIs, and system task management.
 
-### Standalone Smoke APK
+### Gradle APK Build
 
-The Gradle `:app` module, when present, is only a smoke-test artifact for basic UI and resource checks. It must not be treated as a system launcher release and must not be described as real Recents or Quickstep validation.
+The Gradle `:app` module builds a real installable launcher APK. The APK can be installed on a device and selected as the Home launcher.
 
 ```bash
-./gradlew --no-daemon :app:assembleDebug
+./gradlew assembleDebug
 ```
 
 ## Repository Layout
@@ -32,12 +32,12 @@ The Gradle `:app` module, when present, is only a smoke-test artifact for basic 
 - `quickstep/`: Quickstep, Recents, task views, gesture integration, Taskbar, and BubbleBar-related source.
 - `res/`: Launcher resources used by the ROM target.
 - `shared/`, `protos/`, `tests/`: shared source, protocol definitions, and test assets.
-- `app/`: optional standalone smoke APK path.
+- `app/`: Gradle APK build module.
 - `docs/`: technical project documentation.
 
 ## Development Flow
 
-Work from topic branches based on `main`. Keep commits scoped, signed, and conventional. Infrastructure changes should not delete or stub Launcher3 or Quickstep source to make a smoke build pass.
+Work from topic branches based on `main`. Keep commits scoped, signed, and conventional. Infrastructure changes should not delete or stub Launcher3 or Quickstep source to make a Gradle APK build pass.
 
 Useful checks before review:
 
@@ -49,11 +49,11 @@ test -d res
 grep -R "ElyraLauncherQuickStep" Android.bp README.md VERIFICATION.md docs || true
 ```
 
-If Gradle is available, run smoke checks for the standalone artifact only. Do not use Gradle success as proof that ROM Quickstep works.
+If Gradle is available, build the debug APK with `./gradlew assembleDebug`. Do not use Gradle success as proof that ROM Quickstep works.
 
 ## Limitations
 
 - Real Recents and Quickstep require ROM/system validation.
-- Standalone smoke APKs are not production launcher releases.
+- Gradle APK builds do not validate privileged Quickstep/Recents system behavior.
 - The Java package remains `com.android.launcher3` in this phase.
 - Platform stubs must not be packaged into release APKs.

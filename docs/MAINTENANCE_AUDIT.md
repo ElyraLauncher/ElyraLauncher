@@ -29,15 +29,14 @@ Soong ROM integration must remain intact.
   `QuickstepLauncher`, `RecentsView`, `TaskView`, `TouchInteractionService`,
   `OverviewCommandHelper`, and `LauncherActivityInterface`.
 - Taskbar, BubbleBar, shared sources, protos, resources, and tests.
-- The optional `app/` Gradle smoke module only if it remains clearly separated
+- The `app/` Gradle APK module only if it remains clearly separated
   from ROM/system validation.
 
 ## Must Be Rewritten
 
 - Root project documentation must describe ElyraLauncher as a ROM-first
   Launcher3 and Quickstep project.
-- Standalone APK documentation must use "smoke APK" wording and must not claim
-  real Recents, Quickstep, privileged launcher, or hidden API validation.
+- Standalone APK documentation must describe Gradle builds as real installable launcher APKs and must not claim real Recents, Quickstep, privileged launcher, or hidden API validation.
 - GitHub Actions documentation must match the new workflow names and their
   limited responsibilities.
 - Contribution, security, changelog, and maintainer documentation must be added
@@ -64,7 +63,6 @@ Soong ROM integration must remain intact.
   `ElyraLauncherQuickStep`.
 - Check that owner-only APK workflows and misleading APK references are
   removed.
-- Run Gradle smoke discovery only when Gradle files are present. Treat Gradle as
-  a smoke path, not as Recents or Quickstep validation.
+- Run Gradle APK builds only when Gradle files are present. Gradle APK builds are not Recents or Quickstep validation.
 - Do not run `m ElyraLauncherQuickStep` outside an Android ROM tree. Document it
   as the required ROM validation command.

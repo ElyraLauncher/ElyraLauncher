@@ -14,4 +14,4 @@ Keep Launcher3, Quickstep, Recents, Overview, Taskbar, BubbleBar, Workspace, Hot
 
 ## CI Failure Handling
 
-Treat CI as a signal, not a reason to delete platform code. If Gradle smoke checks fail because of ROM-only APIs, document the limitation and validate the ROM path instead of stubbing hidden behavior.
+Treat CI as a signal, not a reason to delete platform code. If Gradle APK builds fail because of ROM-only APIs, document the limitation and validate the ROM path instead of stubbing hidden behavior.

@@ -49,7 +49,7 @@ body:
       label: ROM-only or standalone-safe
       options:
         - Requires ROM/system build
-        - Safe for standalone smoke APK
+        - Safe for Gradle debug APK
         - Documentation or CI only
         - Unsure
     validations:

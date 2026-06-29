@@ -18,7 +18,7 @@
 ## ROM build impact
 
 
-## Standalone smoke impact
+## Gradle APK impact
 
 
 ## Screenshots or recordings
