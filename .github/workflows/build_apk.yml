@@ -15,8 +15,8 @@ permissions:
   contents: read
 
 jobs:
-  build-debug-apk:
-    name: Build debug APK
+  build-apk:
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -44,19 +44,37 @@ jobs:
         working-directory: ElyraLauncher
         run: chmod +x ./gradlew
 
-      - name: Prepare signing config
-        if: ${{ secrets.KEYSTORE != '' && secrets.KEYSTORE_PASSWORD != '' && secrets.KEY_ALIAS != '' && secrets.KEY_PASSWORD != '' }}
-        working-directory: ElyraLauncher
-        run: |
-          echo 'storePassword=${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
-          echo 'keyAlias=${{ secrets.KEY_ALIAS }}' >> keystore.properties
-          echo 'keyPassword=${{ secrets.KEY_PASSWORD }}' >> keystore.properties
-          echo 'storeFile=${{ github.workspace }}/ElyraLauncher/key.jks' >> keystore.properties
-          echo '${{ secrets.KEYSTORE }}' | base64 --decode > '${{ github.workspace }}/ElyraLauncher/key.jks'
-
       - name: Build debug APK
         working-directory: ElyraLauncher
         run: ./gradlew assembleDebug --stacktrace
+
+      - name: Prepare release signing
+        id: prepare-signing
+        working-directory: ElyraLauncher
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > key.jks
+            {
+              echo "storePassword=$KEYSTORE_PASSWORD"
+              echo "keyAlias=$KEY_ALIAS"
+              echo "keyPassword=$KEY_PASSWORD"
+              echo "storeFile=key.jks"
+            } > keystore.properties
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Release signing secrets are not configured. Skipping release APK."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build release APK
+        if: steps.prepare-signing.outputs.available == 'true'
+        working-directory: ElyraLauncher
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: List APK outputs
         working-directory: ElyraLauncher
@@ -66,6 +84,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ElyraLauncher-debug-apk
-          path: |
-            ElyraLauncher/**/build/outputs/apk/**/*.apk
+          path: ElyraLauncher/**/build/outputs/apk/debug/**/*.apk
+          if-no-files-found: error
+
+      - name: Upload release APK
+        if: steps.prepare-signing.outputs.available == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ElyraLauncher-release-apk
+          path: ElyraLauncher/**/build/outputs/apk/release/**/*.apk
           if-no-files-found: error
