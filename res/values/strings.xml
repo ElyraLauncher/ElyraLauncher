@@ -407,6 +407,9 @@
     <!-- Accessibility action to add an app to workspace. [CHAR_LIMIT=30] -->
     <string name="action_add_to_workspace">Add to home screen</string>
 
+    <!-- Accessibility announcement after item is added to workspace. [CHAR_LIMIT=50] -->
+    <string name="item_added_to_workspace">Item added to Home screen</string>
+
     <!-- Accessibility action to move item to the current location. [CHAR_LIMIT=30] -->
     <string name="action_move_here">Move item here</string>
 
