@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -102,11 +103,34 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         setupAddToHomeRow(view);
         setupRotationRow(view);
 
+        // Compact toolbar fades in as the large title scrolls off screen.
+        // Fade window: 32dp–96dp of scroll offset.
+        ScrollView scrollView = view.findViewById(R.id.settings_scroll);
+        View compactToolbar = view.findViewById(R.id.compact_toolbar);
+        if (scrollView != null && compactToolbar != null) {
+            float fadePx = dpToPx(32);
+            float fullPx = dpToPx(96);
+            scrollView.setOnScrollChangeListener(
+                    (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                        float alpha = Math.min(1f,
+                                Math.max(0f, (scrollY - fadePx) / (fullPx - fadePx)));
+                        compactToolbar.setAlpha(alpha);
+                    });
+        }
+
+        // Apply bottom inset to the ScrollView so the last row clears the nav bar.
         view.setOnApplyWindowInsetsListener((v, insets) -> {
-            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(),
-                    insets.getSystemWindowInsetBottom());
+            if (scrollView != null) {
+                int bottom = insets.getSystemWindowInsetBottom();
+                scrollView.setPadding(scrollView.getPaddingLeft(), scrollView.getPaddingTop(),
+                        scrollView.getPaddingRight(), bottom);
+            }
             return insets.consumeSystemWindowInsets();
         });
+    }
+
+    private float dpToPx(float dp) {
+        return dp * getResources().getDisplayMetrics().density;
     }
 
     // ── Pengaturan utama ────────────────────────────────────────────────────────
@@ -219,8 +243,11 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Hide up-button when back on the dashboard (shown by openHomeSettings).
+        // The dashboard manages its own large title + compact toolbar overlay.
+        // Hide the Activity ActionBar so it does not double-render the title.
+        // It is restored in onPause() so sub-pages (LauncherSettingsFragment) see it.
         if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().hide();
             requireActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         }
         mRotating = true;
@@ -230,6 +257,10 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        // Restore ActionBar for sub-pages that rely on it (e.g. LauncherSettingsFragment).
+        if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().show();
+        }
         mRotating = false;
         mHandler.removeCallbacks(mRotate);
     }

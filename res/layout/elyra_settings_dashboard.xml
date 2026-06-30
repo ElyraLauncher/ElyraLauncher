@@ -1,133 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Elyra settings main dashboard.
-    Replaces the default PreferenceScreen as the root content of SettingsActivity.
-    Inflated by ElyraSettingsDashboardFragment.
+    Root is a FrameLayout so the compact toolbar can be layered over the ScrollView.
 
-    Sections:
-      - Pengaturan utama  : nav rows for major feature areas (only show if destination is real)
-      - Pengaturan cepat  : functional toggle/nav rows for quick access
+    Structure:
+      - ScrollView (fills frame): large title + hero card + sections scroll together
+      - Compact toolbar overlay (pinned, alpha=0→1 on scroll): title only, no large header
+
+    The Activity ActionBar is hidden while this fragment is visible
+    (ElyraSettingsDashboardFragment.onResume/onPause) so only this layout
+    provides the top chrome.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/elyra_settings_bg"
-    android:fillViewport="true">
+    android:background="@color/elyra_settings_bg">
 
-    <LinearLayout
+    <!-- ═══════════════════════════════════════════════════
+         SCROLLABLE CONTENT — everything scrolls including the large title
+         ═══════════════════════════════════════════════════ -->
+    <ScrollView
+        android:id="@+id/settings_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Pusat Elyra hero card -->
-        <include layout="@layout/elyra_settings_hero_card" />
-
-        <!-- ═══════════════════════════════════════
-             SECTION: Pengaturan utama
-             Only rows with real functional destinations.
-             ═══════════════════════════════════════ -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/elyra_settings_section_main"
-            android:textColor="#80FFFFFF"
-            android:textSize="11sp"
-            android:letterSpacing="0.10"
-            android:textAllCaps="true"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="8dp" />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/card_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/elyra_settings_card_bg"
-            android:clipToOutline="true">
+            android:orientation="vertical">
 
-            <!-- Layar Utama — navigates to LauncherSettingsFragment (functional) -->
-            <include
-                android:id="@+id/row_home"
+            <!-- Spacer so content begins below the compact toolbar (56dp) -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="56dp" />
+
+            <!-- LARGE TITLE — scrolls away with content -->
+            <TextView
+                android:id="@+id/large_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/elyra_settings_row" />
+                android:text="@string/settings_button_text"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/elyra_hero_text_primary"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp" />
+
+            <!-- Pusat Elyra hero card -->
+            <include layout="@layout/elyra_settings_hero_card" />
+
+            <!-- ── Pengaturan utama ─────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/elyra_settings_section_main"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                android:letterSpacing="0.10"
+                android:textAllCaps="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/card_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/elyra_settings_card_bg"
+                android:clipToOutline="true">
+
+                <!-- Layar Utama — navigates to LauncherSettingsFragment -->
+                <include
+                    android:id="@+id/row_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/elyra_settings_row" />
+
+            </LinearLayout>
+
+            <!-- ── Pengaturan cepat ────────────────────────── -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/elyra_settings_section_quick"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                android:letterSpacing="0.10"
+                android:textAllCaps="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/card_quick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/elyra_settings_card_bg"
+                android:clipToOutline="true">
+
+                <include
+                    android:id="@+id/row_notification_dots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/elyra_settings_row" />
+
+                <View
+                    android:id="@+id/divider_notif_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#14FFFFFF"
+                    android:layout_marginStart="56dp" />
+
+                <include
+                    android:id="@+id/row_add_to_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/elyra_settings_row" />
+
+                <View
+                    android:id="@+id/divider_add_rotation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#14FFFFFF"
+                    android:layout_marginStart="56dp" />
+
+                <include
+                    android:id="@+id/row_rotation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/elyra_settings_row" />
+
+            </LinearLayout>
+
+            <!-- Bottom breathing room -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <!-- ═══════════════════════════════════════
-             SECTION: Pengaturan cepat
-             Direct toggles/nav rows for functional system prefs.
-             ═══════════════════════════════════════ -->
+    <!-- ═══════════════════════════════════════════════════
+         COMPACT TOOLBAR OVERLAY — pinned at top, fades in as user scrolls.
+         Starts alpha=0 (invisible). ElyraSettingsDashboardFragment drives
+         the fade via a scroll listener.
+         ═══════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/compact_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/elyra_settings_bg"
+        android:alpha="0">
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/compact_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/elyra_settings_section_quick"
-            android:textColor="#80FFFFFF"
-            android:textSize="11sp"
-            android:letterSpacing="0.10"
-            android:textAllCaps="true"
+            android:layout_weight="1"
+            android:text="@string/settings_button_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/elyra_hero_text_primary"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="8dp" />
-
-        <LinearLayout
-            android:id="@+id/card_quick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/elyra_settings_card_bg"
-            android:clipToOutline="true">
-
-            <!-- Notification Dots — nav row opening system notification settings -->
-            <include
-                android:id="@+id/row_notification_dots"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/elyra_settings_row" />
-
-            <View
-                android:id="@+id/divider_notif_add"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#14FFFFFF"
-                android:layout_marginStart="56dp" />
-
-            <!-- Add to Home — toggle row -->
-            <include
-                android:id="@+id/row_add_to_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/elyra_settings_row" />
-
-            <!-- Divider hidden programmatically when rotation row is hidden -->
-            <View
-                android:id="@+id/divider_add_rotation"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#14FFFFFF"
-                android:layout_marginStart="56dp" />
-
-            <!-- Rotation — toggle row, phones only -->
-            <include
-                android:id="@+id/row_rotation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/elyra_settings_row" />
-
-        </LinearLayout>
-
-        <!-- Bottom breathing room -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
+            android:ellipsize="end"
+            android:maxLines="1" />
 
     </LinearLayout>
 
-</ScrollView>
+</FrameLayout>
