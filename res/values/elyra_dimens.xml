@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Hotseat dock surface -->
+    <!-- Hotseat dock surface dimensions -->
     <dimen name="elyra_dock_corner_radius">28dp</dimen>
+    <!-- Horizontal inset from screen edge to the visible pill edge -->
+    <dimen name="elyra_dock_horizontal_margin">16dp</dimen>
+    <!-- Vertical gap above the pill (from top of Hotseat view) -->
+    <dimen name="elyra_dock_top_gap">8dp</dimen>
+    <!-- Minimum vertical gap below the pill (nav bar height takes precedence) -->
+    <dimen name="elyra_dock_bottom_gap">4dp</dimen>
+    <!-- Informational: target icon size inside the dock (actual value from DeviceProfile) -->
+    <dimen name="elyra_dock_icon_size">52dp</dimen>
+    <!-- Informational: gap between dock icons (actual value from DeviceProfile.hotseatBorderSpace) -->
+    <dimen name="elyra_dock_icon_gap">12dp</dimen>
 
     <!-- Folder surface -->
     <dimen name="elyra_folder_corner_radius">24dp</dimen>
@@ -26,9 +36,11 @@
     <dimen name="elyra_smart_subtitle_text_size">12sp</dimen>
 
     <!-- Search trigger -->
-    <dimen name="elyra_search_trigger_height">44dp</dimen>
-    <dimen name="elyra_search_trigger_corner_radius">22dp</dimen>
+    <dimen name="elyra_search_trigger_height">40dp</dimen>
+    <dimen name="elyra_search_trigger_corner_radius">20dp</dimen>
     <dimen name="elyra_search_trigger_margin_horizontal">20dp</dimen>
+    <!-- Compact fixed width — trigger lives near page indicator, not full-width bar -->
+    <dimen name="elyra_search_trigger_width">240dp</dimen>
 
     <!-- Folder style: grid counts are stored as ints, but corner radii live here -->
     <dimen name="elyra_folder_style_corner_radius_standard">24dp</dimen>

@@ -27,14 +27,15 @@ import com.android.launcher3.elyra.ElyraFeatureFlags;
 /**
  * Manages the Elyra dock (Hotseat) visual surface.
  *
- * <p>The Hotseat view is full-width with height = {@code hotseatBarSizePx}, which includes the
- * navigation bar inset at the bottom.  A static XML drawable cannot account for the device-
- * specific nav bar height, so this controller creates the pill {@link InsetDrawable} dynamically
- * each time {@code Hotseat.setInsets()} is called.</p>
+ * <p>The Hotseat view spans the full screen width at height {@code hotseatBarSizePx}, which
+ * includes the navigation bar inset.  A static XML drawable cannot account for the
+ * device-specific nav bar height, so this controller creates the pill background programmatically
+ * each time {@code Hotseat.setInsets()} fires.</p>
  *
- * <p>Result: a dark frosted-glass rounded-rectangle pill that floats above the nav bar, with
- * 12dp horizontal margins, 4dp top gap, and a nav-bar-sized bottom gap — icons are vertically
- * centred inside the visible pill area.</p>
+ * <p>Visual result: a dark frosted-glass rounded-rectangle pill with
+ * {@code elyra_dock_horizontal_margin} side insets, {@code elyra_dock_top_gap} top inset, and a
+ * nav-bar-sized bottom inset so the pill floats cleanly above the navigation area.  Icons remain
+ * centred vertically within the visible pill by {@code DeviceProfile.getHotseatLayoutPadding()}.</p>
  *
  * <p>Hook: {@code Hotseat.setInsets(Rect)} calls
  * {@link #onInsetsChanged(View, Rect, DeviceProfile)} as its last statement.</p>
@@ -44,38 +45,44 @@ public final class ElyraDockController {
     private ElyraDockController() {}
 
     /**
-     * Applies the dock pill background with device-correct insets.
+     * Rebuilds and applies the dock pill background with device-correct insets.
+     * Called every time the window insets change (device rotation, nav bar mode switch,
+     * multi-window resize).
      *
      * @param hotseat full-width Hotseat view (height = hotseatBarSizePx)
-     * @param insets  window insets at the time {@code setInsets} was called
+     * @param insets  window insets reported by {@code Hotseat.setInsets()}
      * @param dp      active DeviceProfile
      */
     public static void onInsetsChanged(View hotseat, Rect insets, DeviceProfile dp) {
         if (!ElyraFeatureFlags.HOTSEAT_SURFACE) return;
+
         if (dp.isVerticalBarLayout()) {
-            // Landscape sidebar layout: keep transparent, no pill.
+            // Landscape sidebar layout: clear the pill, no background.
             hotseat.setBackground(null);
             return;
         }
 
-        Context ctx    = hotseat.getContext();
-        Resources res  = ctx.getResources();
-        float density  = res.getDisplayMetrics().density;
+        Context ctx   = hotseat.getContext();
+        Resources res = ctx.getResources();
 
-        int cornerPx   = res.getDimensionPixelSize(R.dimen.elyra_dock_corner_radius);
-        int leftPx     = Math.round(12 * density);
-        int rightPx    = Math.round(12 * density);
-        int topPx      = Math.round(4  * density);
-        // Bottom inset = navigation bar height so the pill sits ABOVE the nav bar.
-        // Minimum 4dp so there is always a small gap at the bottom.
-        int bottomPx   = Math.max(insets.bottom, Math.round(4 * density));
+        int cornerPx  = res.getDimensionPixelSize(R.dimen.elyra_dock_corner_radius);
+        int leftPx    = res.getDimensionPixelSize(R.dimen.elyra_dock_horizontal_margin);
+        int rightPx   = leftPx;
+        int topPx     = res.getDimensionPixelSize(R.dimen.elyra_dock_top_gap);
+        // Bottom inset = nav bar height so pill sits above gesture/button area.
+        // Clamp to at least elyra_dock_bottom_gap for devices reporting zero nav bar height.
+        int minBottomPx = res.getDimensionPixelSize(R.dimen.elyra_dock_bottom_gap);
+        int bottomPx  = Math.max(insets.bottom, minBottomPx);
 
-        // Pill shape: dark frosted dark-navy fill + hairline white stroke.
+        // Dark frosted-glass pill: solid fill + visible hairline border.
         GradientDrawable pill = new GradientDrawable();
         pill.setShape(GradientDrawable.RECTANGLE);
         pill.setColor(ContextCompat.getColor(ctx, R.color.elyra_dock_bg));
         pill.setCornerRadius(cornerPx);
-        pill.setStroke(Math.round(1 * density), Color.parseColor("#1AFFFFFF"));
+        // Slightly brighter stroke for premium soft-edge definition.
+        pill.setStroke(
+                (int) (res.getDisplayMetrics().density),   // 1dp in px
+                Color.parseColor("#33FFFFFF"));
 
         hotseat.setBackground(new InsetDrawable(pill, leftPx, topPx, rightPx, bottomPx));
     }
