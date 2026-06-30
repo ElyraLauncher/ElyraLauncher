@@ -163,6 +163,7 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         ((TextView) row.findViewById(R.id.row_title)).setText(titleRes);
         ((TextView) row.findViewById(R.id.row_summary)).setText(summaryRes);
         SwitchCompat sw = row.findViewById(R.id.row_switch);
+        sw.setShowText(false);
         sw.setClickable(false);
         sw.setOnCheckedChangeListener(null);
         sw.setChecked(mPrefs.getBoolean(prefKey, defaultValue));
