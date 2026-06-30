@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra settings main dashboard.
+    Replaces the default PreferenceScreen as the root content of SettingsActivity.
+    Inflated by ElyraSettingsDashboardFragment.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/elyra_settings_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Pusat Elyra hero card — reuse the preference hero layout as a regular view -->
+        <include layout="@layout/elyra_settings_hero_card" />
+
+        <!-- Section label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_settings_section_general"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp"
+            android:letterSpacing="0.10"
+            android:textAllCaps="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp" />
+
+        <!-- Rounded settings card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/elyra_settings_card_bg"
+            android:clipToOutline="true">
+
+            <!-- Notification Dots (nav row — opens system notification settings) -->
+            <include
+                android:id="@+id/row_notification_dots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <!-- Divider between Notification Dots and Add to Home -->
+            <View
+                android:id="@+id/divider_notif_add"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <!-- Add to Home (toggle row) -->
+            <include
+                android:id="@+id/row_add_to_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <!-- Divider between Add to Home and Rotation (hidden when rotation is hidden) -->
+            <View
+                android:id="@+id/divider_add_rotation"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <!-- Rotation (toggle row — phones only) -->
+            <include
+                android:id="@+id/row_rotation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+        </LinearLayout>
+
+        <!-- Bottom breathing room -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+
+    </LinearLayout>
+
+</ScrollView>
