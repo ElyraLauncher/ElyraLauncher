@@ -107,7 +107,7 @@
     <string name="elyra_charging_time_format">Penuh dalam %s menit</string>
 
     <!-- Search trigger -->
-    <string name="elyra_search_hint">Cari aplikasi atau konten</string>
+    <string name="elyra_search_hint">Cari</string>
 
     <!-- String arrays for ListPreferences -->
     <string-array name="elyra_home_mode_entries">

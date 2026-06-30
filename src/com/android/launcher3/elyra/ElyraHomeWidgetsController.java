@@ -250,18 +250,25 @@ public final class ElyraHomeWidgetsController
 
     private void attachSearchTriggerToDragLayer() {
         DeviceProfile dp = mLauncher.getDeviceProfile();
-        // Place the trigger just above the hotseat (including nav bar inset).
-        // workspacePadding.bottom is the sum of hotseat + nav bar reserved for the workspace.
-        int bottomMargin = dp.workspacePadding.bottom > 0
+        android.content.res.Resources res = mLauncher.getResources();
+
+        // Position the trigger in the page indicator zone: just above the dock pill.
+        // workspacePadding.bottom is the total bottom reserved area (hotseat + page-indicator gap).
+        // We place the trigger at the hotseat top so it sits alongside the page indicator dots.
+        int hotseatTop = dp.workspacePadding.bottom > 0
                 ? dp.workspacePadding.bottom
                 : (dp.hotseatBarSizePx - dp.getInsets().bottom);
+        // Add a small nudge above the hotseat so the pill floats near the indicator dots.
+        int nudge = (int)(res.getDisplayMetrics().density * 8);
+        int bottomMargin = hotseatTop + nudge;
 
-        // Fixed compact width from dimen resource — not full-width, not a Google bar.
-        int triggerWidthPx = mLauncher.getResources().getDimensionPixelSize(
+        int triggerWidthPx  = res.getDimensionPixelSize(
                 com.android.launcher3.R.dimen.elyra_search_trigger_width);
+        int triggerHeightPx = res.getDimensionPixelSize(
+                com.android.launcher3.R.dimen.elyra_search_trigger_height);
 
         BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
-                triggerWidthPx, ViewGroup.LayoutParams.WRAP_CONTENT);
+                triggerWidthPx, triggerHeightPx);
         lp.gravity      = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         lp.bottomMargin = bottomMargin;
 
