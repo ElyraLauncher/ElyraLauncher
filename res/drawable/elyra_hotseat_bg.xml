@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/elyra_dock_bg" />
-    <corners android:radius="@dimen/elyra_dock_corner_radius" />
-</shape>
+<!-- Floating pill dock background.
+     Layer-list item applies left/right insets so the visible pill does not span
+     the full screen width, giving the dock a floating card appearance.
+     The Hotseat view itself is still full-width; this is purely visual. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="12dp"
+        android:right="12dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/elyra_dock_bg" />
+            <corners android:radius="@dimen/elyra_dock_corner_radius" />
+            <stroke android:width="0.5dp" android:color="#1AFFFFFF" />
+        </shape>
+    </item>
+</layer-list>

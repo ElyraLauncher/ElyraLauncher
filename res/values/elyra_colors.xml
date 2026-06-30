@@ -2,20 +2,20 @@
 <resources>
     <!-- Elyra brand accent (deep violet) -->
     <color name="elyra_accent">#7C5CBF</color>
-    <color name="elyra_accent_container">#EDE7F6</color>
+    <color name="elyra_accent_container">#1A0E2E</color>
 
-    <!-- Dock / hotseat surface — light default -->
-    <color name="elyra_dock_bg">#CCFFFFFF</color>
+    <!-- Dock / hotseat surface — dark frosted (was incorrectly #CCFFFFFF light) -->
+    <color name="elyra_dock_bg">#D9080E1A</color>
 
-    <!-- Folder surface — light default -->
-    <color name="elyra_folder_bg">#EDE9F6</color>
+    <!-- Folder surface — dark navy-violet -->
+    <color name="elyra_folder_bg">#CC0D1527</color>
 
-    <!-- All-apps drawer scrim — light default -->
-    <color name="elyra_drawer_scrim">#EAE6F8</color>
+    <!-- All-apps drawer scrim — near-opaque dark navy -->
+    <color name="elyra_drawer_scrim">#F20D1117</color>
 
-    <!-- All-apps search bar — light default -->
-    <color name="elyra_search_bg">#F7F5FF</color>
-    <color name="elyra_search_stroke">#D4CEEC</color>
+    <!-- All-apps search bar — dark navy field -->
+    <color name="elyra_search_bg">#CC111827</color>
+    <color name="elyra_search_stroke">#33FFFFFF</color>
 
     <!-- Hero card / settings surface -->
     <color name="elyra_hero_bg_start">#1A1433</color>
@@ -25,14 +25,14 @@
     <color name="elyra_hero_action_bg">#29FFFFFF</color>
     <color name="elyra_info_pill_bg">#447C5CBF</color>
 
-    <!-- Smart region surface (home screen overlay) -->
+    <!-- Smart region surface (home screen overlay, used for card reference) -->
     <color name="elyra_smart_region_bg">#CC0D0B1E</color>
     <color name="elyra_smart_text_greeting">#B3FFFFFF</color>
     <color name="elyra_smart_text_identity">#FFFFFFFF</color>
     <color name="elyra_smart_text_subtitle">#80FFFFFF</color>
 
     <!-- Search trigger surface -->
-    <color name="elyra_search_trigger_bg">#99000000</color>
+    <color name="elyra_search_trigger_bg">#CC080E1A</color>
     <color name="elyra_search_trigger_text">#99FFFFFF</color>
 
     <!-- Charging takeover -->

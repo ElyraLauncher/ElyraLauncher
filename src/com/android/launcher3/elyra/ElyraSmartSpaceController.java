@@ -23,14 +23,18 @@ import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
 
 /**
- * Creates and initialises the Elyra smart region card and search trigger pill.
+ * Creates and initialises the Elyra home-screen widgets:
  *
- * <p>Views are inflated and wired here but NOT attached to any parent.
- * {@link ElyraHomeWidgetsController} is responsible for placing them:
  * <ul>
- *   <li>Smart region → FrameLayout container on CellLayout 0 (workspace-bound).</li>
- *   <li>Search trigger → DragLayer, above the hotseat (dock-area, page-independent).</li>
+ *   <li><b>Smart widget</b> ({@code elyra_smart_region.xml}) — unified view containing greeting,
+ *       Elyra identity, rotating subtitle, charging/notification takeover sections, and the
+ *       live clock / weather column.  Placed on CellLayout 0 by
+ *       {@link ElyraHomeWidgetsController}.</li>
+ *   <li><b>Search trigger pill</b> ({@code elyra_search_trigger.xml}) — placed in DragLayer
+ *       by {@link ElyraHomeWidgetsController}.</li>
  * </ul>
+ *
+ * <p>Views are inflated here but NOT attached to any parent.</p>
  */
 public final class ElyraSmartSpaceController {
 
@@ -63,41 +67,44 @@ public final class ElyraSmartSpaceController {
     };
 
     /**
-     * Called from {@link ElyraHomeWidgetsController}. Returns {@code null} if both
-     * SMART_REGION and SEARCH_TRIGGER flags are disabled.
+     * Returns {@code null} if both SMART_REGION and SEARCH_TRIGGER flags are off.
+     * Called from {@link ElyraHomeWidgetsController}.
      */
     static ElyraSmartSpaceController create(Launcher launcher) {
         if (!ElyraFeatureFlags.SMART_REGION && !ElyraFeatureFlags.SEARCH_TRIGGER) return null;
         return new ElyraSmartSpaceController(launcher);
     }
 
-    /** Inflated smart region card — caller attaches to workspace page. */
+    /** Unified smart widget view — caller attaches to workspace page 0. */
     View getSmartRegionView()   { return mSmartRegionView; }
 
-    /** Inflated search trigger pill — caller attaches to DragLayer. */
+    /** Search trigger pill — caller attaches to DragLayer. */
     View getSearchTriggerView() { return mSearchTriggerView; }
 
     private ElyraSmartSpaceController(Launcher launcher) {
         mLauncher = launcher;
-        if (ElyraFeatureFlags.SMART_REGION)   setupSmartRegion();
+        if (ElyraFeatureFlags.SMART_REGION)   setupSmartRegion(launcher);
         if (ElyraFeatureFlags.SEARCH_TRIGGER) setupSearchTrigger();
     }
 
-    // ── Smart region ──────────────────────────────────────────────────────────
+    // ── Unified smart widget ──────────────────────────────────────────────────
 
-    private void setupSmartRegion() {
-        mSmartRegionView = LayoutInflater.from(mLauncher)
+    private void setupSmartRegion(Launcher launcher) {
+        mSmartRegionView = LayoutInflater.from(launcher)
                 .inflate(R.layout.elyra_smart_region, null, false);
-
-        // Non-interactive container — workspace icon touches fall through.
         mSmartRegionView.setClickable(false);
         mSmartRegionView.setFocusable(false);
 
         initGreeting();
         startSubtitleRotation();
 
+        // Bind live clock + weather to the right column of the unified widget.
+        if (ElyraFeatureFlags.WEATHER_TIME_CARD) {
+            ElyraWeatherTimeController.bind(launcher, mSmartRegionView);
+        }
+
         if (ElyraFeatureFlags.CHARGING_TAKEOVER) {
-            ElyraChargingTakeoverController.attach(mLauncher, mSmartRegionView);
+            ElyraChargingTakeoverController.attach(launcher, mSmartRegionView);
         }
         if (ElyraFeatureFlags.NOTIFICATION_TAKEOVER) {
             ElyraNotificationTakeoverController.attach(mSmartRegionView);
@@ -130,7 +137,6 @@ public final class ElyraSmartSpaceController {
         mSearchTriggerView = LayoutInflater.from(mLauncher)
                 .inflate(R.layout.elyra_search_trigger, null, false);
         mSearchTriggerView.setOnClickListener(v -> openSearch());
-        // DragLayer layout params and addView handled by ElyraHomeWidgetsController.
     }
 
     private void openSearch() {

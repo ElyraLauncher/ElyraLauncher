@@ -90,6 +90,10 @@ public final class ElyraPreferenceController {
         if (!ElyraFeatureFlags.NOTIFICATION_TAKEOVER) {
             setHidden(screen, KEY_NOTIFICATION_TAKEOVER);
         }
+
+        // Widget Cerdas category: entries are informational-only (selectable=false) with no
+        // user-facing toggles. Hide until real controls are added.
+        setHidden(screen, "elyra_widget_category");
     }
 
     private static void configureHomeMode(PreferenceGroup screen, Context ctx) {

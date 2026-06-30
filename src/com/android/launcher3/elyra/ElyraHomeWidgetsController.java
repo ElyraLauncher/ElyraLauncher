@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeviceProfile;
@@ -31,25 +30,20 @@ import com.android.launcher3.views.BaseDragLayer;
  *
  * <p><b>Attachment architecture:</b>
  * <ul>
- *   <li><b>Smart region (greeting) + weather card</b> — attached to a {@link FrameLayout}
- *       container added as a child of {@link CellLayout} 0 (workspace page 0).  Because they
- *       live inside the workspace view hierarchy they:
+ *   <li><b>Smart widget</b> (unified greeting + weather, {@code elyra_smart_region.xml}) —
+ *       added directly to {@link CellLayout} 0 (workspace page 0).  It lives inside the
+ *       workspace view hierarchy, so it:
  *       <ul>
- *         <li>scroll off-screen naturally when the user swipes to another page;</li>
- *         <li>fade with workspace alpha during gesture-based All Apps / Overview transitions
- *             (WorkspaceStateTransitionAnimation calls {@code CellLayout.setAlpha()} which
- *             propagates to all children), including the in-progress swipe before the
- *             state commit fires;</li>
- *         <li>require no explicit {@link StateManager.StateListener} for hiding.</li>
+ *         <li>scrolls off-screen when the user swipes to page 1+;</li>
+ *         <li>fades with {@code CellLayout.setAlpha()} during gesture-based All Apps / Overview
+ *             transitions, covering the full gesture duration (not just post-commit);</li>
+ *         <li>requires no explicit {@link StateManager.StateListener} for hiding.</li>
  *       </ul>
  *   </li>
- *   <li><b>Search trigger pill</b> — still in {@code DragLayer} above the hotseat (dock-area,
- *       page-independent).  Hidden via {@link StateManager.StateListener} so it disappears
- *       in ALL_APPS, OVERVIEW, and SPRING_LOADED.</li>
+ *   <li><b>Search trigger pill</b> — added to {@code DragLayer} above the hotseat
+ *       (page-independent).  Hidden via {@link StateManager.StateListener} in non-NORMAL
+ *       states and fades out while the user swipes between workspace pages.</li>
  * </ul>
- *
- * <p>Hook: {@code ElyraHomeWidgetsController.attachTo(launcher)} at the end of
- * {@code Launcher.setupViews()}.
  */
 public final class ElyraHomeWidgetsController
         implements StateManager.StateListener<LauncherState> {
@@ -60,7 +54,6 @@ public final class ElyraHomeWidgetsController
     private final Launcher mLauncher;
     private final Handler  mHandler = new Handler(Looper.getMainLooper());
 
-    /** Only the search trigger needs explicit state gating — workspace views gate via CellLayout alpha. */
     private View    mSearchTriggerView;
     private boolean mIsNormal = true;
 
@@ -85,47 +78,32 @@ public final class ElyraHomeWidgetsController
     private ElyraHomeWidgetsController(Launcher launcher) {
         mLauncher = launcher;
 
-        // -- Smart region + search trigger --
         ElyraSmartSpaceController smartSpace = ElyraSmartSpaceController.create(launcher);
-        View smartRegionView  = smartSpace != null ? smartSpace.getSmartRegionView()   : null;
-        mSearchTriggerView    = smartSpace != null ? smartSpace.getSearchTriggerView() : null;
+        View smartWidgetView = smartSpace != null ? smartSpace.getSmartRegionView()   : null;
+        mSearchTriggerView   = smartSpace != null ? smartSpace.getSearchTriggerView() : null;
 
-        // -- Weather / time card --
-        View weatherCardView = null;
-        if (ElyraFeatureFlags.WEATHER_TIME_CARD) {
-            ElyraWeatherTimeController weather = ElyraWeatherTimeController.attach(launcher);
-            weatherCardView = weather.getCardView();
+        if (smartWidgetView != null) {
+            attachToWorkspacePage(smartWidgetView);
         }
 
-        // Workspace-bound: smart region + weather → CellLayout 0.
-        // Deferred via post() because workspace pages may not yet exist at setupViews() time.
-        if (smartRegionView != null || weatherCardView != null) {
-            final View sr = smartRegionView;
-            final View wc = weatherCardView;
-            attachToWorkspacePage(sr, wc);
-        }
-
-        // Dock-area: search trigger → DragLayer (page-independent, state-gated).
         if (mSearchTriggerView != null) {
             attachSearchTriggerToDragLayer();
         }
 
-        // StateManager listener — for search trigger only.
         launcher.getStateManager().addStateListener(this);
 
-        // Single workspace scroll listener — search trigger fade only.
         launcher.getWorkspace().setOnScrollChangeListener(
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) ->
                         onWorkspaceScrolled(scrollX, oldScrollX));
     }
 
-    // ── Workspace attachment (smart region + weather) ─────────────────────────
+    // ── Workspace attachment (smart widget) ───────────────────────────────────
 
-    private void attachToWorkspacePage(View smartRegion, View weatherCard) {
+    private void attachToWorkspacePage(View smartWidget) {
         Workspace workspace = mLauncher.getWorkspace();
         workspace.post(() -> {
             if (workspace.getChildCount() > 0) {
-                doAttachToPage0(workspace, smartRegion, weatherCard);
+                doAttachToPage0(workspace, smartWidget);
             } else {
                 workspace.getViewTreeObserver().addOnGlobalLayoutListener(
                         new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -133,7 +111,7 @@ public final class ElyraHomeWidgetsController
                                 if (workspace.getChildCount() > 0) {
                                     workspace.getViewTreeObserver()
                                             .removeOnGlobalLayoutListener(this);
-                                    doAttachToPage0(workspace, smartRegion, weatherCard);
+                                    doAttachToPage0(workspace, smartWidget);
                                 }
                             }
                         });
@@ -141,60 +119,37 @@ public final class ElyraHomeWidgetsController
         });
     }
 
-    private void doAttachToPage0(Workspace workspace, View smartRegion, View weatherCard) {
+    private void doAttachToPage0(Workspace workspace, View smartWidget) {
         if (workspace.getChildCount() == 0) return;
         View page = workspace.getChildAt(0);
         if (!(page instanceof CellLayout)) return;
         CellLayout page0 = (CellLayout) page;
 
-        // Container spans the full width of page 0 and sits at the very top (y=0).
-        // CellLayout.onLayout() only positions mShortcutsAndWidgets; our container
-        // is positioned manually below via OnLayoutChangeListener.
-        FrameLayout container = new FrameLayout(mLauncher);
+        // The smart widget is MATCH_PARENT width, WRAP_CONTENT height.
+        // CellLayout.onLayout() only positions mShortcutsAndWidgets; our widget is
+        // measured and laid out manually via OnLayoutChangeListener.
+        page0.addView(smartWidget);
 
-        if (smartRegion != null) {
-            FrameLayout.LayoutParams srLp = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    Gravity.TOP | Gravity.START);
-            container.addView(smartRegion, srLp);
-        }
-
-        if (weatherCard != null) {
-            FrameLayout.LayoutParams wcLp = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    Gravity.TOP | Gravity.END);
-            wcLp.rightMargin = dpToPx(16);
-            container.addView(weatherCard, wcLp);
-        }
-
-        // Add as last child of CellLayout so it draws above icons.
-        page0.addView(container);
-
-        // Measure + layout the container manually whenever page0 changes size.
-        // (CellLayout.onLayout() won't do this for us.)
         page0.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) ->
-                measureAndLayoutContainer(container, r - l));
+                measureAndLayout(smartWidget, r - l));
 
-        // Trigger an immediate layout pass.
-        page0.post(() -> measureAndLayoutContainer(container, page0.getWidth()));
+        page0.post(() -> measureAndLayout(smartWidget, page0.getWidth()));
     }
 
-    private void measureAndLayoutContainer(FrameLayout container, int pageWidth) {
+    private void measureAndLayout(View v, int pageWidth) {
         if (pageWidth <= 0) return;
-        container.measure(
+        v.measure(
                 View.MeasureSpec.makeMeasureSpec(pageWidth, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        container.layout(0, 0, pageWidth, container.getMeasuredHeight());
+        v.layout(0, 0, pageWidth, v.getMeasuredHeight());
     }
 
     // ── DragLayer attachment (search trigger) ─────────────────────────────────
 
     private void attachSearchTriggerToDragLayer() {
         DeviceProfile dp = mLauncher.getDeviceProfile();
-        // workspacePadding.bottom is nav-bar-corrected; using hotseatBarSizePx directly
-        // would double-count the nav-bar inset (consumed by LauncherRootView.fitsSystemWindows).
+        // workspacePadding.bottom is nav-bar-corrected; hotseatBarSizePx alone would
+        // double-count the nav-bar inset consumed by LauncherRootView.fitsSystemWindows.
         int bottomMargin = dp.workspacePadding.bottom > 0
                 ? dp.workspacePadding.bottom
                 : (dp.hotseatBarSizePx - dp.getInsets().bottom);

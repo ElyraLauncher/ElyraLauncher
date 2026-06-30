@@ -14,9 +14,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,25 +24,21 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.android.launcher3.Launcher;
-import com.android.launcher3.R;
 
 /**
- * Manages the upper-right weather / time card on the home screen.
+ * Drives the clock/date and weather temperature displayed in the right column of the unified
+ * Elyra smart widget ({@code elyra_smart_region.xml}).
  *
- * <p>Tapping the card toggles between the weather state (default, placeholder data)
- * and the time state (live clock + date). The clock updates every minute via
- * {@link Intent#ACTION_TIME_TICK}. Weather data is placeholder until an API is wired.</p>
+ * <p>Does NOT inflate its own layout. Called from {@link ElyraSmartSpaceController} after the
+ * unified widget is inflated; binds directly to {@code R.id.elyra_time_clock},
+ * {@code elyra_time_date}, and {@code elyra_weather_temp} inside that view.</p>
  *
- * <p>Created and owned by {@link ElyraSmartSpaceController}. Hook lives in
- * {@code Launcher.setupViews()} via {@code ElyraSmartSpaceController.attachTo(this)}.</p>
+ * <p>Clock updates every minute via {@link Intent#ACTION_TIME_TICK}. The receiver is
+ * unregistered via {@link View.OnAttachStateChangeListener} when the widget is detached from
+ * the window (launcher destroyed / rotated), preventing receiver leaks.</p>
  */
-public final class ElyraWeatherTimeController {
+final class ElyraWeatherTimeController {
 
-    private boolean mShowingTime = false;
-
-    private View mCardView;
-    private View mWeatherState;
-    private View mTimeState;
     private TextView mClockView;
     private TextView mDateView;
 
@@ -57,57 +50,30 @@ public final class ElyraWeatherTimeController {
     };
 
     /**
-     * Inflates the card, adds it to DragLayer in the upper-right corner, and
-     * registers time-tick events. Called from {@link ElyraHomeWidgetsController}.
+     * Binds clock/weather views inside {@code widgetView} and registers the time-tick receiver.
+     * Called from {@link ElyraSmartSpaceController#setupSmartRegion(Launcher)}.
      */
-    static ElyraWeatherTimeController attach(Launcher launcher) {
+    static void bind(Launcher launcher, View widgetView) {
         ElyraWeatherTimeController ctrl = new ElyraWeatherTimeController();
-        ctrl.setup(launcher);
-        return ctrl;
+        ctrl.bindViews(launcher, widgetView);
     }
 
-    /** Returns the root card view added to DragLayer, for state-based visibility control. */
-    View getCardView() { return mCardView; }
+    private void bindViews(Launcher launcher, View widgetView) {
+        mClockView = widgetView.findViewById(com.android.launcher3.R.id.elyra_time_clock);
+        mDateView  = widgetView.findViewById(com.android.launcher3.R.id.elyra_time_date);
 
-    private void setup(Launcher launcher) {
-        mCardView = LayoutInflater.from(launcher)
-                .inflate(R.layout.elyra_weather_time_card, null, false);
-
-        // Parent attachment and layout handled by ElyraHomeWidgetsController.
-        mWeatherState = mCardView.findViewById(R.id.elyra_weather_state);
-        mTimeState    = mCardView.findViewById(R.id.elyra_time_state);
-        mClockView    = mCardView.findViewById(R.id.elyra_time_clock);
-        mDateView     = mCardView.findViewById(R.id.elyra_time_date);
-
-        mCardView.setOnClickListener(v -> toggleState());
-
-        // Register time tick on application context to avoid leaking the card view.
         final Context appCtx = launcher.getApplicationContext();
-        appCtx.registerReceiver(mTickReceiver,
-                new IntentFilter(Intent.ACTION_TIME_TICK));
+        appCtx.registerReceiver(mTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
-        // Unregister when the card is detached from the window (launcher destroyed/recreated)
-        // to prevent accumulating duplicate receivers across activity instances.
-        mCardView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+        widgetView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override public void onViewAttachedToWindow(@NonNull View v) {}
             @Override public void onViewDetachedFromWindow(@NonNull View v) {
-                try { appCtx.unregisterReceiver(mTickReceiver); } catch (IllegalArgumentException ignored) {}
+                try { appCtx.unregisterReceiver(mTickReceiver); }
+                catch (IllegalArgumentException ignored) {}
             }
         });
 
         updateClock();
-    }
-
-    private void toggleState() {
-        mShowingTime = !mShowingTime;
-        if (mShowingTime) {
-            mWeatherState.setVisibility(View.GONE);
-            mTimeState.setVisibility(View.VISIBLE);
-            updateClock();
-        } else {
-            mTimeState.setVisibility(View.GONE);
-            mWeatherState.setVisibility(View.VISIBLE);
-        }
     }
 
     private void updateClock() {
@@ -116,5 +82,4 @@ public final class ElyraWeatherTimeController {
         mClockView.setText(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(now));
         mDateView.setText(new SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(now));
     }
-
 }
