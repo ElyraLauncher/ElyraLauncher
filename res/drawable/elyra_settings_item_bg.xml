@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Dark preference item interactive background for Elyra settings screen.
+    Transparent fill (the dark window background shows through) with a soft white
+    ripple on touch. Overrides the default light-AppCompat selectableItemBackground
+    via HomeSettings.Theme so preference rows do not render with a white/beige surface.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#29FFFFFF">
+    <item android:id="@android:id/mask">
+        <color android:color="#FF000000" />
+    </item>
+</ripple>

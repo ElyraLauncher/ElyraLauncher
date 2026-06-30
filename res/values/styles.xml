@@ -186,6 +186,11 @@
         <item name="android:navigationBarColor">@color/elyra_settings_bg</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <!-- Override AppCompat's light selectableItemBackground so preference item rows
+             are transparent (dark window background shows through) with white ripple.
+             This is the key fix for "default brown PreferenceScreen" appearance. -->
+        <item name="selectableItemBackground">@drawable/elyra_settings_item_bg</item>
+        <item name="selectableItemBackgroundBorderless">@drawable/elyra_settings_item_bg</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
     </style>

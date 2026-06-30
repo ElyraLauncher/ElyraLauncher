@@ -11,20 +11,14 @@
 package com.android.launcher3.elyra;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceGroup;
-import androidx.preference.PreferenceScreen;
 import androidx.preference.PreferenceViewHolder;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.launcher3.R;
 
@@ -32,11 +26,12 @@ import com.android.launcher3.R;
  * Renders the "Pusat Elyra" hero card at the top of the settings screen.
  *
  * <p>Added to the PreferenceScreen programmatically with {@code setOrder(Integer.MIN_VALUE)}
- * from {@link ElyraPreferenceController#configure(androidx.preference.PreferenceGroup)}.
- * Uses a custom layout that replaces the standard preference chrome entirely.</p>
+ * in {@link ElyraPreferenceController#configure}.  Uses a custom layout
+ * ({@code elyra_settings_hero_card.xml}) that replaces the standard preference chrome.</p>
  *
- * <p>The description text rotates every {@link #DESCRIPTION_ROTATE_MS} milliseconds among the
- * five entries in {@link #DESCRIPTIONS}.  Rotation stops when the view is recycled (detached).</p>
+ * <p>Contains an info pill, the "Pusat Elyra" title, and a rotating description that swaps
+ * every {@link #DESCRIPTION_ROTATE_MS} ms.  Quick-action buttons and a fake weather preview
+ * that previously pointed to hidden preference categories have been removed.</p>
  */
 public final class ElyraSettingsHeroController extends Preference {
 
@@ -54,7 +49,6 @@ public final class ElyraSettingsHeroController extends Preference {
     private int mDescriptionIndex = 0;
     private TextView mDescriptionView;
     private boolean mRotating = false;
-    private RecyclerView mRecyclerView;
 
     private final Runnable mRotateRunnable = new Runnable() {
         @Override
@@ -85,84 +79,21 @@ public final class ElyraSettingsHeroController extends Preference {
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        // Stop any in-flight rotation before rebinding (view recycled or settings reopened).
+        // Cancel any in-flight rotation from a previous bind (recycled or re-opened settings).
         mRotating = false;
         mHandler.removeCallbacks(mRotateRunnable);
-
-        // Capture the host RecyclerView for category scroll.
-        if (holder.itemView.getParent() instanceof RecyclerView) {
-            mRecyclerView = (RecyclerView) holder.itemView.getParent();
-        }
 
         mDescriptionView = (TextView) holder.findViewById(R.id.elyra_hero_description);
         if (mDescriptionView != null) {
             mDescriptionView.setText(DESCRIPTIONS[mDescriptionIndex]);
         }
 
-        // Wire quick actions to relevant settings destinations.
-        wireAction(holder, R.id.elyra_action_weather,      () -> openCategory("elyra_widget_category"));
-        wireAction(holder, R.id.elyra_action_notification, () -> openCategory("elyra_notification_category"));
-        wireAction(holder, R.id.elyra_action_location,     this::openLocationSettings);
-
         startRotation();
     }
 
-    /** Starts description rotation after initial display. */
     private void startRotation() {
         if (mRotating) return;
         mRotating = true;
         mHandler.postDelayed(mRotateRunnable, DESCRIPTION_ROTATE_MS);
-    }
-
-    /** Stops rotation and clears the handler reference when view is recycled. */
-    public void stopRotation() {
-        mRotating = false;
-        mDescriptionView = null;
-        mHandler.removeCallbacks(mRotateRunnable);
-    }
-
-    private void openLocationSettings() {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getContext().startActivity(intent);
-    }
-
-    private void wireAction(PreferenceViewHolder holder, int viewId, Runnable action) {
-        View v = holder.findViewById(viewId);
-        if (v != null) v.setOnClickListener(view -> action.run());
-    }
-
-    /**
-     * Scrolls the settings RecyclerView to the preference with the given key.
-     * Uses a linear traversal of the preference tree to find the adapter position.
-     */
-    private void openCategory(String key) {
-        if (mRecyclerView == null) return;
-        PreferenceScreen screen = getPreferenceManager().getPreferenceScreen();
-        if (screen == null) return;
-
-        int[] counter = {0};
-        int position = findPosition(screen, key, counter);
-        if (position >= 0) {
-            mRecyclerView.smoothScrollToPosition(position);
-        }
-    }
-
-    /**
-     * Depth-first traversal of the preference tree; returns the flattened adapter position
-     * of the preference matching {@code key}, or -1 if not found.
-     */
-    private int findPosition(PreferenceGroup group, String key, int[] counter) {
-        for (int i = 0; i < group.getPreferenceCount(); i++) {
-            Preference pref = group.getPreference(i);
-            if (!pref.isVisible()) continue;
-            if (key.equals(pref.getKey())) return counter[0];
-            counter[0]++;
-            if (pref instanceof PreferenceGroup) {
-                int found = findPosition((PreferenceGroup) pref, key, counter);
-                if (found >= 0) return found;
-            }
-        }
-        return -1;
     }
 }
