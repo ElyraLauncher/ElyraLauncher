@@ -27,14 +27,15 @@ public final class ElyraPreferenceController {
 
     private ElyraPreferenceController() {}
 
-    private static final String KEY_APPEARANCE_CATEGORY = "elyra_appearance_category";
-    private static final String KEY_HOME_CATEGORY        = "elyra_home_category";
-    private static final String KEY_FOLDER_CATEGORY      = "elyra_folder_category";
-    private static final String KEY_FLOATING_DOCK        = "elyra_floating_dock";
-    private static final String KEY_DRAWER_BLUR          = "elyra_drawer_blur";
-    private static final String KEY_HOME_MODE            = "elyra_home_mode";
-    private static final String KEY_GRID_PRESET          = "elyra_grid_preset";
-    private static final String KEY_FOLDER_STYLE         = "elyra_folder_style";
+    private static final String KEY_APPEARANCE_CATEGORY       = "elyra_appearance_category";
+    private static final String KEY_HOME_CATEGORY             = "elyra_home_category";
+    private static final String KEY_FOLDER_CATEGORY           = "elyra_folder_category";
+    private static final String KEY_FLOATING_DOCK             = "elyra_floating_dock";
+    private static final String KEY_DRAWER_BLUR               = "elyra_drawer_blur";
+    private static final String KEY_HOME_MODE                 = "elyra_home_mode";
+    private static final String KEY_GRID_PRESET               = "elyra_grid_preset";
+    private static final String KEY_FOLDER_STYLE              = "elyra_folder_style";
+    private static final String KEY_NOTIFICATION_TAKEOVER     = "elyra_notification_takeover_pref";
 
     /**
      * Configures Elyra preference entries on the given screen.
@@ -83,6 +84,11 @@ public final class ElyraPreferenceController {
             } else {
                 configureFolderStyle(screen, ctx);
             }
+        }
+
+        // Notification takeover pref: hide when listener integration is not wired.
+        if (!ElyraFeatureFlags.NOTIFICATION_TAKEOVER) {
+            setHidden(screen, KEY_NOTIFICATION_TAKEOVER);
         }
     }
 

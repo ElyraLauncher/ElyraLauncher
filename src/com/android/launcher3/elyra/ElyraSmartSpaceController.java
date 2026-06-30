@@ -77,21 +77,24 @@ public final class ElyraSmartSpaceController {
     };
 
     /**
-     * Called from {@code Launcher.setupViews()} to attach all home screen overlays.
-     * No-op if all home screen overlay flags are disabled.
+     * Called from {@link ElyraHomeWidgetsController} to create the smart region and
+     * search trigger. Returns {@code null} if both flags are disabled.
      */
-    public static void attachTo(Launcher launcher) {
-        if (!ElyraFeatureFlags.SMART_REGION
-                && !ElyraFeatureFlags.SEARCH_TRIGGER
-                && !ElyraFeatureFlags.WEATHER_TIME_CARD) return;
-        new ElyraSmartSpaceController(launcher);
+    static ElyraSmartSpaceController attachTo(Launcher launcher) {
+        if (!ElyraFeatureFlags.SMART_REGION && !ElyraFeatureFlags.SEARCH_TRIGGER) return null;
+        return new ElyraSmartSpaceController(launcher);
     }
+
+    /** Returns the smart region card view added to DragLayer, or {@code null}. */
+    View getSmartRegionView()  { return mSmartRegionView; }
+
+    /** Returns the lower search trigger view added to DragLayer, or {@code null}. */
+    View getSearchTriggerView() { return mSearchTriggerView; }
 
     private ElyraSmartSpaceController(Launcher launcher) {
         mLauncher = launcher;
-        if (ElyraFeatureFlags.SMART_REGION) setupSmartRegion();
-        if (ElyraFeatureFlags.WEATHER_TIME_CARD) ElyraWeatherTimeController.attach(launcher);
-        if (ElyraFeatureFlags.SEARCH_TRIGGER) setupSearchTrigger();
+        if (ElyraFeatureFlags.SMART_REGION)    setupSmartRegion();
+        if (ElyraFeatureFlags.SEARCH_TRIGGER)  setupSearchTrigger();
     }
 
     // ── Smart region ──────────────────────────────────────────────────────────

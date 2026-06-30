@@ -61,13 +61,16 @@ public final class ElyraWeatherTimeController {
 
     /**
      * Inflates the card, adds it to DragLayer in the upper-right corner, and
-     * registers time-tick events. Called from {@link ElyraSmartSpaceController}.
+     * registers time-tick events. Called from {@link ElyraHomeWidgetsController}.
      */
     static ElyraWeatherTimeController attach(Launcher launcher) {
         ElyraWeatherTimeController ctrl = new ElyraWeatherTimeController();
         ctrl.setup(launcher);
         return ctrl;
     }
+
+    /** Returns the root card view added to DragLayer, for state-based visibility control. */
+    View getCardView() { return mCardView; }
 
     private void setup(Launcher launcher) {
         mCardView = LayoutInflater.from(launcher)
