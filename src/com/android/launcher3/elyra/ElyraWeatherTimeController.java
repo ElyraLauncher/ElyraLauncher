@@ -20,7 +20,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +30,7 @@ import java.util.Locale;
 
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
+import com.android.launcher3.views.BaseDragLayer;
 
 /**
  * Manages the upper-right weather / time card on the home screen.
@@ -74,7 +74,10 @@ public final class ElyraWeatherTimeController {
                 .inflate(R.layout.elyra_weather_time_card, null, false);
 
         int statusBarH = getStatusBarHeight(launcher);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+        // BaseDragLayer.LayoutParams required — FrameLayout.LayoutParams loses gravity
+        // in BaseDragLayer.generateLayoutParams() causing card to render at top-left
+        // instead of top-right.
+        BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.TOP | Gravity.END;

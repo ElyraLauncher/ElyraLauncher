@@ -16,15 +16,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
+import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
-import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.views.BaseDragLayer;
 
 /**
  * Master controller for all Elyra home screen overlays.
@@ -101,7 +101,10 @@ public final class ElyraSmartSpaceController {
                 .inflate(R.layout.elyra_smart_region, null, false);
 
         int statusBarH = getStatusBarHeight();
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+        // Must use BaseDragLayer.LayoutParams — FrameLayout.LayoutParams loses gravity
+        // when BaseDragLayer.generateLayoutParams() wraps it via the (ViewGroup.LayoutParams)
+        // copy constructor, which does not copy the gravity field.
+        BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.TOP | Gravity.START;
@@ -152,18 +155,20 @@ public final class ElyraSmartSpaceController {
                 .inflate(R.layout.elyra_search_trigger, null, false);
 
         DeviceProfile dp = mLauncher.getDeviceProfile();
-        // Position the search trigger in the page-indicator zone — just above the hotseat.
-        // workspacePageIndicatorHeight is already within the hotseat bar on most profiles,
-        // so we only add a small extra gap so the trigger visually overlaps the dot area.
-        int bottomMargin = dp.hotseatBarSizePx + dpToPx(4);
+        // workspacePadding.bottom = distance from DragLayer bottom to workspace content end
+        // (already accounts for nav-bar inset consumed by LauncherRootView.fitsSystemWindows).
+        // Using hotseatBarSizePx directly would double-count the nav-bar inset and push the
+        // trigger above the DragLayer top (visible because clipChildren=false).
+        int bottomMargin = dp.workspacePadding.bottom > 0
+                ? dp.workspacePadding.bottom
+                : (dp.hotseatBarSizePx - dp.getInsets().bottom);
 
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+        // BaseDragLayer.LayoutParams required — see setupSmartRegion() comment.
+        BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         lp.bottomMargin = bottomMargin;
-        // Apply horizontal margins here; XML root margins are discarded when inflating
-        // without a parent ViewGroup.
         lp.leftMargin  = dpToPx(20);
         lp.rightMargin = dpToPx(20);
 

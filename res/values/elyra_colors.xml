@@ -38,4 +38,7 @@
     <!-- Charging takeover -->
     <color name="elyra_charging_bg">#CC0A1226</color>
     <color name="elyra_charging_glow">#667C5CBF</color>
+
+    <!-- Settings activity background: very dark blue-black -->
+    <color name="elyra_settings_bg">#0D0F1A</color>
 </resources>
