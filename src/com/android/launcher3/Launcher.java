@@ -2706,6 +2706,7 @@ public class Launcher extends StatefulActivity<LauncherState>
      public void collectStateHandlers(List<StateHandler<LauncherState>> out) {
         out.add(getAllAppsController());
         out.add(getWorkspace());
+        com.android.launcher3.elyra.ElyraHomeWidgetsController.collectStateHandler(out);
     }
 
     public TouchController[] createTouchControllers() {
