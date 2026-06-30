@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Hotseat dock surface dimensions -->
-    <dimen name="elyra_dock_corner_radius">28dp</dimen>
-    <!-- Horizontal inset from screen edge to the visible pill edge -->
-    <dimen name="elyra_dock_horizontal_margin">16dp</dimen>
-    <!-- Vertical gap above the pill (from top of Hotseat view) -->
-    <dimen name="elyra_dock_top_gap">8dp</dimen>
-    <!-- Minimum vertical gap below the pill (nav bar height takes precedence) -->
+
+    <!-- Large radius for pill/stadium card aesthetic -->
+    <dimen name="elyra_dock_corner_radius">36dp</dimen>
+
+    <!-- Space between screen edge and pill edge (~88–90% screen width) -->
+    <dimen name="elyra_dock_horizontal_margin">22dp</dimen>
+
+    <!-- Gap above visible pill from Hotseat view top edge -->
+    <dimen name="elyra_dock_top_gap">6dp</dimen>
+
+    <!-- Minimum gap below pill when nav bar reports zero height -->
     <dimen name="elyra_dock_bottom_gap">4dp</dimen>
-    <!-- Informational: target icon size inside the dock (actual value from DeviceProfile) -->
-    <dimen name="elyra_dock_icon_size">52dp</dimen>
-    <!-- Informational: gap between dock icons (actual value from DeviceProfile.hotseatBorderSpace) -->
-    <dimen name="elyra_dock_icon_gap">12dp</dimen>
+
+    <!-- Minimum breathing room between pill bottom and gesture nav bar -->
+    <dimen name="elyra_dock_bottom_margin">12dp</dimen>
+
+    <!-- Horizontal padding inside the pill from pill edge to first icon cell -->
+    <dimen name="elyra_dock_padding_horizontal">16dp</dimen>
+
+    <!-- Informational: target pill card height (actual value computed from DeviceProfile) -->
+    <dimen name="elyra_dock_height">80dp</dimen>
+
+    <!-- Informational: target icon size (actual value from DeviceProfile.hotseatCellHeightPx) -->
+    <dimen name="elyra_dock_icon_size">56dp</dimen>
+
+    <!-- Informational: minimum icon cell width for 4-icon layout -->
+    <dimen name="elyra_dock_icon_cell_min_width">64dp</dimen>
+
+    <!-- Informational: gap between icon cells (actual from DeviceProfile.hotseatBorderSpace) -->
+    <dimen name="elyra_dock_icon_gap">14dp</dimen>
 
     <!-- Folder surface -->
     <dimen name="elyra_folder_corner_radius">24dp</dimen>

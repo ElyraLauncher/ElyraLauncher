@@ -32,10 +32,11 @@ import com.android.launcher3.elyra.ElyraFeatureFlags;
  * device-specific nav bar height, so this controller creates the pill background programmatically
  * each time {@code Hotseat.setInsets()} fires.</p>
  *
- * <p>Visual result: a dark frosted-glass rounded-rectangle pill with
- * {@code elyra_dock_horizontal_margin} side insets, {@code elyra_dock_top_gap} top inset, and a
- * nav-bar-sized bottom inset so the pill floats cleanly above the navigation area.  Icons remain
- * centred vertically within the visible pill by {@code DeviceProfile.getHotseatLayoutPadding()}.</p>
+ * <p>Visual result: a dark frosted-glass pill that spans ~86–90% of screen width with large
+ * rounded corners ({@code elyra_dock_corner_radius}).  After setting the background, the
+ * controller overrides {@code Hotseat.setPadding()} so icons are vertically centred within the
+ * visible pill area and horizontally contained inside the pill's inner margin.  Without this
+ * override DeviceProfile places icons at {@code top=0}, causing them to appear above the pill.</p>
  *
  * <p>Hook: {@code Hotseat.setInsets(Rect)} calls
  * {@link #onInsetsChanged(View, Rect, DeviceProfile)} as its last statement.</p>
@@ -57,7 +58,6 @@ public final class ElyraDockController {
         if (!ElyraFeatureFlags.HOTSEAT_SURFACE) return;
 
         if (dp.isVerticalBarLayout()) {
-            // Landscape sidebar layout: clear the pill, no background.
             hotseat.setBackground(null);
             return;
         }
@@ -65,25 +65,38 @@ public final class ElyraDockController {
         Context ctx   = hotseat.getContext();
         Resources res = ctx.getResources();
 
-        int cornerPx  = res.getDimensionPixelSize(R.dimen.elyra_dock_corner_radius);
-        int leftPx    = res.getDimensionPixelSize(R.dimen.elyra_dock_horizontal_margin);
-        int rightPx   = leftPx;
-        int topPx     = res.getDimensionPixelSize(R.dimen.elyra_dock_top_gap);
-        // Bottom inset = nav bar height so pill sits above gesture/button area.
-        // Clamp to at least elyra_dock_bottom_gap for devices reporting zero nav bar height.
-        int minBottomPx = res.getDimensionPixelSize(R.dimen.elyra_dock_bottom_gap);
-        int bottomPx  = Math.max(insets.bottom, minBottomPx);
+        int cornerPx       = res.getDimensionPixelSize(R.dimen.elyra_dock_corner_radius);
+        int horizMarginPx  = res.getDimensionPixelSize(R.dimen.elyra_dock_horizontal_margin);
+        int paddingHorizPx = res.getDimensionPixelSize(R.dimen.elyra_dock_padding_horizontal);
+        int topGapPx       = res.getDimensionPixelSize(R.dimen.elyra_dock_top_gap);
+        int minBottomPx    = res.getDimensionPixelSize(R.dimen.elyra_dock_bottom_gap);
+        // Nav bar inset defines where the pill must stop; clamp to minimum for button-nav devices.
+        int bottomGapPx    = Math.max(insets.bottom, minBottomPx);
 
-        // Dark frosted-glass pill: solid fill + visible hairline border.
+        // Dark frosted-glass pill: solid fill + hairline border.
         GradientDrawable pill = new GradientDrawable();
         pill.setShape(GradientDrawable.RECTANGLE);
         pill.setColor(ContextCompat.getColor(ctx, R.color.elyra_dock_bg));
         pill.setCornerRadius(cornerPx);
-        // Slightly brighter stroke for premium soft-edge definition.
         pill.setStroke(
-                (int) (res.getDisplayMetrics().density),   // 1dp in px
+                (int) (res.getDisplayMetrics().density),
                 Color.parseColor("#33FFFFFF"));
+        hotseat.setBackground(
+                new InsetDrawable(pill, horizMarginPx, topGapPx, horizMarginPx, bottomGapPx));
 
-        hotseat.setBackground(new InsetDrawable(pill, leftPx, topPx, rightPx, bottomPx));
+        // DeviceProfile.getHotseatLayoutPadding() returns top=0 for the default portrait path,
+        // placing icons at y=0 of the Hotseat view — above the pill's top edge (topGapPx).
+        // Override the padding so icons are vertically centred within the visible pill area
+        // and horizontally contained within the pill's inner bounds.
+        int pillHeightPx = dp.hotseatBarSizePx - topGapPx - bottomGapPx;
+        int iconHeightPx = dp.hotseatCellHeightPx;
+        if (pillHeightPx > iconHeightPx) {
+            int vertOffset = (pillHeightPx - iconHeightPx) / 2;
+            hotseat.setPadding(
+                    horizMarginPx + paddingHorizPx,   // left: pill edge + inner margin
+                    topGapPx + vertOffset,             // top: pill top + centering offset
+                    horizMarginPx + paddingHorizPx,   // right: symmetric
+                    bottomGapPx + vertOffset);         // bottom: nav inset + centering offset
+        }
     }
 }
