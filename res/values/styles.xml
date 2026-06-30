@@ -174,7 +174,7 @@
     <!-- Elyra dark settings: AppCompat base so AndroidX preferences + alert dialogs resolve
          AppCompat attrs (listLayout, etc.). Parent was Theme.DeviceDefault.Settings (AOSP)
          which lacks those attrs and produced brown/default Material appearance. -->
-    <style name="HomeSettings.Theme" parent="Theme.AppCompat.Dark.NoActionBar">
+    <style name="HomeSettings.Theme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/elyra_settings_bg</item>
         <item name="android:colorBackground">@color/elyra_settings_bg</item>
         <item name="colorPrimary">@color/elyra_accent</item>
@@ -186,7 +186,7 @@
         <item name="android:navigationBarColor">@color/elyra_settings_bg</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
-        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dark.Dialog.Alert</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
     </style>
 
     <style name="HomeSettings.PreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
