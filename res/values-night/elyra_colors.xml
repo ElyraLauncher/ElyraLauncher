@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dock surface — dark -->
-    <color name="elyra_dock_bg">#CC1E1F25</color>
+    <!-- Dock surface — dark mode: navy-slate 80% opacity.
+         Softer than previous #1E1F25 charcoal; blue tint avoids looking
+         "too black" or "too brown" against dark wallpapers. -->
+    <color name="elyra_dock_bg">#CC1F2535</color>
+    <!-- Dock hairline border — white 15% so the card edge shows in dark mode. -->
+    <color name="elyra_dock_stroke">#26FFFFFF</color>
 
     <!-- Folder surface — dark -->
     <color name="elyra_folder_bg">#201C2E</color>

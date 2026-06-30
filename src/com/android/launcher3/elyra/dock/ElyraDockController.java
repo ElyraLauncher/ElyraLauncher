@@ -12,7 +12,6 @@ package com.android.launcher3.elyra.dock;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
@@ -73,14 +72,15 @@ public final class ElyraDockController {
         // Nav bar inset defines where the pill must stop; clamp to minimum for button-nav devices.
         int bottomGapPx    = Math.max(insets.bottom, minBottomPx);
 
-        // Dark frosted-glass pill: solid fill + hairline border.
+        // Adaptive floating dock surface: fill and stroke are both theme-resolved so the
+        // pill looks correct in both light mode and dark mode without glass/blur.
         GradientDrawable pill = new GradientDrawable();
         pill.setShape(GradientDrawable.RECTANGLE);
         pill.setColor(ContextCompat.getColor(ctx, R.color.elyra_dock_bg));
         pill.setCornerRadius(cornerPx);
         pill.setStroke(
-                (int) (res.getDisplayMetrics().density),
-                Color.parseColor("#33FFFFFF"));
+                (int) (res.getDisplayMetrics().density),   // 1dp hairline
+                ContextCompat.getColor(ctx, R.color.elyra_dock_stroke));
         hotseat.setBackground(
                 new InsetDrawable(pill, horizMarginPx, topGapPx, horizMarginPx, bottomGapPx));
 

@@ -4,8 +4,11 @@
     <color name="elyra_accent">#7C5CBF</color>
     <color name="elyra_accent_container">#1A0E2E</color>
 
-    <!-- Dock / hotseat surface — dark frosted (was incorrectly #CCFFFFFF light) -->
-    <color name="elyra_dock_bg">#D9080E1A</color>
+    <!-- Dock / hotseat surface — light mode: soft cool-grey, 80% opacity.
+         Dark mode override is in res/values-night/elyra_colors.xml. -->
+    <color name="elyra_dock_bg">#CCE8EDF5</color>
+    <!-- Dock hairline border — dark in light mode so the card edge is visible. -->
+    <color name="elyra_dock_stroke">#1A000000</color>
 
     <!-- Folder surface — dark navy-violet -->
     <color name="elyra_folder_bg">#CC0D1527</color>
