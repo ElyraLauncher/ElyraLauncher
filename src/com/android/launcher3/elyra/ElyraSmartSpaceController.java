@@ -69,13 +69,6 @@ public final class ElyraSmartSpaceController {
         }
     };
 
-    // Restores search trigger alpha after workspace scroll settles.
-    private final Runnable mTriggerFadeInRunnable = () -> {
-        if (mSearchTriggerView != null) {
-            mSearchTriggerView.animate().alpha(1f).setDuration(200).start();
-        }
-    };
-
     /**
      * Called from {@link ElyraHomeWidgetsController} to create the smart region and
      * search trigger. Returns {@code null} if both flags are disabled.
@@ -178,16 +171,7 @@ public final class ElyraSmartSpaceController {
         mLauncher.getDragLayer().addView(mSearchTriggerView, lp);
 
         mSearchTriggerView.setOnClickListener(v -> openSearch());
-
-        // Fade out while the workspace is being swiped, fade back in when it settles.
-        mLauncher.getWorkspace().setOnScrollChangeListener(
-                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                    if (scrollX != oldScrollX) {
-                        mSearchTriggerView.animate().alpha(0f).setDuration(80).start();
-                        mHandler.removeCallbacks(mTriggerFadeInRunnable);
-                        mHandler.postDelayed(mTriggerFadeInRunnable, 350);
-                    }
-                });
+        // Scroll fade is managed by ElyraHomeWidgetsController (owns the single listener).
     }
 
     private void openSearch() {
