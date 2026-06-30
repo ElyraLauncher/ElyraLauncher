@@ -11,8 +11,10 @@
 package com.android.launcher3.elyra;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -100,7 +102,7 @@ public final class ElyraSettingsHeroController extends Preference {
         // Wire quick actions to relevant settings destinations.
         wireAction(holder, R.id.elyra_action_weather,      () -> openCategory("elyra_widget_category"));
         wireAction(holder, R.id.elyra_action_notification, () -> openCategory("elyra_notification_category"));
-        wireAction(holder, R.id.elyra_action_location,     () -> openCategory("elyra_home_category"));
+        wireAction(holder, R.id.elyra_action_location,     this::openLocationSettings);
 
         startRotation();
     }
@@ -117,6 +119,12 @@ public final class ElyraSettingsHeroController extends Preference {
         mRotating = false;
         mDescriptionView = null;
         mHandler.removeCallbacks(mRotateRunnable);
+    }
+
+    private void openLocationSettings() {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getContext().startActivity(intent);
     }
 
     private void wireAction(PreferenceViewHolder holder, int viewId, Runnable action) {

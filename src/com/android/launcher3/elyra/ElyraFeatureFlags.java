@@ -34,13 +34,13 @@ public final class ElyraFeatureFlags {
     public static final boolean APPEARANCE_SETTINGS = true;
 
     /** Home mode toggle: App Drawer vs All-Apps-on-Home. */
-    public static final boolean HOME_MODE_OPTIONS = true;
+    public static final boolean HOME_MODE_OPTIONS = false;
 
     /** Grid preset list for home screen column/row selection. */
-    public static final boolean GRID_PRESETS = true;
+    public static final boolean GRID_PRESETS = false;
 
     /** Folder style options: Standard, Large, Wide, Tall. */
-    public static final boolean FOLDER_STYLE_OPTIONS = true;
+    public static final boolean FOLDER_STYLE_OPTIONS = false;
 
     /** "Pusat Elyra" hero card at the top of the settings screen. */
     public static final boolean SETTINGS_HERO = true;

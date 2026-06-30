@@ -176,6 +176,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
+        <!-- AppCompat alert dialog so AndroidX AlertController can resolve listLayout attr. -->
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
     </style>
 
     <style name="HomeSettings.PreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
