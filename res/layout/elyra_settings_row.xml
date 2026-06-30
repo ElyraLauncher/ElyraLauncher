@@ -14,7 +14,7 @@
     android:paddingTop="14dp"
     android:paddingBottom="14dp"
     android:minHeight="64dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/elyra_settings_item_bg"
     android:clickable="true"
     android:focusable="true">
 
