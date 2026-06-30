@@ -14,8 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,35 +33,12 @@ import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
 
 /**
- * Main Elyra settings dashboard — shows Pusat Elyra hero + all section rows.
- * Hosted inside ElyraSettingsActivity; no ActionBar manipulation needed.
+ * Detail screen for "Layar Utama" settings — no hero card, only the 3 quick rows.
+ * The activity header ("Layar Utama" title + back button) is managed by ElyraSettingsActivity.
  */
-public final class ElyraSettingsDashboardFragment extends Fragment {
+public final class ElyraHomeDetailFragment extends Fragment {
 
-    private static final long ROTATE_MS = 4_000L;
-    private static final int[] DESCRIPTIONS = {
-            R.string.elyra_hero_desc_1,
-            R.string.elyra_hero_desc_2,
-            R.string.elyra_hero_desc_3,
-            R.string.elyra_hero_desc_4,
-            R.string.elyra_hero_desc_5,
-    };
-
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private int mDescIndex = 0;
-    private TextView mDescView;
-    private boolean mRotating;
     private SharedPreferences mPrefs;
-
-    private final Runnable mRotate = new Runnable() {
-        @Override
-        public void run() {
-            if (mDescView == null || !mRotating) return;
-            mDescIndex = (mDescIndex + 1) % DESCRIPTIONS.length;
-            mDescView.setText(DESCRIPTIONS[mDescIndex]);
-            mHandler.postDelayed(this, ROTATE_MS);
-        }
-    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,39 +51,16 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.elyra_settings_dashboard, container, false);
+        return inflater.inflate(R.layout.elyra_home_detail, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mDescView = view.findViewById(R.id.elyra_hero_description);
-        if (mDescView != null) {
-            mDescView.setText(DESCRIPTIONS[mDescIndex]);
-        }
-
-        setupHomeRow(view);
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);
         setupRotationRow(view);
     }
-
-    // ── Pengaturan utama ────────────────────────────────────────────────────────
-
-    private void setupHomeRow(View root) {
-        bindNavRow(root.findViewById(R.id.row_home),
-                R.drawable.elyra_ic_home,
-                R.string.elyra_home_category,
-                R.string.elyra_home_category_summary,
-                this::openHomeSettings);
-    }
-
-    private void openHomeSettings() {
-        ((ElyraSettingsActivity) requireActivity()).showHomeDetail();
-    }
-
-    // ── Pengaturan cepat ────────────────────────────────────────────────────────
 
     private void setupNotificationDotsRow(View root) {
         View row = root.findViewById(R.id.row_notification_dots);
@@ -152,8 +104,6 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
                 RotationHelper.getAllowRotationDefaultValue(info));
     }
 
-    // ── Row binders ─────────────────────────────────────────────────────────────
-
     private void bindNavRow(View row, int iconRes, int titleRes, int summaryRes,
             Runnable onClick) {
         if (row == null) return;
@@ -178,21 +128,5 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         sw.setOnCheckedChangeListener((btn, checked) ->
                 mPrefs.edit().putBoolean(prefKey, checked).apply());
         row.setOnClickListener(v -> sw.toggle());
-    }
-
-    // ── Lifecycle ────────────────────────────────────────────────────────────────
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mRotating = true;
-        mHandler.postDelayed(mRotate, ROTATE_MS);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mRotating = false;
-        mHandler.removeCallbacks(mRotate);
     }
 }
