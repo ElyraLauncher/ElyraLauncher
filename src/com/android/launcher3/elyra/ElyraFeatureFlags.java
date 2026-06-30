@@ -30,8 +30,10 @@ public final class ElyraFeatureFlags {
     /** Elyra-styled search bar in all-apps. */
     public static final boolean SEARCH_SURFACE = true;
 
-    /** Elyra appearance section in launcher settings. */
-    public static final boolean APPEARANCE_SETTINGS = true;
+    /** Elyra appearance section in launcher settings.
+     *  Disabled: only contains a non-selectable info entry (elyra_about) with no real toggle.
+     *  Re-enable once a real appearance option (e.g. dynamic color, icon pack) is implemented. */
+    public static final boolean APPEARANCE_SETTINGS = false;
 
     /** Home mode toggle: App Drawer vs All-Apps-on-Home. */
     public static final boolean HOME_MODE_OPTIONS = false;
