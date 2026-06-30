@@ -16,10 +16,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +28,6 @@ import java.util.Locale;
 
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
-import com.android.launcher3.views.BaseDragLayer;
 
 /**
  * Manages the upper-right weather / time card on the home screen.
@@ -76,19 +73,7 @@ public final class ElyraWeatherTimeController {
         mCardView = LayoutInflater.from(launcher)
                 .inflate(R.layout.elyra_weather_time_card, null, false);
 
-        int statusBarH = getStatusBarHeight(launcher);
-        // BaseDragLayer.LayoutParams required — FrameLayout.LayoutParams loses gravity
-        // in BaseDragLayer.generateLayoutParams() causing card to render at top-left
-        // instead of top-right.
-        BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.TOP | Gravity.END;
-        lp.topMargin = statusBarH + dpToPx(launcher, 8);
-        lp.rightMargin = dpToPx(launcher, 16);
-
-        launcher.getDragLayer().addView(mCardView, lp);
-
+        // Parent attachment and layout handled by ElyraHomeWidgetsController.
         mWeatherState = mCardView.findViewById(R.id.elyra_weather_state);
         mTimeState    = mCardView.findViewById(R.id.elyra_time_state);
         mClockView    = mCardView.findViewById(R.id.elyra_time_clock);
@@ -132,13 +117,4 @@ public final class ElyraWeatherTimeController {
         mDateView.setText(new SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(now));
     }
 
-    private static int getStatusBarHeight(Launcher launcher) {
-        int id = launcher.getResources()
-                .getIdentifier("status_bar_height", "dimen", "android");
-        return id > 0 ? launcher.getResources().getDimensionPixelSize(id) : 0;
-    }
-
-    private static int dpToPx(Launcher launcher, int dp) {
-        return Math.round(dp * launcher.getResources().getDisplayMetrics().density);
-    }
 }
