@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra compact search trigger.
+    Very small pill — icon + "Cari" — positioned above the page indicator zone.
+    Not a full-width Google bar. Does not dominate the home screen.
+    Wired to LauncherState.ALL_APPS by ElyraSmartSpaceController.openSearch().
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/elyra_search_trigger_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/elyra_search_trigger_height"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@drawable/elyra_search_trigger_bg"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/elyra_ic_search"
+        android:tint="@color/elyra_search_trigger_text"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:textColor="@color/elyra_search_trigger_text"
+        android:textSize="12sp"
+        android:text="@string/elyra_search_hint"
+        android:singleLine="true" />
+
+</LinearLayout>

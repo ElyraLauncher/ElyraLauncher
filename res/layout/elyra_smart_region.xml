@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra unified smart widget — anchored to CellLayout 0 by ElyraHomeWidgetsController.
+    No card background: greeting text and weather/time float transparently over the wallpaper
+    with text shadows for legibility. Occupies the top of workspace page 0; auto-fades with
+    CellLayout alpha during All Apps / Overview gesture transitions.
+
+    Left column: greeting, Elyra identity, rotating subtitle, takeover sections (charging/notif).
+    Right column: live clock, date, weather temperature.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="8dp"
+    android:clickable="false"
+    android:focusable="false">
+
+    <!-- ── Left: greeting block ── -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:clickable="false"
+        android:focusable="false">
+
+        <!-- Default state: greeting + identity + subtitle -->
+        <LinearLayout
+            android:id="@+id/elyra_smart_default_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="false"
+            android:focusable="false">
+
+            <TextView
+                android:id="@+id/elyra_smart_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/elyra_smart_text_greeting"
+                android:textSize="@dimen/elyra_smart_greeting_text_size"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="@string/elyra_greeting_morning" />
+
+            <TextView
+                android:id="@+id/elyra_smart_identity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/elyra_smart_text_identity"
+                android:textSize="@dimen/elyra_smart_identity_text_size"
+                android:textStyle="bold"
+                android:shadowColor="#BB000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="6"
+                android:text="@string/elyra_identity" />
+
+            <TextView
+                android:id="@+id/elyra_smart_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/elyra_smart_text_subtitle"
+                android:textSize="@dimen/elyra_smart_subtitle_text_size"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="@string/elyra_subtitle_1" />
+
+        </LinearLayout>
+
+        <!-- Charging takeover section (GONE until plugged in) -->
+        <LinearLayout
+            android:id="@+id/elyra_charging_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:clickable="false"
+            android:focusable="false">
+
+            <TextView
+                android:id="@+id/elyra_charging_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/elyra_smart_text_identity"
+                android:textSize="@dimen/elyra_smart_identity_text_size"
+                android:textStyle="bold"
+                android:shadowColor="#BB000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="6"
+                android:text="--%" />
+
+            <TextView
+                android:id="@+id/elyra_charging_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/elyra_smart_text_greeting"
+                android:textSize="@dimen/elyra_smart_greeting_text_size"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="@string/elyra_charging_status_normal" />
+
+            <TextView
+                android:id="@+id/elyra_charging_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/elyra_smart_text_subtitle"
+                android:textSize="@dimen/elyra_smart_subtitle_text_size"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Notification takeover section (GONE — architecture placeholder) -->
+        <LinearLayout
+            android:id="@+id/elyra_notification_section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:clickable="false"
+            android:focusable="false">
+
+            <TextView
+                android:id="@+id/elyra_notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/elyra_smart_text_identity"
+                android:textSize="@dimen/elyra_smart_greeting_text_size"
+                android:textStyle="bold"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4" />
+
+            <TextView
+                android:id="@+id/elyra_notification_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/elyra_smart_text_subtitle"
+                android:textSize="@dimen/elyra_smart_subtitle_text_size"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ── Right: clock + weather (unified, transparent, no card) ── -->
+    <LinearLayout
+        android:id="@+id/elyra_time_weather_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="end|top"
+        android:layout_marginStart="12dp"
+        android:clickable="false"
+        android:focusable="false">
+
+        <TextView
+            android:id="@+id/elyra_time_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:shadowColor="#BB000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:text="00:00" />
+
+        <TextView
+            android:id="@+id/elyra_time_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="10sp"
+            android:gravity="end"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:text="" />
+
+        <LinearLayout
+            android:id="@+id/elyra_weather_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/elyra_ic_weather"
+                android:tint="@color/elyra_smart_text_greeting"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/elyra_weather_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/elyra_smart_text_greeting"
+                android:textSize="12sp"
+                android:shadowColor="#99000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="3"
+                android:text="@string/elyra_hero_preview_temp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

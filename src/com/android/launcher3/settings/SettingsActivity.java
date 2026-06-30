@@ -59,6 +59,7 @@ import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
+import com.android.launcher3.elyra.ElyraPreferenceController;
 import com.android.launcher3.util.SettingsCache;
 
 /**
@@ -200,6 +201,7 @@ public class SettingsActivity extends FragmentActivity
             setPreferencesFromResource(R.xml.launcher_preferences, rootKey);
 
             PreferenceScreen screen = getPreferenceScreen();
+            ElyraPreferenceController.configure(screen);
             for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
                 Preference preference = screen.getPreference(i);
                 if (!initPreference(preference)) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra theme overrides. ElyraLauncherTheme can be adopted in AndroidManifest.xml to apply
+    all Elyra surface tokens via the theme system instead of programmatic controllers.
+    Currently the programmatic controllers are the active path; this style is the declarative mirror.
+-->
+<resources>
+    <style name="ElyraLauncherTheme" parent="@style/LauncherTheme">
+        <item name="folderBackgroundColor">@color/elyra_folder_bg</item>
+        <item name="allAppsScrimColor">@color/elyra_drawer_scrim</item>
+    </style>
+</resources>

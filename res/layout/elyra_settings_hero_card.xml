@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra settings hero card — "Pusat Elyra".
+    Inflated by ElyraSettingsHeroController via setLayoutResource().
+
+    No horizontal margins — full screen width for banner-like visual impact.
+    Contains: info pill, title "Pusat Elyra", rotating description.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Full-width gradient hero surface -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/elyra_hero_card_bg"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="24dp">
+
+        <!-- Info pill -->
+        <TextView
+            android:id="@+id/elyra_hero_info_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_hero_info_pill"
+            android:textSize="10sp"
+            android:textColor="#B3FFFFFF"
+            android:letterSpacing="0.08"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="@drawable/elyra_info_pill_bg"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_hero_title"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFFFF"
+            android:letterSpacing="-0.02"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Rotating description -->
+        <TextView
+            android:id="@+id/elyra_hero_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_hero_desc_1"
+            android:textSize="13sp"
+            android:textColor="#CCffffff"
+            android:lineSpacingMultiplier="1.45" />
+
+    </LinearLayout>
+
+</FrameLayout>

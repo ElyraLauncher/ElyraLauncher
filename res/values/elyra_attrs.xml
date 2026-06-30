@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Declare-styleable for future Elyra theme attribute overrides. -->
+    <declare-styleable name="ElyraTheme">
+        <!-- Brand accent color for interactive elements. -->
+        <attr name="elyra_accentColor" format="color" />
+        <!-- Opacity of Elyra surface layers (0.0–1.0). -->
+        <attr name="elyra_surfaceAlpha" format="float" />
+        <!-- Unified corner radius for Elyra surfaces. -->
+        <attr name="elyra_cornerRadius" format="dimension" />
+    </declare-styleable>
+</resources>

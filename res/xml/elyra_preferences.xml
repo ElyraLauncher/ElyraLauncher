@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Elyra appearance preference declarations.
+    These are injected into the main launcher_preferences screen via ElyraPreferenceController.
+    Do not load this file directly from SettingsActivity — it exists as a standalone reference
+    and for future split-screen settings flows.
+-->
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="elyra_appearance_category"
+        android:title="@string/elyra_appearance_category">
+
+        <Preference
+            android:key="elyra_about"
+            android:title="@string/elyra_about_title"
+            android:summary="@string/elyra_about_summary"
+            android:selectable="false" />
+
+        <!-- Hidden until implemented -->
+        <SwitchPreference
+            android:key="elyra_floating_dock"
+            android:title="@string/elyra_floating_dock_title"
+            android:summary="@string/elyra_floating_dock_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+        <!-- Hidden until implemented -->
+        <SwitchPreference
+            android:key="elyra_drawer_blur"
+            android:title="@string/elyra_drawer_blur_title"
+            android:summary="@string/elyra_drawer_blur_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

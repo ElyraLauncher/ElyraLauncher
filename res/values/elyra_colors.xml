@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Elyra brand accent (deep violet) -->
+    <color name="elyra_accent">#7C5CBF</color>
+    <color name="elyra_accent_container">#1A0E2E</color>
+
+    <!-- Dock / hotseat surface — light mode: soft cool-grey, 80% opacity.
+         Dark mode override is in res/values-night/elyra_colors.xml. -->
+    <color name="elyra_dock_bg">#CCE8EDF5</color>
+    <!-- Dock hairline border — dark in light mode so the card edge is visible. -->
+    <color name="elyra_dock_stroke">#1A000000</color>
+
+    <!-- Folder surface — dark navy-violet -->
+    <color name="elyra_folder_bg">#CC0D1527</color>
+
+    <!-- All-apps drawer scrim — near-opaque dark navy -->
+    <color name="elyra_drawer_scrim">#F20D1117</color>
+
+    <!-- All-apps search bar — dark navy field -->
+    <color name="elyra_search_bg">#CC111827</color>
+    <color name="elyra_search_stroke">#33FFFFFF</color>
+
+    <!-- Hero card / settings surface -->
+    <color name="elyra_hero_bg_start">#1A1433</color>
+    <color name="elyra_hero_bg_end">#2D1B5E</color>
+    <color name="elyra_hero_text_primary">#FFFFFFFF</color>
+    <color name="elyra_hero_text_secondary">#B3FFFFFF</color>
+    <color name="elyra_hero_action_bg">#29FFFFFF</color>
+    <color name="elyra_info_pill_bg">#447C5CBF</color>
+
+    <!-- Smart region surface (home screen overlay, used for card reference) -->
+    <color name="elyra_smart_region_bg">#CC0D0B1E</color>
+    <color name="elyra_smart_text_greeting">#B3FFFFFF</color>
+    <color name="elyra_smart_text_identity">#FFFFFFFF</color>
+    <color name="elyra_smart_text_subtitle">#80FFFFFF</color>
+
+    <!-- Search trigger surface -->
+    <color name="elyra_search_trigger_bg">#CC080E1A</color>
+    <color name="elyra_search_trigger_text">#99FFFFFF</color>
+
+    <!-- Charging takeover -->
+    <color name="elyra_charging_bg">#CC0A1226</color>
+    <color name="elyra_charging_glow">#667C5CBF</color>
+
+    <!-- Settings activity background: very dark blue-black -->
+    <color name="elyra_settings_bg">#0D0F1A</color>
+</resources>

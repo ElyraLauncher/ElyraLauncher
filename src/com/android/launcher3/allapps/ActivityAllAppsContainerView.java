@@ -90,6 +90,7 @@ import com.android.launcher3.recyclerview.AllAppsRecyclerViewPool;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.Preconditions;
 import com.android.launcher3.util.Themes;
+import com.android.launcher3.elyra.ElyraAllAppsController;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.BaseDragLayer;
 import com.android.launcher3.views.RecyclerViewFastScroller;
@@ -320,11 +321,13 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
             int layerBelow = ColorUtils.setAlphaComponent(Color.WHITE, (int) (0.1f * 255));
             mBottomSheetBackgroundColor = ColorUtils.compositeColors(layerAbove, layerBelow);
         } else {
-            mBottomSheetBackgroundColor = getContext().getColor(R.color.materialColorSurfaceDim);
+            mBottomSheetBackgroundColor = ElyraAllAppsController.resolveScrimColor(
+                    getContext(), getContext().getColor(R.color.materialColorSurfaceDim));
         }
         mBottomSheetBackgroundAlpha = Color.alpha(mBottomSheetBackgroundColor) / 255.0f;
         updateBackgroundVisibility(mActivityContext.getDeviceProfile());
         mSearchUiManager.initializeSearch(this);
+        ElyraAllAppsController.applySearchBox(mSearchContainer);
     }
 
     @Override

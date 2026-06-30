@@ -104,6 +104,7 @@ import com.android.launcher3.util.Thunk;
 import com.android.launcher3.views.ActivityContext;
 import com.android.launcher3.views.BaseDragLayer;
 import com.android.launcher3.views.ClipPathView;
+import com.android.launcher3.elyra.ElyraFolderController;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
 
 import java.lang.annotation.Retention;
@@ -282,6 +283,7 @@ public class Folder extends AbstractFloatingView implements ClipPathView, DragSo
                 ResourcesCompat.getDrawable(getResources(),
                         R.drawable.round_rect_folder, getContext().getTheme()));
         mBackground.setCallback(this);
+        ElyraFolderController.apply(getContext(), mBackground);
     }
 
     @Override

@@ -16,7 +16,8 @@
 
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res-auto">
+    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    android:title="@string/elyra_hero_title">
 
     <com.android.launcher3.settings.NotificationDotsPreference
         android:key="pref_icon_badging"
@@ -49,5 +50,150 @@
         android:persistent="true"
         launcher:logIdOn="615"
         launcher:logIdOff="616" />
+
+
+    <!-- Elyra: Layar Utama — home mode and grid -->
+    <PreferenceCategory
+        android:key="elyra_home_category"
+        android:title="@string/elyra_home_category">
+
+        <ListPreference
+            android:key="elyra_home_mode"
+            android:title="@string/elyra_home_mode_title"
+            android:summary="@string/elyra_home_mode_summary"
+            android:entries="@array/elyra_home_mode_entries"
+            android:entryValues="@array/elyra_home_mode_values"
+            android:defaultValue="drawer"
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_home" />
+
+        <ListPreference
+            android:key="elyra_grid_preset"
+            android:title="@string/elyra_grid_preset_title"
+            android:summary="@string/elyra_grid_preset_summary"
+            android:entries="@array/elyra_grid_preset_entries"
+            android:entryValues="@array/elyra_grid_preset_values"
+            android:defaultValue="5_by_5"
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_grid" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Dock -->
+    <PreferenceCategory
+        android:key="elyra_dock_category"
+        android:title="@string/elyra_dock_category">
+
+        <Preference
+            android:key="elyra_dock_surface"
+            android:title="@string/elyra_dock_surface_title"
+            android:summary="@string/elyra_dock_surface_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Pencarian -->
+    <PreferenceCategory
+        android:key="elyra_search_category"
+        android:title="@string/elyra_search_category">
+
+        <Preference
+            android:key="elyra_search_trigger_pref"
+            android:title="@string/elyra_search_trigger_title"
+            android:summary="@string/elyra_search_trigger_summary"
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_search" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Folder style -->
+    <PreferenceCategory
+        android:key="elyra_folder_category"
+        android:title="@string/elyra_folder_category">
+
+        <ListPreference
+            android:key="elyra_folder_style"
+            android:title="@string/elyra_folder_style_title"
+            android:summary="@string/elyra_folder_style_summary"
+            android:entries="@array/elyra_folder_style_entries"
+            android:entryValues="@array/elyra_folder_style_values"
+            android:defaultValue="standard"
+            android:persistent="true"
+            android:icon="@drawable/elyra_ic_folder" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Widget Cerdas -->
+    <PreferenceCategory
+        android:key="elyra_widget_category"
+        android:title="@string/elyra_widget_category">
+
+        <Preference
+            android:key="elyra_weather_card_pref"
+            android:title="@string/elyra_weather_card_title"
+            android:summary="@string/elyra_weather_card_summary"
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_weather" />
+
+        <Preference
+            android:key="elyra_smart_region_pref"
+            android:title="@string/elyra_smart_region_title"
+            android:summary="@string/elyra_smart_region_summary"
+            android:selectable="false" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Notifikasi -->
+    <PreferenceCategory
+        android:key="elyra_notification_category"
+        android:title="@string/elyra_notification_category">
+
+        <Preference
+            android:key="elyra_notification_takeover_pref"
+            android:title="@string/elyra_notification_takeover_title"
+            android:summary="@string/elyra_notification_takeover_summary"
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_notification" />
+
+        <Preference
+            android:key="elyra_charging_takeover_pref"
+            android:title="@string/elyra_charging_takeover_title"
+            android:summary="@string/elyra_charging_takeover_summary"
+            android:selectable="false"
+            android:icon="@drawable/elyra_ic_charging" />
+
+    </PreferenceCategory>
+
+    <!-- Elyra: Tampilan (appearance) -->
+    <PreferenceCategory
+        android:key="elyra_appearance_category"
+        android:title="@string/elyra_appearance_category">
+
+        <!-- Informational entry — always visible and functional -->
+        <Preference
+            android:key="elyra_about"
+            android:title="@string/elyra_about_title"
+            android:summary="@string/elyra_about_summary"
+            android:selectable="false" />
+
+        <!-- Hidden until floating dock toggle is implemented -->
+        <SwitchPreference
+            android:key="elyra_floating_dock"
+            android:title="@string/elyra_floating_dock_title"
+            android:summary="@string/elyra_floating_dock_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+        <!-- Hidden until drawer blur is implemented -->
+        <SwitchPreference
+            android:key="elyra_drawer_blur"
+            android:title="@string/elyra_drawer_blur_title"
+            android:summary="@string/elyra_drawer_blur_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:visible="false" />
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

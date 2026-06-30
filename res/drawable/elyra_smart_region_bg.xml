@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/elyra_smart_region_bg" />
+    <corners android:radius="@dimen/elyra_smart_region_corner_radius" />
+</shape>

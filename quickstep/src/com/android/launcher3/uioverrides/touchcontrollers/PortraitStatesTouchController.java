@@ -94,7 +94,9 @@ public class PortraitStatesTouchController extends AbstractStateChangeTouchContr
     protected LauncherState getTargetState(LauncherState fromState, boolean isDragTowardPositive) {
         if (fromState == ALL_APPS && !isDragTowardPositive) {
             return NORMAL;
-        } else if (fromState == NORMAL && shouldOpenAllApps(isDragTowardPositive)) {
+        } else if (fromState == NORMAL && shouldOpenAllApps(isDragTowardPositive)
+                && !com.android.launcher3.elyra.ElyraHomeModeController.isDrawerDisabled(
+                        mLauncher)) {
             return ALL_APPS;
         }
         return fromState;

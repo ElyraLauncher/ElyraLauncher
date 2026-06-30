@@ -1413,6 +1413,8 @@ public class Launcher extends StatefulActivity<LauncherState>
         mWorkspace.getPageIndicator().setShouldAutoHide(true);
         mWorkspace.getPageIndicator().setPaintColor(Themes.getAttrBoolean(
                 this, R.attr.isWorkspaceDarkText) ? Color.BLACK : Color.WHITE);
+
+        com.android.launcher3.elyra.ElyraHomeWidgetsController.attachTo(this);
     }
 
     /**
@@ -2704,6 +2706,7 @@ public class Launcher extends StatefulActivity<LauncherState>
      public void collectStateHandlers(List<StateHandler<LauncherState>> out) {
         out.add(getAllAppsController());
         out.add(getWorkspace());
+        com.android.launcher3.elyra.ElyraHomeWidgetsController.collectStateHandler(out);
     }
 
     public TouchController[] createTouchControllers() {

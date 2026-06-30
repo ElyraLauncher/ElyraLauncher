@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Weather / time card — upper-right home screen overlay.
+     Tap toggles between weather view and time view. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/elyra_weather_time_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/elyra_smart_region_bg"
+    android:padding="12dp"
+    android:minWidth="80dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Weather state (default) -->
+    <LinearLayout
+        android:id="@+id/elyra_weather_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/elyra_ic_weather"
+            android:tint="@color/elyra_smart_text_identity"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/elyra_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/elyra_hero_preview_temp" />
+
+        <TextView
+            android:id="@+id/elyra_weather_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="10sp"
+            android:text="@string/elyra_hero_preview_condition" />
+
+    </LinearLayout>
+
+    <!-- Time state (visible after tap) -->
+    <LinearLayout
+        android:id="@+id/elyra_time_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/elyra_time_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_identity"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="00:00" />
+
+        <TextView
+            android:id="@+id/elyra_time_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/elyra_smart_text_subtitle"
+            android:textSize="10sp"
+            android:text="" />
+
+    </LinearLayout>
+
+</FrameLayout>

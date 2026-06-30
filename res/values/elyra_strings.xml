@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Elyra appearance settings screen -->
+    <string name="elyra_appearance_category">Elyra Appearance</string>
+    <string name="elyra_about_title">Elyra Launcher</string>
+    <string name="elyra_about_summary">UI foundation — dock surface, folder style, drawer surface</string>
+    <string name="elyra_floating_dock_title">Floating dock surface</string>
+    <string name="elyra_floating_dock_summary">Coming soon</string>
+    <string name="elyra_drawer_blur_title">App drawer blur</string>
+    <string name="elyra_drawer_blur_summary">Coming soon</string>
+
+    <!-- Layar Utama category -->
+    <string name="elyra_home_category">Layar Utama</string>
+    <string name="elyra_home_category_summary">Tata letak, grid, dan halaman</string>
+
+    <!-- Home mode preference -->
+    <string name="elyra_home_mode_title">Mode Layar Utama</string>
+    <string name="elyra_home_mode_summary">Pilih cara aplikasi diakses</string>
+    <string name="elyra_home_mode_drawer">Dengan Laci Aplikasi</string>
+    <string name="elyra_home_mode_home_only">Semua Aplikasi di Layar Utama</string>
+
+    <!-- Grid preset preference -->
+    <string name="elyra_grid_preset_title">Grid Layar Utama</string>
+    <string name="elyra_grid_preset_summary">Jumlah kolom dan baris ikon</string>
+    <string name="elyra_grid_4x4">4 × 4</string>
+    <string name="elyra_grid_4x5">4 × 5</string>
+    <string name="elyra_grid_4x6">4 × 6</string>
+    <string name="elyra_grid_5x5">5 × 5</string>
+    <string name="elyra_grid_5x6">5 × 6</string>
+    <string name="elyra_grid_5x7">5 × 7</string>
+    <string name="elyra_grid_6x6">6 × 6</string>
+    <string name="elyra_grid_6x7">6 × 7</string>
+
+    <!-- Folder category -->
+    <string name="elyra_folder_category">Folder</string>
+    <string name="elyra_folder_category_summary">Gaya folder dan pratinjau</string>
+
+    <!-- Folder style preference -->
+    <string name="elyra_folder_style_title">Gaya Folder</string>
+    <string name="elyra_folder_style_summary">Ukuran dan tata letak folder saat dibuka</string>
+    <string name="elyra_folder_style_standard">Standar</string>
+    <string name="elyra_folder_style_large">Besar</string>
+    <string name="elyra_folder_style_wide">Melebar</string>
+    <string name="elyra_folder_style_tall">Tinggi</string>
+
+    <!-- Dock category -->
+    <string name="elyra_dock_category">Dock</string>
+    <string name="elyra_dock_category_summary">Gaya, latar, dan jumlah ikon</string>
+    <string name="elyra_dock_surface_title">Latar Dock</string>
+    <string name="elyra_dock_surface_summary">Gaya transparan mengambang</string>
+
+    <!-- Pencarian category -->
+    <string name="elyra_search_category">Pencarian</string>
+    <string name="elyra_search_category_summary">Pencarian universal dan saran</string>
+    <string name="elyra_search_trigger_title">Pemicu Pencarian</string>
+    <string name="elyra_search_trigger_summary">Tampilkan area pencarian di atas dock</string>
+
+    <!-- Widget Cerdas category -->
+    <string name="elyra_widget_category">Widget Cerdas</string>
+    <string name="elyra_widget_category_summary">Cuaca, waktu, dan rekomendasi</string>
+    <string name="elyra_weather_card_title">Kartu Cuaca</string>
+    <string name="elyra_weather_card_summary">Tampilkan cuaca dan waktu di sudut kanan atas</string>
+    <string name="elyra_smart_region_title">Area Sapaan Cerdas</string>
+    <string name="elyra_smart_region_summary">Sapaan, identitas Elyra, dan subtitle berputar</string>
+
+    <!-- Notifikasi category -->
+    <string name="elyra_notification_category">Notifikasi</string>
+    <string name="elyra_notification_category_summary">Lencana, titik, dan saran</string>
+    <string name="elyra_notification_takeover_title">Ambil Alih Notifikasi</string>
+    <string name="elyra_notification_takeover_summary">Ganti sapaan dengan notifikasi terbaru</string>
+    <string name="elyra_charging_takeover_title">Ambil Alih Pengisian Daya</string>
+    <string name="elyra_charging_takeover_summary">Tampilkan info baterai saat mengisi daya</string>
+
+    <!-- Settings hero card strings -->
+    <string name="elyra_hero_title">Pusat Elyra</string>
+    <string name="elyra_hero_info_pill">Info dinamis</string>
+    <string name="elyra_hero_desc_1">Atur home, dock, pencarian, dan tampilan dari satu tempat.</string>
+    <string name="elyra_hero_desc_2">Cuaca dan lokasi membantu Elyra menampilkan info relevan.</string>
+    <string name="elyra_hero_desc_3">Notifikasi pintar dapat mengambil alih area sapaan.</string>
+    <string name="elyra_hero_desc_4">Search cepat tersedia di area bawah layar utama.</string>
+    <string name="elyra_hero_desc_5">Grid dan mode home dapat disesuaikan gaya pengguna.</string>
+    <string name="elyra_hero_preview_temp">--°</string>
+    <string name="elyra_hero_preview_condition">Cuaca</string>
+
+    <!-- Hero quick-action labels -->
+    <string name="elyra_action_weather">Cuaca</string>
+    <string name="elyra_action_notification">Notifikasi</string>
+    <string name="elyra_action_location">Lokasi</string>
+
+    <!-- Smart region strings -->
+    <string name="elyra_greeting_morning">Selamat pagi</string>
+    <string name="elyra_greeting_noon">Selamat siang</string>
+    <string name="elyra_greeting_afternoon">Selamat sore</string>
+    <string name="elyra_greeting_night">Selamat malam</string>
+    <string name="elyra_identity">Elyra.</string>
+    <string name="elyra_subtitle_1">Rapi. Cepat. Personal.</string>
+    <string name="elyra_subtitle_2">Siap menemani hari Anda.</string>
+    <string name="elyra_subtitle_3">Semua lebih cepat dari Home.</string>
+    <string name="elyra_subtitle_4">Tenang, rapi, dan personal.</string>
+    <string name="elyra_subtitle_5">Fokus pada yang penting.</string>
+
+    <!-- Charging takeover strings -->
+    <string name="elyra_charging_status_fast">Pengisian cepat</string>
+    <string name="elyra_charging_status_normal">Sedang mengisi daya</string>
+    <string name="elyra_charging_status_wireless">Pengisian nirkabel</string>
+    <string name="elyra_charging_full">Daya penuh</string>
+    <string name="elyra_charging_time_format">Penuh dalam %s menit</string>
+
+    <!-- Search trigger -->
+    <string name="elyra_search_hint">Cari</string>
+
+    <!-- String arrays for ListPreferences -->
+    <string-array name="elyra_home_mode_entries">
+        <item>@string/elyra_home_mode_drawer</item>
+        <item>@string/elyra_home_mode_home_only</item>
+    </string-array>
+    <string-array name="elyra_home_mode_values">
+        <item>drawer</item>
+        <item>home_only</item>
+    </string-array>
+
+    <string-array name="elyra_grid_preset_entries">
+        <item>@string/elyra_grid_4x4</item>
+        <item>@string/elyra_grid_4x5</item>
+        <item>@string/elyra_grid_4x6</item>
+        <item>@string/elyra_grid_5x5</item>
+        <item>@string/elyra_grid_5x6</item>
+        <item>@string/elyra_grid_5x7</item>
+        <item>@string/elyra_grid_6x6</item>
+        <item>@string/elyra_grid_6x7</item>
+    </string-array>
+    <string-array name="elyra_grid_preset_values">
+        <item>4_by_4</item>
+        <item>4_by_5</item>
+        <item>4_by_6</item>
+        <item>5_by_5</item>
+        <item>5_by_6</item>
+        <item>5_by_7</item>
+        <item>6_by_6</item>
+        <item>6_by_7</item>
+    </string-array>
+
+    <string-array name="elyra_folder_style_entries">
+        <item>@string/elyra_folder_style_standard</item>
+        <item>@string/elyra_folder_style_large</item>
+        <item>@string/elyra_folder_style_wide</item>
+        <item>@string/elyra_folder_style_tall</item>
+    </string-array>
+    <string-array name="elyra_folder_style_values">
+        <item>standard</item>
+        <item>large</item>
+        <item>wide</item>
+        <item>tall</item>
+    </string-array>
+</resources>
