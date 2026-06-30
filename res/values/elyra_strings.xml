@@ -73,6 +73,8 @@
 
     <!-- Dashboard section labels -->
     <string name="elyra_settings_section_general">Pengaturan</string>
+    <string name="elyra_settings_section_main">Pengaturan utama</string>
+    <string name="elyra_settings_section_quick">Pengaturan cepat</string>
 
     <!-- Dashboard row summaries -->
     <string name="elyra_row_notif_dots_summary">Buka pengaturan notifikasi sistem</string>

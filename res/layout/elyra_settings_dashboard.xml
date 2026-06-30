@@ -3,6 +3,10 @@
     Elyra settings main dashboard.
     Replaces the default PreferenceScreen as the root content of SettingsActivity.
     Inflated by ElyraSettingsDashboardFragment.
+
+    Sections:
+      - Pengaturan utama  : nav rows for major feature areas (only show if destination is real)
+      - Pengaturan cepat  : functional toggle/nav rows for quick access
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -15,14 +19,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Pusat Elyra hero card — reuse the preference hero layout as a regular view -->
+        <!-- Pusat Elyra hero card -->
         <include layout="@layout/elyra_settings_hero_card" />
 
-        <!-- Section label -->
+        <!-- ═══════════════════════════════════════
+             SECTION: Pengaturan utama
+             Only rows with real functional destinations.
+             ═══════════════════════════════════════ -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/elyra_settings_section_general"
+            android:text="@string/elyra_settings_section_main"
             android:textColor="#80FFFFFF"
             android:textSize="11sp"
             android:letterSpacing="0.10"
@@ -32,8 +39,8 @@
             android:paddingTop="24dp"
             android:paddingBottom="8dp" />
 
-        <!-- Rounded settings card -->
         <LinearLayout
+            android:id="@+id/card_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -42,14 +49,49 @@
             android:background="@drawable/elyra_settings_card_bg"
             android:clipToOutline="true">
 
-            <!-- Notification Dots (nav row — opens system notification settings) -->
+            <!-- Layar Utama — navigates to LauncherSettingsFragment (functional) -->
+            <include
+                android:id="@+id/row_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+        </LinearLayout>
+
+        <!-- ═══════════════════════════════════════
+             SECTION: Pengaturan cepat
+             Direct toggles/nav rows for functional system prefs.
+             ═══════════════════════════════════════ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_settings_section_quick"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp"
+            android:letterSpacing="0.10"
+            android:textAllCaps="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp" />
+
+        <LinearLayout
+            android:id="@+id/card_quick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/elyra_settings_card_bg"
+            android:clipToOutline="true">
+
+            <!-- Notification Dots — nav row opening system notification settings -->
             <include
                 android:id="@+id/row_notification_dots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/elyra_settings_row" />
 
-            <!-- Divider between Notification Dots and Add to Home -->
             <View
                 android:id="@+id/divider_notif_add"
                 android:layout_width="match_parent"
@@ -57,14 +99,14 @@
                 android:background="#14FFFFFF"
                 android:layout_marginStart="56dp" />
 
-            <!-- Add to Home (toggle row) -->
+            <!-- Add to Home — toggle row -->
             <include
                 android:id="@+id/row_add_to_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/elyra_settings_row" />
 
-            <!-- Divider between Add to Home and Rotation (hidden when rotation is hidden) -->
+            <!-- Divider hidden programmatically when rotation row is hidden -->
             <View
                 android:id="@+id/divider_add_rotation"
                 android:layout_width="match_parent"
@@ -72,7 +114,7 @@
                 android:background="#14FFFFFF"
                 android:layout_marginStart="56dp" />
 
-            <!-- Rotation (toggle row — phones only) -->
+            <!-- Rotation — toggle row, phones only -->
             <include
                 android:id="@+id/row_rotation"
                 android:layout_width="match_parent"

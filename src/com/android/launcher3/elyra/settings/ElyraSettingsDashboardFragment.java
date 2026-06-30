@@ -31,14 +31,18 @@ import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
+import com.android.launcher3.settings.SettingsActivity;
 import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
 
 /**
- * Custom Elyra settings dashboard replacing the default PreferenceFragmentCompat main screen.
+ * Custom Elyra settings dashboard — the root content of SettingsActivity.
  *
- * Shows only settings that have real runtime effect. Fake/flag-gated preferences are omitted.
- * Registered as the main fragment via {@code R.string.settings_fragment_name}.
+ * Structured in two sections:
+ *   Pengaturan utama  — nav rows for major launcher areas (shown only when destination is real)
+ *   Pengaturan cepat  — direct toggles/nav for functional system preferences
+ *
+ * Registered via {@code R.string.settings_fragment_name}.
  */
 public final class ElyraSettingsDashboardFragment extends Fragment {
 
@@ -90,6 +94,10 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
             mDescView.setText(DESCRIPTIONS[mDescIndex]);
         }
 
+        // Pengaturan utama — major feature nav rows
+        setupHomeRow(view);
+
+        // Pengaturan cepat — functional quick toggles / system nav
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);
         setupRotationRow(view);
@@ -100,6 +108,39 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
             return insets.consumeSystemWindowInsets();
         });
     }
+
+    // ── Pengaturan utama ────────────────────────────────────────────────────────
+
+    private void setupHomeRow(View root) {
+        bindNavRow(root.findViewById(R.id.row_home),
+                R.drawable.elyra_ic_home,
+                R.string.elyra_home_category,
+                R.string.elyra_home_category_summary,
+                this::openHomeSettings);
+    }
+
+    /**
+     * Opens LauncherSettingsFragment as a sub-page inside the same SettingsActivity.
+     * Adds to the fragment back stack so the user can return to this dashboard via back.
+     */
+    private void openHomeSettings() {
+        Fragment sub = requireActivity()
+                .getSupportFragmentManager()
+                .getFragmentFactory()
+                .instantiate(
+                        requireContext().getClassLoader(),
+                        SettingsActivity.LauncherSettingsFragment.class.getName());
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, sub)
+                .addToBackStack("home_settings")
+                .commit();
+        if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    // ── Pengaturan cepat ────────────────────────────────────────────────────────
 
     private void setupNotificationDotsRow(View root) {
         View row = root.findViewById(R.id.row_notification_dots);
@@ -117,8 +158,7 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     }
 
     private void setupAddToHomeRow(View root) {
-        View row = root.findViewById(R.id.row_add_to_home);
-        bindToggleRow(row,
+        bindToggleRow(root.findViewById(R.id.row_add_to_home),
                 R.drawable.elyra_ic_home,
                 R.string.auto_add_shortcuts_label,
                 R.string.auto_add_shortcuts_description,
@@ -136,15 +176,17 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
             if (divider != null) divider.setVisibility(View.GONE);
             return;
         }
-        boolean defaultVal = RotationHelper.getAllowRotationDefaultValue(info);
         bindToggleRow(row,
                 R.drawable.elyra_ic_grid,
                 R.string.allow_rotation_title,
                 R.string.allow_rotation_desc,
-                RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY, defaultVal);
+                RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY,
+                RotationHelper.getAllowRotationDefaultValue(info));
     }
 
-    /** Binds a navigation-style row (icon + title + summary, no toggle, tap fires onClick). */
+    // ── Row binders ─────────────────────────────────────────────────────────────
+
+    /** Nav row: icon + title + summary, no toggle, whole row taps to onClick. */
     private void bindNavRow(View row, int iconRes, int titleRes, int summaryRes,
             Runnable onClick) {
         if (row == null) return;
@@ -155,7 +197,7 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         row.setOnClickListener(v -> onClick.run());
     }
 
-    /** Binds a toggle row (icon + title + summary + SwitchCompat backed by SharedPreferences). */
+    /** Toggle row: icon + title + summary + SwitchCompat backed by SharedPreferences. */
     private void bindToggleRow(View row, int iconRes, int titleRes, int summaryRes,
             String prefKey, boolean defaultValue) {
         if (row == null) return;
@@ -172,9 +214,15 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         row.setOnClickListener(v -> sw.toggle());
     }
 
+    // ── Lifecycle ────────────────────────────────────────────────────────────────
+
     @Override
     public void onResume() {
         super.onResume();
+        // Hide up-button when back on the dashboard (shown by openHomeSettings).
+        if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         mRotating = true;
         mHandler.postDelayed(mRotate, ROTATE_MS);
     }
