@@ -8,8 +8,8 @@
     <!-- Space between screen edge and pill edge (~88–90% screen width) -->
     <dimen name="elyra_dock_horizontal_margin">22dp</dimen>
 
-    <!-- Gap above visible pill from Hotseat view top edge -->
-    <dimen name="elyra_dock_top_gap">6dp</dimen>
+    <!-- Gap above visible pill from Hotseat view top edge; 0 maximises pill height -->
+    <dimen name="elyra_dock_top_gap">0dp</dimen>
 
     <!-- Minimum gap below pill when nav bar reports zero height -->
     <dimen name="elyra_dock_bottom_gap">4dp</dimen>
