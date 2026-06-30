@@ -118,19 +118,42 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
                     });
         }
 
-        // Apply bottom inset to the ScrollView so the last row clears the nav bar.
+        // Bottom inset: add padding to the scroll content so nav bar does not cover last row.
+        // setPadding is on the root FrameLayout, not the ScrollView, to keep scroll range clean.
         view.setOnApplyWindowInsetsListener((v, insets) -> {
+            int bottom = insets.getSystemWindowInsetBottom();
             if (scrollView != null) {
-                int bottom = insets.getSystemWindowInsetBottom();
-                scrollView.setPadding(scrollView.getPaddingLeft(), scrollView.getPaddingTop(),
-                        scrollView.getPaddingRight(), bottom);
+                scrollView.setPadding(0, 0, 0, bottom);
             }
             return insets.consumeSystemWindowInsets();
         });
+
+        // Hide the Activity Toolbar immediately so the huge OEM-styled header never appears.
+        // Belt-and-suspenders: find the view directly instead of relying on getActionBar()
+        // which can be null on some FragmentActivity configurations.
+        hideActivityToolbar();
     }
 
     private float dpToPx(float dp) {
         return dp * getResources().getDisplayMetrics().density;
+    }
+
+    // Directly targets R.id.action_bar in settings_activity.xml so the huge OEM-styled
+    // Toolbar never renders — getActionBar() can silently return null on FragmentActivity.
+    private void hideActivityToolbar() {
+        View bar = requireActivity().findViewById(R.id.action_bar);
+        if (bar != null) bar.setVisibility(View.GONE);
+        if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().hide();
+        }
+    }
+
+    private void showActivityToolbar() {
+        View bar = requireActivity().findViewById(R.id.action_bar);
+        if (bar != null) bar.setVisibility(View.VISIBLE);
+        if (requireActivity().getActionBar() != null) {
+            requireActivity().getActionBar().show();
+        }
     }
 
     // ── Pengaturan utama ────────────────────────────────────────────────────────
@@ -243,11 +266,10 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // The dashboard manages its own large title + compact toolbar overlay.
-        // Hide the Activity ActionBar so it does not double-render the title.
-        // It is restored in onPause() so sub-pages (LauncherSettingsFragment) see it.
+        // Keep the Activity Toolbar hidden while the dashboard is visible.
+        // This is called both on first display and when returning from a sub-page.
+        hideActivityToolbar();
         if (requireActivity().getActionBar() != null) {
-            requireActivity().getActionBar().hide();
             requireActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         }
         mRotating = true;
@@ -257,10 +279,8 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        // Restore ActionBar for sub-pages that rely on it (e.g. LauncherSettingsFragment).
-        if (requireActivity().getActionBar() != null) {
-            requireActivity().getActionBar().show();
-        }
+        // Restore the Toolbar so sub-pages (LauncherSettingsFragment) have their header.
+        showActivityToolbar();
         mRotating = false;
         mHandler.removeCallbacks(mRotate);
     }

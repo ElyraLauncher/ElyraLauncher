@@ -23,8 +23,6 @@
         android:id="@+id/settings_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:clipToPadding="false"
         android:scrollbars="none">
 
         <LinearLayout
@@ -75,8 +73,7 @@
                 android:orientation="vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/elyra_settings_card_bg"
-                android:clipToOutline="true">
+                android:background="@drawable/elyra_settings_card_bg">
 
                 <!-- Layar Utama — navigates to LauncherSettingsFragment -->
                 <include
@@ -108,8 +105,7 @@
                 android:orientation="vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/elyra_settings_card_bg"
-                android:clipToOutline="true">
+                android:background="@drawable/elyra_settings_card_bg">
 
                 <include
                     android:id="@+id/row_notification_dots"
