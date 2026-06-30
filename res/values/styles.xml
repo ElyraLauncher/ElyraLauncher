@@ -185,6 +185,7 @@
         <item name="android:statusBarColor">@color/elyra_settings_bg</item>
         <item name="android:navigationBarColor">@color/elyra_settings_bg</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
     </style>

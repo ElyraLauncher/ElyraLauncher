@@ -45,11 +45,13 @@ public final class ElyraFeatureFlags {
     /** "Pusat Elyra" hero card at the top of the settings screen. */
     public static final boolean SETTINGS_HERO = true;
 
-    /** Smart region overlay on the home screen (greeting, identity, subtitle). */
-    public static final boolean SMART_REGION = true;
+    /** Smart region overlay on the home screen (greeting, identity, subtitle).
+     *  Disabled: widget sits at CellLayout (0,0) and overlaps workspace icon row 0.
+     *  Re-enable once workspace reserved-row support is implemented. */
+    public static final boolean SMART_REGION = false;
 
-    /** Charging takeover — battery broadcast replaces greeting with charge info. */
-    public static final boolean CHARGING_TAKEOVER = true;
+    /** Charging takeover — disabled with SMART_REGION since it depends on the same view. */
+    public static final boolean CHARGING_TAKEOVER = false;
 
     /** Notification takeover architecture — UI ready, listener integration pending. */
     public static final boolean NOTIFICATION_TAKEOVER = false;
@@ -57,6 +59,6 @@ public final class ElyraFeatureFlags {
     /** Lower search trigger pill above the hotseat. */
     public static final boolean SEARCH_TRIGGER = true;
 
-    /** Weather / time card in the upper-right of the home screen (placeholder data). */
-    public static final boolean WEATHER_TIME_CARD = true;
+    /** Weather / time card — disabled with SMART_REGION (bound to same view container). */
+    public static final boolean WEATHER_TIME_CARD = false;
 }

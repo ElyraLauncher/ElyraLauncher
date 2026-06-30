@@ -86,10 +86,16 @@ public final class ElyraPreferenceController {
             }
         }
 
-        // Notification takeover pref: hide when listener integration is not wired.
-        if (!ElyraFeatureFlags.NOTIFICATION_TAKEOVER) {
-            setHidden(screen, KEY_NOTIFICATION_TAKEOVER);
-        }
+        // Dock category: informational-only entry with no real toggle. Hide until a real
+        // dock surface toggle is implemented.
+        setHidden(screen, "elyra_dock_category");
+
+        // Search category: informational-only entry. Hide until a real search option exists.
+        setHidden(screen, "elyra_search_category");
+
+        // Notification/charging category: both entries are non-selectable placeholders.
+        // The individual takeover prefs are not yet wired to a real notification listener.
+        setHidden(screen, "elyra_notification_category");
 
         // Widget Cerdas category: entries are informational-only (selectable=false) with no
         // user-facing toggles. Hide until real controls are added.

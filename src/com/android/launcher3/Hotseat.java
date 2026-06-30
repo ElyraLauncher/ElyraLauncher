@@ -268,6 +268,8 @@ public class Hotseat extends CellLayout implements Insettable {
         setPadding(padding.left, padding.top, padding.right, padding.bottom);
         setLayoutParams(lp);
         InsettableFrameLayout.dispatchInsets(this, insets);
+        com.android.launcher3.elyra.dock.ElyraDockController.onInsetsChanged(
+                this, insets, grid);
     }
 
     public void setWorkspace(Workspace<?> w) {
