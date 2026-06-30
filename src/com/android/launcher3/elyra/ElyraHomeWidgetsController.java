@@ -250,17 +250,20 @@ public final class ElyraHomeWidgetsController
 
     private void attachSearchTriggerToDragLayer() {
         DeviceProfile dp = mLauncher.getDeviceProfile();
+        // Place the trigger just above the hotseat (including nav bar inset).
+        // workspacePadding.bottom is the sum of hotseat + nav bar reserved for the workspace.
         int bottomMargin = dp.workspacePadding.bottom > 0
                 ? dp.workspacePadding.bottom
                 : (dp.hotseatBarSizePx - dp.getInsets().bottom);
 
+        // Fixed compact width from dimen resource — not full-width, not a Google bar.
+        int triggerWidthPx = mLauncher.getResources().getDimensionPixelSize(
+                com.android.launcher3.R.dimen.elyra_search_trigger_width);
+
         BaseDragLayer.LayoutParams lp = new BaseDragLayer.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+                triggerWidthPx, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity      = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         lp.bottomMargin = bottomMargin;
-        lp.leftMargin   = dpToPx(20);
-        lp.rightMargin  = dpToPx(20);
 
         mLauncher.getDragLayer().addView(mSearchTriggerView, lp);
     }
