@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Done pill surface for Elyra Home Edit Mode top bar.
+    Uses the Material 3 dynamic primary color (system accent on Android 12+, adaptive
+    light/dark) instead of a hardcoded purple, so it follows the active launcher theme.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/materialColorPrimary" />
+    <corners android:radius="20dp" />
+</shape>
