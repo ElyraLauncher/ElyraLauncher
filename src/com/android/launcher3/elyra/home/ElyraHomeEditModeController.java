@@ -187,8 +187,11 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
             return;
         }
         setStatusBarHidden(false);
-        // Remove the extra empty page (and any other now-empty trailing pages).
-        mLauncher.getWorkspace().removeExtraEmptyScreen(true /* stripEmptyScreens */);
+        // Remove only the extra empty page we added (if still unused). Pass stripEmptyScreens=false
+        // so we never delete a user's own pre-existing empty page. If the user dropped an icon onto
+        // the extra page, Launcher3 already committed it (commitExtraEmptyScreens on drop), so it is
+        // no longer an "extra" page and is preserved here.
+        mLauncher.getWorkspace().removeExtraEmptyScreen(false /* stripEmptyScreens */);
 
         mOverlay.animate().cancel();
         mOverlay.animate().alpha(0f).setDuration(ANIM_DURATION_MS)

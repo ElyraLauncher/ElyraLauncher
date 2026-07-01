@@ -2708,7 +2708,11 @@ public class Launcher extends StatefulActivity<LauncherState>
      * reactively by {@link com.android.launcher3.elyra.home.ElyraHomeEditModeController}.
      */
     public void showElyraHomeEditMode() {
-        mStateManager.goToState(EDIT_MODE);
+        // Only enter from the home screen. Guards against edge cases (e.g. a queued long-press
+        // arriving mid-transition) putting us into EDIT_MODE from a non-home state.
+        if (isInState(NORMAL)) {
+            mStateManager.goToState(EDIT_MODE);
+        }
     }
 
     @Override
