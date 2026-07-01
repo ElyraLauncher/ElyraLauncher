@@ -1090,6 +1090,10 @@ public class Launcher extends StatefulActivity<LauncherState>
     @Override
     protected void onStop() {
         super.onStop();
+        if (isInState(EDIT_MODE)) {
+            // Don't resume back into Elyra Home Edit Mode after the launcher was backgrounded.
+            mStateManager.goToState(NORMAL);
+        }
         if (mDeferOverlayCallbacks) {
             checkIfOverlayStillDeferred();
         } else {
@@ -1415,6 +1419,7 @@ public class Launcher extends StatefulActivity<LauncherState>
                 this, R.attr.isWorkspaceDarkText) ? Color.BLACK : Color.WHITE);
 
         com.android.launcher3.elyra.ElyraHomeWidgetsController.attachTo(this);
+        com.android.launcher3.elyra.home.ElyraHomeEditModeController.attachTo(this);
     }
 
     /**
@@ -2694,6 +2699,20 @@ public class Launcher extends StatefulActivity<LauncherState>
     public void showDefaultOptions(float x, float y) {
         OptionsPopupView.show(this, getPopupTarget(x, y), OptionsPopupView.getOptions(this),
                 false);
+    }
+
+    /**
+     * Enters the fullscreen Elyra Home Edit Mode, used instead of {@link #showDefaultOptions}
+     * when the user long-presses empty workspace. Drives the real {@link LauncherState#EDIT_MODE}
+     * state (workspace/hotseat scale, dim, inaccessible icons); the top/bottom chrome is added
+     * reactively by {@link com.android.launcher3.elyra.home.ElyraHomeEditModeController}.
+     */
+    public void showElyraHomeEditMode() {
+        // Only enter from the home screen. Guards against edge cases (e.g. a queued long-press
+        // arriving mid-transition) putting us into EDIT_MODE from a non-home state.
+        if (isInState(NORMAL)) {
+            mStateManager.goToState(EDIT_MODE);
+        }
     }
 
     @Override

@@ -32,6 +32,10 @@ import com.android.launcher3.R;
  */
 public final class ElyraSettingsActivity extends AppCompatActivity {
 
+    /** When set to true, opens directly to {@link #showHomeDetail()} instead of the dashboard. */
+    public static final String EXTRA_SHOW_HOME_DETAIL =
+            "com.android.launcher3.elyra.EXTRA_SHOW_HOME_DETAIL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +54,11 @@ public final class ElyraSettingsActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            showDashboard();
+            if (getIntent().getBooleanExtra(EXTRA_SHOW_HOME_DETAIL, false)) {
+                showHomeDetail();
+            } else {
+                showDashboard();
+            }
         }
     }
 
