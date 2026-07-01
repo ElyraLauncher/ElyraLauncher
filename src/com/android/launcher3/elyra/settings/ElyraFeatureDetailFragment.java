@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
+import com.android.launcher3.elyra.dock.ElyraDockController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +116,11 @@ public final class ElyraFeatureDetailFragment extends Fragment {
         List<Row> rows = new ArrayList<>();
         switch (section) {
             case SECTION_DOCK:
-                rows.add(Row.soon(R.drawable.elyra_ic_dock, R.string.elyra_row_show_dock_title));
+                rows.add(Row.toggle(R.drawable.elyra_ic_dock,
+                        R.string.elyra_row_show_dock_title,
+                        R.string.elyra_row_show_dock_summary,
+                        ElyraDockController.KEY_SHOW_DOCK,
+                        ElyraDockController.SHOW_DOCK_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_dock,
                         R.string.elyra_row_dock_appearance_title));
                 rows.add(Row.soon(R.drawable.elyra_ic_dock,
@@ -226,6 +231,11 @@ public final class ElyraFeatureDetailFragment extends Fragment {
 
         static Row soon(int iconRes, @StringRes int titleRes) {
             return new Row(iconRes, titleRes, 0, null, false);
+        }
+
+        static Row toggle(int iconRes, @StringRes int titleRes, @StringRes int summaryRes,
+                String prefKey, boolean prefDefault) {
+            return new Row(iconRes, titleRes, summaryRes, prefKey, prefDefault);
         }
     }
 }

@@ -365,6 +365,7 @@
 
     <!-- Dock detail rows -->
     <string name="elyra_row_show_dock_title">Show dock</string>
+    <string name="elyra_row_show_dock_summary">Show the app dock on the home screen</string>
     <string name="elyra_row_dock_appearance_title">Dock appearance</string>
     <string name="elyra_row_dock_spacing_title">Icon spacing</string>
 

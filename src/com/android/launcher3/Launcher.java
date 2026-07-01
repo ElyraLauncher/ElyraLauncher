@@ -1277,6 +1277,10 @@ public class Launcher extends StatefulActivity<LauncherState>
 
             // Clear any rotation locks when going to normal state
             getRotationHelper().setCurrentStateRequest(REQUEST_NONE);
+
+            // Apply the Elyra "Show dock" preference now that we've settled into normal home
+            // (e.g. after exiting edit mode or All Apps).
+            com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
         }
 
         if (ALL_APPS.equals(mPrevLauncherState) && !ALL_APPS.equals(state)
@@ -1310,6 +1314,13 @@ public class Launcher extends StatefulActivity<LauncherState>
         }
 
         DragView.removeAllViews(this);
+
+        // Reflect the Elyra "Show dock" preference when returning to normal home (e.g. back from
+        // the settings activity where it may have been toggled, which triggers no state change).
+        if (isInState(NORMAL)) {
+            com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
+        }
+
         TraceHelper.INSTANCE.endSection();
     }
 

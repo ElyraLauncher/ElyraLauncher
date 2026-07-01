@@ -246,6 +246,7 @@
     <string name="elyra_row_page_indicator_title">Indikator halaman</string>
 
     <string name="elyra_row_show_dock_title">Tampilkan dock</string>
+    <string name="elyra_row_show_dock_summary">Tampilkan dock aplikasi di layar utama</string>
     <string name="elyra_row_dock_appearance_title">Tampilan dock</string>
     <string name="elyra_row_dock_spacing_title">Jarak ikon</string>
 
