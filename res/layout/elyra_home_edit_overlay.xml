@@ -159,6 +159,8 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:baselineAligned="false"
+        android:paddingStart="@dimen/elyra_home_edit_action_row_padding_horizontal"
+        android:paddingEnd="@dimen/elyra_home_edit_action_row_padding_horizontal"
         android:paddingTop="12dp"
         android:paddingBottom="32dp">
 
