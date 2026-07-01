@@ -44,4 +44,9 @@
 
     <!-- Settings activity background: very dark blue-black -->
     <color name="elyra_settings_bg">#0D0F1A</color>
+
+    <!-- Home Edit Mode: dims the workspace/wallpaper behind the bottom action panel -->
+    <color name="elyra_home_edit_scrim">#8A000000</color>
+    <!-- Home Edit Mode: bottom action panel surface -->
+    <color name="elyra_home_edit_panel_bg">#F2141829</color>
 </resources>

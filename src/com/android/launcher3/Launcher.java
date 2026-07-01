@@ -2696,6 +2696,14 @@ public class Launcher extends StatefulActivity<LauncherState>
                 false);
     }
 
+    /**
+     * Shows the Elyra Home Edit Mode bottom panel, used instead of {@link #showDefaultOptions}
+     * when the user long-presses empty workspace.
+     */
+    public void showElyraHomeEditMode() {
+        com.android.launcher3.elyra.homeedit.ElyraHomeEditPanel.show(this);
+    }
+
     @Override
     public boolean canUseMultipleShadesForPopup() {
         return getTopOpenViewWithType(this, TYPE_FOLDER) == null
