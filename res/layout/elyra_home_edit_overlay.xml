@@ -8,8 +8,9 @@
     by EditModeState (see LauncherState#EDIT_MODE) — this overlay only supplies the
     top/bottom chrome plus an extra scrim for a guaranteed, theme-independent dim.
 
-    The middle area (between the top and bottom bars) is the scrim itself, so tapping
-    the dimmed workspace exits edit mode the same way Done/back do.
+    The middle area is the real Workspace showing through a NON-interactive dim scrim, so the
+    user can swipe home pages while editing. Exit is Done / Back only (no tap-to-exit, which
+    would consume swipes).
 
     NOTE: intentionally NO fitsSystemWindows here. The scrim must reach edge-to-edge so the
     dim is one continuous surface with no bands behind the status/navigation bars. System-bar
@@ -24,13 +25,16 @@
     android:contentDescription="@string/elyra_home_edit_panel_description"
     android:visibility="gone">
 
+    <!--
+        Dim only. Intentionally NOT clickable/focusable so horizontal swipes fall through to the
+        real Workspace beneath (which is page-scrollable in EDIT_MODE). A clickable full-screen
+        scrim here was the root cause of edit mode not being swipeable.
+    -->
     <View
         android:id="@+id/elyra_home_edit_scrim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/elyra_home_edit_scrim"
-        android:clickable="true"
-        android:focusable="true" />
+        android:background="@color/elyra_home_edit_scrim" />
 
     <!--
         Top controls. paddingTop is small on purpose — the status-bar inset is added on top of

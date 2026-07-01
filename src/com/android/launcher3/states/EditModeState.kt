@@ -46,6 +46,15 @@ class EditModeState(id: Int) : LauncherState(id, StatsLogManager.LAUNCHER_STATE_
         }
     }
 
+    override fun getVisibleElements(launcher: Launcher): Int {
+        // Elyra fullscreen home edit mode: hide the dock and the all-apps swipe affordance so
+        // the workspace reads as a distinct edit surface, but keep the page indicator visible so
+        // the user can see/manage pages while swiping. Routing dock visibility through the state
+        // (rather than a separate animator in ElyraHomeEditModeController) keeps it in lockstep
+        // with the workspace scale animation and avoids jitter from competing animators.
+        return LauncherState.WORKSPACE_PAGE_INDICATOR
+    }
+
     override fun getWorkspaceScaleAndTranslation(launcher: Launcher): ScaleAndTranslation {
         val scale = launcher.deviceProfile.getWorkspaceSpringLoadScale(launcher)
         return ScaleAndTranslation(scale, 0f, 0f)
