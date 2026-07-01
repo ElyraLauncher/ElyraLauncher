@@ -83,6 +83,9 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         // skipped the animated start callback). Idempotent with exitEditMode().
         if (finalState != LauncherState.EDIT_MODE) {
             setStatusBarHidden(false);
+            if (!mLauncher.isWorkspaceLoading()) {
+                mLauncher.getWorkspace().removeExtraEmptyScreen(false /* stripEmptyScreens */);
+            }
             if (mOverlay != null && mOverlay.getVisibility() != View.GONE) {
                 mOverlay.animate().cancel();
                 mOverlay.setVisibility(View.GONE);
