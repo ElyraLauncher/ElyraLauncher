@@ -262,6 +262,7 @@
 
     <string name="elyra_row_theme_title">Tema &amp; aksen</string>
     <string name="elyra_row_adaptive_surfaces_title">Permukaan adaptif</string>
+    <string name="elyra_row_adaptive_surfaces_summary">Gunakan permukaan tonal dan terangkat di layar Elyra</string>
     <string name="elyra_row_icon_bg_title">Gaya latar ikon</string>
 
     <string name="elyra_row_compact_search_title">Bilah pencarian ringkas</string>

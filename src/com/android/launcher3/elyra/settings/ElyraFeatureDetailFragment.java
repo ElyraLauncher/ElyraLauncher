@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.elyra.ElyraAllAppsController;
+import com.android.launcher3.elyra.ElyraAppearanceController;
 import com.android.launcher3.elyra.ElyraFolderController;
 import com.android.launcher3.elyra.dock.ElyraDockController;
 
@@ -93,10 +94,15 @@ public final class ElyraFeatureDetailFragment extends Fragment {
         return inflater.inflate(R.layout.elyra_feature_detail, container, false);
     }
 
+    private View mCard;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewGroup card = view.findViewById(R.id.elyra_feature_card);
+        mCard = card;
+        // Apply the Elyra "Adaptive surfaces" appearance setting to this detail card.
+        ElyraAppearanceController.applyCardSurface(card);
         int section = getArguments() != null
                 ? getArguments().getInt(ARG_SECTION, SECTION_DOCK) : SECTION_DOCK;
 
@@ -151,10 +157,13 @@ public final class ElyraFeatureDetailFragment extends Fragment {
                         R.string.elyra_row_folder_preview_title));
                 break;
             case SECTION_APPEARANCE:
+                rows.add(Row.toggle(R.drawable.elyra_ic_appearance,
+                        R.string.elyra_row_adaptive_surfaces_title,
+                        R.string.elyra_row_adaptive_surfaces_summary,
+                        ElyraAppearanceController.KEY_ADAPTIVE_SURFACES,
+                        ElyraAppearanceController.ADAPTIVE_SURFACES_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_appearance,
                         R.string.elyra_row_theme_title));
-                rows.add(Row.soon(R.drawable.elyra_ic_appearance,
-                        R.string.elyra_row_adaptive_surfaces_title));
                 rows.add(Row.soon(R.drawable.elyra_ic_appearance,
                         R.string.elyra_row_icon_bg_title));
                 break;
@@ -192,8 +201,13 @@ public final class ElyraFeatureDetailFragment extends Fragment {
             sw.setClickable(false);
             sw.setOnCheckedChangeListener(null);
             sw.setChecked(mPrefs.getBoolean(spec.prefKey, spec.prefDefault));
-            sw.setOnCheckedChangeListener((btn, checked) ->
-                    mPrefs.edit().putBoolean(spec.prefKey, checked).apply());
+            sw.setOnCheckedChangeListener((btn, checked) -> {
+                mPrefs.edit().putBoolean(spec.prefKey, checked).apply();
+                // Adaptive surfaces affects this very card — re-skin it immediately.
+                if (ElyraAppearanceController.KEY_ADAPTIVE_SURFACES.equals(spec.prefKey)) {
+                    ElyraAppearanceController.applyCardSurface(mCard);
+                }
+            });
             row.setEnabled(true);
             row.setAlpha(1f);
             row.setOnClickListener(v -> sw.toggle());

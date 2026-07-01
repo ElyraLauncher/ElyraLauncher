@@ -45,6 +45,13 @@
     <!-- Settings activity background: very dark blue-black -->
     <color name="elyra_settings_bg">#0D0F1A</color>
 
+    <!-- Elyra surface styling for the Adaptive surfaces setting.
+         Adaptive: tonal navy card raised above the settings background.
+         Flat: near-background fill defined by a subtle hairline instead of elevation. -->
+    <color name="elyra_surface_adaptive">#141829</color>
+    <color name="elyra_surface_flat">#0F1220</color>
+    <color name="elyra_surface_flat_stroke">#1FFFFFFF</color>
+
     <!-- Elyra Home Edit Mode: uniform, edge-to-edge neutral dim over the workspace/wallpaper.
          Deliberately theme-independent black (not purple) so contrast for the on-wallpaper
          action row is predictable across any wallpaper or dynamic theme. -->

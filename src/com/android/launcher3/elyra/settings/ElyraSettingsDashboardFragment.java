@@ -88,6 +88,14 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
             mDescView.setText(DESCRIPTIONS[mDescIndex]);
         }
 
+        // Apply the Elyra "Adaptive surfaces" appearance setting to the dashboard cards.
+        com.android.launcher3.elyra.ElyraAppearanceController.applyCardSurface(
+                view.findViewById(R.id.card_main));
+        com.android.launcher3.elyra.ElyraAppearanceController.applyCardSurface(
+                view.findViewById(R.id.card_quick));
+        com.android.launcher3.elyra.ElyraAppearanceController.applyCardSurface(
+                view.findViewById(R.id.card_personalize));
+
         setupHomeRow(view);
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);

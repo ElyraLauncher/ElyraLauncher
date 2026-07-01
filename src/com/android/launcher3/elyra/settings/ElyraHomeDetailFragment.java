@@ -57,6 +57,10 @@ public final class ElyraHomeDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Apply the Elyra "Adaptive surfaces" appearance setting to this detail card.
+        com.android.launcher3.elyra.ElyraAppearanceController.applyCardSurface(
+                view.findViewById(R.id.card_quick));
+
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);
         setupRotationRow(view);

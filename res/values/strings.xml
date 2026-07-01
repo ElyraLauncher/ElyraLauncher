@@ -384,6 +384,7 @@
     <!-- Appearance detail rows -->
     <string name="elyra_row_theme_title">Theme &amp; accent</string>
     <string name="elyra_row_adaptive_surfaces_title">Adaptive surfaces</string>
+    <string name="elyra_row_adaptive_surfaces_summary">Use tonal, raised surfaces in Elyra screens</string>
     <string name="elyra_row_icon_bg_title">Icon background style</string>
 
     <!-- Search detail rows -->
