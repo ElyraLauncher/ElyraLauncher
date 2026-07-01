@@ -218,4 +218,52 @@
     <string name="ps_add_button_label" msgid="8127988716897128773">"Instal"</string>
     <string name="ps_add_button_content_description" msgid="3254274107740952556">"Instal aplikasi ke Ruang Pribadi"</string>
     <string name="ps_app_content_description" msgid="1129133475892816226">"Tambahkan file dan lainnya ke Ruang Privasi"</string>
+
+    <!-- ===== Elyra Home Edit Mode ===== -->
+    <string name="elyra_home_edit_cancel_button_text">Batal</string>
+    <string name="elyra_home_edit_drag_title_fallback">Pindahkan item</string>
+
+    <!-- ===== Elyra settings feature routes ===== -->
+    <string name="elyra_settings_section_personalize">Personalisasi</string>
+    <string name="elyra_row_coming_soon">Segera hadir</string>
+
+    <string name="elyra_section_dock_title">Dock</string>
+    <string name="elyra_section_dock_summary">Tampilkan dock, tampilan, jarak</string>
+    <string name="elyra_section_drawer_title">Laci Aplikasi</string>
+    <string name="elyra_section_drawer_summary">Gaya, pencarian, urutan</string>
+    <string name="elyra_section_folder_title">Folder</string>
+    <string name="elyra_section_folder_summary">Gaya, pratinjau, label</string>
+    <string name="elyra_section_appearance_title">Tampilan</string>
+    <string name="elyra_section_appearance_summary">Tema, permukaan, gaya ikon</string>
+    <string name="elyra_section_search_title">Pencarian</string>
+    <string name="elyra_section_search_summary">Pencarian ringkas, visibilitas</string>
+    <string name="elyra_section_editmode_title">Mode Edit</string>
+    <string name="elyra_section_editmode_summary">Edit workspace, pratinjau halaman</string>
+
+    <string name="elyra_row_grid_title">Grid</string>
+    <string name="elyra_row_icon_size_title">Ukuran ikon</string>
+    <string name="elyra_row_labels_title">Label ikon</string>
+    <string name="elyra_row_page_indicator_title">Indikator halaman</string>
+
+    <string name="elyra_row_show_dock_title">Tampilkan dock</string>
+    <string name="elyra_row_dock_appearance_title">Tampilan dock</string>
+    <string name="elyra_row_dock_spacing_title">Jarak ikon</string>
+
+    <string name="elyra_row_drawer_style_title">Gaya laci</string>
+    <string name="elyra_row_drawer_search_title">Pencarian laci</string>
+    <string name="elyra_row_sort_mode_title">Urutan aplikasi</string>
+
+    <string name="elyra_row_folder_style_title">Gaya folder</string>
+    <string name="elyra_row_folder_preview_title">Pratinjau folder</string>
+    <string name="elyra_row_folder_label_title">Label folder</string>
+
+    <string name="elyra_row_theme_title">Tema &amp; aksen</string>
+    <string name="elyra_row_adaptive_surfaces_title">Permukaan adaptif</string>
+    <string name="elyra_row_icon_bg_title">Gaya latar ikon</string>
+
+    <string name="elyra_row_compact_search_title">Bilah pencarian ringkas</string>
+    <string name="elyra_row_search_visibility_title">Visibilitas pencarian</string>
+
+    <string name="elyra_row_workspace_edit_title">Perilaku edit workspace</string>
+    <string name="elyra_row_page_preview_title">Pratinjau halaman</string>
 </resources>

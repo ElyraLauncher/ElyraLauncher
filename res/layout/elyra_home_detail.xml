@@ -53,6 +53,55 @@
                 android:layout_height="wrap_content"
                 layout="@layout/elyra_settings_row" />
 
+            <View
+                android:id="@+id/divider_rotation_grid"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_icon_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_page_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
         </LinearLayout>
 
         <View

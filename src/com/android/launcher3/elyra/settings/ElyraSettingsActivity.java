@@ -81,6 +81,22 @@ public final class ElyraSettingsActivity extends AppCompatActivity {
                 .commit();
     }
 
+    /** Places a feature detail screen (Dock / Drawer / Folder / Appearance / Search / Edit Mode). */
+    public void showFeatureDetail(int section) {
+        TextView titleView = findViewById(R.id.elyra_header_title);
+        if (titleView != null) {
+            titleView.setText(ElyraFeatureDetailFragment.titleResFor(section));
+        }
+        View header = findViewById(R.id.elyra_header);
+        if (header != null) header.setVisibility(View.VISIBLE);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.elyra_content_frame, ElyraFeatureDetailFragment.create(section))
+                .addToBackStack("feature_" + section)
+                .commit();
+    }
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {

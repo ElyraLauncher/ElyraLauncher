@@ -60,6 +60,17 @@ public final class ElyraHomeDetailFragment extends Fragment {
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);
         setupRotationRow(view);
+
+        // Granular home-layout rows. These are shown for structure but disabled until their
+        // runtime backends are wired, so no fake active control is exposed.
+        bindSoonRow(view.findViewById(R.id.row_grid),
+                R.drawable.elyra_ic_grid, R.string.elyra_row_grid_title);
+        bindSoonRow(view.findViewById(R.id.row_icon_size),
+                R.drawable.elyra_ic_grid, R.string.elyra_row_icon_size_title);
+        bindSoonRow(view.findViewById(R.id.row_labels),
+                R.drawable.elyra_ic_home, R.string.elyra_row_labels_title);
+        bindSoonRow(view.findViewById(R.id.row_page_indicator),
+                R.drawable.elyra_ic_home, R.string.elyra_row_page_indicator_title);
     }
 
     private void setupNotificationDotsRow(View root) {
@@ -102,6 +113,17 @@ public final class ElyraHomeDetailFragment extends Fragment {
                 R.string.allow_rotation_desc,
                 RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY,
                 RotationHelper.getAllowRotationDefaultValue(info));
+    }
+
+    private void bindSoonRow(View row, int iconRes, int titleRes) {
+        if (row == null) return;
+        ((ImageView) row.findViewById(R.id.row_icon)).setImageResource(iconRes);
+        ((TextView) row.findViewById(R.id.row_title)).setText(titleRes);
+        ((TextView) row.findViewById(R.id.row_summary)).setText(R.string.elyra_row_coming_soon);
+        row.findViewById(R.id.row_switch).setVisibility(View.GONE);
+        row.setEnabled(false);
+        row.setClickable(false);
+        row.setAlpha(0.45f);
     }
 
     private void bindNavRow(View row, int iconRes, int titleRes, int summaryRes,

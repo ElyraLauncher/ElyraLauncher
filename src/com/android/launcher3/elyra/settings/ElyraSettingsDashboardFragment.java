@@ -92,6 +92,46 @@ public final class ElyraSettingsDashboardFragment extends Fragment {
         setupNotificationDotsRow(view);
         setupAddToHomeRow(view);
         setupRotationRow(view);
+        setupFeatureRows(view);
+    }
+
+    // ── Personalisasi (feature routes) ───────────────────────────────────────────
+
+    private void setupFeatureRows(View root) {
+        bindNavRow(root.findViewById(R.id.row_sec_dock),
+                R.drawable.elyra_ic_dock,
+                R.string.elyra_section_dock_title,
+                R.string.elyra_section_dock_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_DOCK));
+        bindNavRow(root.findViewById(R.id.row_sec_drawer),
+                R.drawable.elyra_ic_drawer,
+                R.string.elyra_section_drawer_title,
+                R.string.elyra_section_drawer_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_DRAWER));
+        bindNavRow(root.findViewById(R.id.row_sec_folder),
+                R.drawable.elyra_ic_folder,
+                R.string.elyra_section_folder_title,
+                R.string.elyra_section_folder_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_FOLDER));
+        bindNavRow(root.findViewById(R.id.row_sec_appearance),
+                R.drawable.elyra_ic_appearance,
+                R.string.elyra_section_appearance_title,
+                R.string.elyra_section_appearance_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_APPEARANCE));
+        bindNavRow(root.findViewById(R.id.row_sec_search),
+                R.drawable.elyra_ic_search,
+                R.string.elyra_section_search_title,
+                R.string.elyra_section_search_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_SEARCH));
+        bindNavRow(root.findViewById(R.id.row_sec_editmode),
+                R.drawable.elyra_ic_grid,
+                R.string.elyra_section_editmode_title,
+                R.string.elyra_section_editmode_summary,
+                () -> openFeature(ElyraFeatureDetailFragment.SECTION_EDIT_MODE));
+    }
+
+    private void openFeature(int section) {
+        ((ElyraSettingsActivity) requireActivity()).showFeatureDetail(section);
     }
 
     // ── Pengaturan utama ────────────────────────────────────────────────────────

@@ -116,6 +116,97 @@
 
         </LinearLayout>
 
+        <!-- ── Personalisasi ────────────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/elyra_settings_section_personalize"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp"
+            android:letterSpacing="0.10"
+            android:textAllCaps="true"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp" />
+
+        <LinearLayout
+            android:id="@+id/card_personalize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/elyra_settings_card_bg">
+
+            <include
+                android:id="@+id/row_sec_dock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_sec_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_sec_folder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_sec_appearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_sec_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#14FFFFFF"
+                android:layout_marginStart="56dp" />
+
+            <include
+                android:id="@+id/row_sec_editmode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/elyra_settings_row" />
+
+        </LinearLayout>
+
         <!-- Bottom breathing room -->
         <View
             android:layout_width="match_parent"
