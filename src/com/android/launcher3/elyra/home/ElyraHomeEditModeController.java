@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
+import android.widget.TextView;
 
 import com.android.launcher3.DropTarget;
 import com.android.launcher3.InsettableFrameLayout;
@@ -26,6 +27,7 @@ import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
 import com.android.launcher3.dragndrop.DragController;
 import com.android.launcher3.dragndrop.DragOptions;
+import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.statemanager.StateManager;
 import com.android.launcher3.views.OptionsPopupView;
 
@@ -96,18 +98,53 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
     public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
         // A real app/icon drag is starting (DragViews only exist for real drags). While in edit
         // mode, reduce the dim scrim so the dragged icon reads clearly; the icon itself is already
-        // topmost in the DragLayer, this just removes the dim behind it.
+        // topmost in the DragLayer, this just removes the dim behind it. The top bar also switches
+        // to drag-aware controls (Cancel + dragged item title) in place of Group/Done.
         if (mLauncher.isInState(LauncherState.EDIT_MODE)) {
             setScrimDimmed(false);
+            ItemInfo info = dragObject != null ? dragObject.dragInfo : null;
+            setToolbarDragMode(true, info != null ? info.title : null);
         }
     }
 
     @Override
     public void onDragEnd() {
-        // Restore the dim once the drag settles, but only if we are still in edit mode. If the drag
-        // took us out of edit mode, exitEditMode() fades the whole overlay and owns teardown.
+        // Restore the dim and the idle Group/Done toolbar once the drag settles (drop or cancel),
+        // but only if we are still in edit mode. If the drag took us out of edit mode, exitEditMode()
+        // fades the whole overlay and owns teardown. This runs for cancelDrag() too, so the Cancel
+        // button below only needs to trigger the cancel.
         if (mLauncher.isInState(LauncherState.EDIT_MODE)) {
             setScrimDimmed(true);
+            setToolbarDragMode(false, null);
+        }
+    }
+
+    /**
+     * Swaps the top bar between idle edit controls (Group left, Done right) and drag-aware
+     * controls (Cancel left, dragged item title filling the middle). Only visibility and the title
+     * text change — no view is added or removed, and the bottom action bar / DropTargetBar (Hapus)
+     * are untouched. GONE views are not measured, so the title's weight is inert when idle.
+     */
+    private void setToolbarDragMode(boolean active, CharSequence title) {
+        if (mOverlay == null) {
+            return;
+        }
+        View group = mOverlay.findViewById(R.id.elyra_home_edit_group);
+        View done = mOverlay.findViewById(R.id.elyra_home_edit_done);
+        View spacer = mOverlay.findViewById(R.id.elyra_home_edit_top_spacer);
+        View cancel = mOverlay.findViewById(R.id.elyra_home_edit_cancel);
+        TextView dragTitle = mOverlay.findViewById(R.id.elyra_home_edit_drag_title);
+
+        group.setVisibility(active ? View.GONE : View.VISIBLE);
+        done.setVisibility(active ? View.GONE : View.VISIBLE);
+        spacer.setVisibility(active ? View.GONE : View.VISIBLE);
+        cancel.setVisibility(active ? View.VISIBLE : View.GONE);
+        dragTitle.setVisibility(active ? View.VISIBLE : View.GONE);
+
+        if (active) {
+            dragTitle.setText(title != null && title.length() > 0
+                    ? title
+                    : mLauncher.getText(R.string.elyra_home_edit_drag_title_fallback));
         }
     }
 
@@ -161,6 +198,17 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         mOverlay.findViewById(R.id.elyra_home_edit_done).setOnClickListener(v -> {
             v.setEnabled(false);
             exitToNormal();
+        });
+
+        // Cancel is only visible during a real drag. Cancelling the drag routes back through
+        // onDragEnd(), which restores the idle Group/Done toolbar; if the drag already finished,
+        // fall back to restoring the toolbar directly so the button never sticks.
+        mOverlay.findViewById(R.id.elyra_home_edit_cancel).setOnClickListener(v -> {
+            if (mLauncher.getDragController().isDragging()) {
+                mLauncher.getDragController().cancelDrag();
+            } else {
+                setToolbarDragMode(false, null);
+            }
         });
 
         mOverlay.findViewById(R.id.elyra_home_edit_action_widget).setOnClickListener(v ->
@@ -283,6 +331,10 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
         View done = mOverlay.findViewById(R.id.elyra_home_edit_done);
         done.setEnabled(true);
+
+        // Reset the top bar to idle Group/Done in case a prior drag that exited edit mode left it
+        // in drag-aware mode (Cancel + title).
+        setToolbarDragMode(false, null);
 
         // Reset the dim to full in case a prior drag that exited edit mode left the scrim faded.
         View scrim = mOverlay.findViewById(R.id.elyra_home_edit_scrim);

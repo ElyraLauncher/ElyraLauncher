@@ -77,7 +77,50 @@
             android:textColor="@color/materialColorOnSurface"
             android:text="@string/elyra_home_edit_group_button_text" />
 
+        <!--
+            Drag-aware controls. Both GONE while editing idle; shown only during a real
+            app/icon drag (ElyraHomeEditModeController#setToolbarDragMode). Cancel sits where
+            Group was; the title fills the middle and shows the dragged item's name. GONE views
+            are not measured, so their layout_weight is inert until the drag makes them VISIBLE.
+        -->
+        <TextView
+            android:id="@+id/elyra_home_edit_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="84dp"
+            android:minHeight="42dp"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/elyra_home_edit_group_bg"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/materialColorOnSurface"
+            android:visibility="gone"
+            android:text="@string/elyra_home_edit_cancel_button_text" />
+
+        <TextView
+            android:id="@+id/elyra_home_edit_drag_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/materialColorOnSurface"
+            android:visibility="gone" />
+
         <Space
+            android:id="@+id/elyra_home_edit_top_spacer"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
