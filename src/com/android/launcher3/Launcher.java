@@ -2696,6 +2696,51 @@ public class Launcher extends StatefulActivity<LauncherState>
                 false);
     }
 
+    /**
+     * Enters the real Workspace edit / page-management state on empty-space long press.
+     *
+     * <p>Uses the existing {@link LauncherState#EDIT_MODE} — the same class of state Launcher3
+     * uses for home editing — so the workspace genuinely shrinks (spring-load scale), stays
+     * horizontally page-scrollable ({@code Workspace#workspaceInScrollableState}) with its real
+     * page indicator, and no {@code DropTargetBar}/delete target is shown (that only appears when
+     * an actual item drag starts). A real trailing blank page is added
+     * ({@link Workspace#addExtraEmptyScreens()}) so the user can swipe to an empty page, and it is
+     * removed again when leaving edit mode if still unused. Back exits via the default
+     * {@link LauncherState#onBackInvoked} path (returns to {@code NORMAL}).
+     *
+     * <p>Intentionally no overlay/chrome here — this is the behavior foundation; controls are
+     * layered on separately.
+     */
+    public void showElyraRealWorkspaceEditMode() {
+        if (!isInState(NORMAL)) {
+            return;
+        }
+        mStateManager.goToState(EDIT_MODE);
+
+        // Add a real extra empty page after the transition frame so insertNewWorkspaceScreen can
+        // recompute page scrolls and the page indicator, making it immediately swipeable.
+        mWorkspace.post(() -> {
+            if (isInState(EDIT_MODE) && !isWorkspaceLoading()
+                    && !mWorkspace.hasExtraEmptyScreens()) {
+                mWorkspace.addExtraEmptyScreens();
+            }
+        });
+
+        // Strip the unused extra empty page when leaving edit mode (a page that received a dropped
+        // item is auto-committed by Launcher3 and thus preserved).
+        mStateManager.addStateListener(new StateManager.StateListener<LauncherState>() {
+            @Override
+            public void onStateTransitionComplete(LauncherState finalState) {
+                if (finalState != EDIT_MODE) {
+                    if (!isWorkspaceLoading()) {
+                        mWorkspace.removeExtraEmptyScreen(false /* stripEmptyScreens */);
+                    }
+                    mStateManager.removeStateListener(this);
+                }
+            }
+        });
+    }
+
     @Override
     public boolean canUseMultipleShadesForPopup() {
         return getTopOpenViewWithType(this, TYPE_FOLDER) == null
