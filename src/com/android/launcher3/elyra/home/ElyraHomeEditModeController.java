@@ -47,8 +47,9 @@ import com.android.launcher3.views.OptionsPopupView;
  */
 public final class ElyraHomeEditModeController implements StateManager.StateListener<LauncherState> {
 
-    private static final long ANIM_DURATION_MS = 240L;
-    private static final float BAR_SLIDE_DP = 32f;
+    private static final long ANIM_DURATION_MS = 220L;
+    private static final float BAR_SLIDE_DP = 18f;
+    private static final float PAGE_INDICATOR_LIFT_DP = 132f;
 
     private final Launcher mLauncher;
     private final float mBarSlidePx;
@@ -83,6 +84,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         // skipped the animated start callback). Idempotent with exitEditMode().
         if (finalState != LauncherState.EDIT_MODE) {
             setStatusBarHidden(false);
+            restorePageIndicatorAfterEditMode();
             if (!mLauncher.isWorkspaceLoading()) {
                 mLauncher.getWorkspace().removeExtraEmptyScreen(false /* stripEmptyScreens */);
             }
@@ -149,6 +151,43 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         });
     }
 
+    private void showPageIndicatorForEditMode() {
+        View pageIndicator = mLauncher.getWorkspace().getPageIndicator();
+        if (pageIndicator == null) {
+            return;
+        }
+        pageIndicator.bringToFront();
+        pageIndicator.animate().cancel();
+        pageIndicator.setVisibility(View.VISIBLE);
+        pageIndicator.setAlpha(1f);
+        mLauncher.getWorkspace().showPageIndicatorAtCurrentScroll();
+        pageIndicator.animate()
+                .translationY(-dpToPx(PAGE_INDICATOR_LIFT_DP))
+                .alpha(1f)
+                .setDuration(ANIM_DURATION_MS)
+                .setInterpolator(EMPHASIZED_DECELERATE)
+                .withLayer()
+                .start();
+    }
+
+    private void restorePageIndicatorAfterEditMode() {
+        View pageIndicator = mLauncher.getWorkspace().getPageIndicator();
+        if (pageIndicator == null) {
+            return;
+        }
+        pageIndicator.animate().cancel();
+        pageIndicator.animate()
+                .translationY(0f)
+                .setDuration(ANIM_DURATION_MS)
+                .setInterpolator(EMPHASIZED_ACCELERATE)
+                .withLayer()
+                .start();
+    }
+
+    private int dpToPx(float dp) {
+        return Math.round(dp * mLauncher.getResources().getDisplayMetrics().density);
+    }
+
     private void exitToNormal() {
         mLauncher.getStateManager().goToState(LauncherState.NORMAL);
     }
@@ -194,6 +233,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         ensureInflated();
         setStatusBarHidden(true);
         addExtraEmptyPage();
+        showPageIndicatorForEditMode();
 
         View done = mOverlay.findViewById(R.id.elyra_home_edit_done);
         done.setEnabled(true);
@@ -225,6 +265,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
             return;
         }
         setStatusBarHidden(false);
+        restorePageIndicatorAfterEditMode();
         // Remove only the extra empty page we added (if still unused). Pass stripEmptyScreens=false
         // so we never delete a user's own pre-existing empty page. If the user dropped an icon onto
         // the extra page, Launcher3 already committed it (commitExtraEmptyScreens on drop), so it is
