@@ -130,12 +130,17 @@
                 android:layout_height="26dp"
                 android:tint="@android:color/white"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_widget" />
+                android:src="@drawable/elyra_edit_ic_widget" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:lineSpacingMultiplier="1.0"
+                android:ellipsize="end"
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:shadowColor="#B3000000"
@@ -163,12 +168,17 @@
                 android:layout_height="26dp"
                 android:tint="@android:color/white"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_palette" />
+                android:src="@drawable/elyra_edit_ic_wallpaper" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:lineSpacingMultiplier="1.0"
+                android:ellipsize="end"
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:shadowColor="#B3000000"
@@ -196,12 +206,17 @@
                 android:layout_height="26dp"
                 android:tint="@android:color/white"
                 android:importantForAccessibility="no"
-                android:src="@drawable/elyra_ic_grid" />
+                android:src="@drawable/elyra_edit_ic_layout" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:lineSpacingMultiplier="1.0"
+                android:ellipsize="end"
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:shadowColor="#B3000000"
@@ -229,12 +244,17 @@
                 android:layout_height="26dp"
                 android:tint="@android:color/white"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_setting" />
+                android:src="@drawable/elyra_edit_ic_settings" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:lineSpacingMultiplier="1.0"
+                android:ellipsize="end"
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:shadowColor="#B3000000"
