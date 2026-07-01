@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Done pill button surface for Elyra Home Edit Mode top bar. Stronger/more visible
+     than the general-purpose elyra_hero_action_bg since this is the primary exit action. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/elyra_accent" />
+    <corners android:radius="24dp" />
+</shape>
