@@ -78,7 +78,16 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
     @Override
     public void onStateTransitionComplete(LauncherState finalState) {
-        // No-op: visuals are driven from transition start.
+        // Safety net: guarantee full teardown once we've actually settled anywhere other than
+        // EDIT_MODE (e.g. EDIT_MODE -> ALL_APPS via a stray swipe, or an instant state set that
+        // skipped the animated start callback). Idempotent with exitEditMode().
+        if (finalState != LauncherState.EDIT_MODE) {
+            setStatusBarHidden(false);
+            if (mOverlay != null && mOverlay.getVisibility() != View.GONE) {
+                mOverlay.animate().cancel();
+                mOverlay.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void ensureInflated() {
