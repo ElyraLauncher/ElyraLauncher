@@ -106,30 +106,20 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
         // NOTE: the scrim is intentionally NOT given a click listener — it must not consume
         // workspace swipes. Exit is Done / Back only.
+        mOverlay.findViewById(R.id.elyra_home_edit_group).setOnClickListener(v -> { });
         mOverlay.findViewById(R.id.elyra_home_edit_done).setOnClickListener(v -> {
             v.setEnabled(false);
             exitToNormal();
         });
 
-        mOverlay.findViewById(R.id.elyra_home_edit_action_widget).setOnClickListener(v -> {
-            exitToNormal();
-            OptionsPopupView.openWidgets(mLauncher);
-        });
-        mOverlay.findViewById(R.id.elyra_home_edit_action_wallpaper).setOnClickListener(v -> {
-            exitToNormal();
-            OptionsPopupView.startWallpaperPicker(v);
-        });
-        // Routes to the Elyra settings dashboard rather than the Layar Utama detail screen:
-        // the direct detail route was unreliable (could show a blank/dark screen). Revisit once
-        // that route is verified stable on-device.
-        mOverlay.findViewById(R.id.elyra_home_edit_action_layout).setOnClickListener(v -> {
-            exitToNormal();
-            OptionsPopupView.startSettings(v);
-        });
-        mOverlay.findViewById(R.id.elyra_home_edit_action_settings).setOnClickListener(v -> {
-            exitToNormal();
-            OptionsPopupView.startSettings(v);
-        });
+        mOverlay.findViewById(R.id.elyra_home_edit_action_widget).setOnClickListener(v ->
+                runAfterExit(() -> OptionsPopupView.openWidgets(mLauncher)));
+        mOverlay.findViewById(R.id.elyra_home_edit_action_wallpaper).setOnClickListener(v ->
+                runAfterExit(() -> OptionsPopupView.startWallpaperPicker(v)));
+        mOverlay.findViewById(R.id.elyra_home_edit_action_layout).setOnClickListener(v ->
+                runAfterExit(() -> OptionsPopupView.startSettings(v)));
+        mOverlay.findViewById(R.id.elyra_home_edit_action_settings).setOnClickListener(v ->
+                runAfterExit(() -> OptionsPopupView.startSettings(v)));
 
         applyWindowInsets();
         mLauncher.getDragLayer().addView(mOverlay);
@@ -158,6 +148,26 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
     private void exitToNormal() {
         mLauncher.getStateManager().goToState(LauncherState.NORMAL);
+    }
+
+    private void runAfterExit(Runnable action) {
+        if (mLauncher.isInState(LauncherState.NORMAL)) {
+            action.run();
+            return;
+        }
+        mLauncher.getStateManager().addStateListener(
+                new StateManager.StateListener<LauncherState>() {
+                    @Override
+                    public void onStateTransitionComplete(LauncherState finalState) {
+                        if (finalState == LauncherState.NORMAL) {
+                            mLauncher.getStateManager().removeStateListener(this);
+                            action.run();
+                        } else if (finalState != LauncherState.EDIT_MODE) {
+                            mLauncher.getStateManager().removeStateListener(this);
+                        }
+                    }
+                });
+        exitToNormal();
     }
 
     /**
