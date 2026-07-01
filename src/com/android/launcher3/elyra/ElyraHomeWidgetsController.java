@@ -229,10 +229,27 @@ public final class ElyraHomeWidgetsController
 
     private void showTrigger() {
         if (mSearchTriggerView == null) return;
+        // Respect the Elyra "Compact search bar" setting: when disabled, keep the pill hidden in
+        // normal home. Edit mode (and any non-NORMAL state) still hides it via hideTrigger().
+        if (!ElyraSmartSpaceController.isCompactSearchEnabled(mLauncher)) {
+            hideTrigger();
+            return;
+        }
         mSearchTriggerView.animate().cancel();
         mSearchTriggerView.setAlpha(0f);
         mSearchTriggerView.setVisibility(View.VISIBLE);
         mSearchTriggerView.animate().alpha(1f).setDuration(SHOW_DURATION_MS).start();
+    }
+
+    /**
+     * Re-applies the "Compact search bar" preference while in normal home, so a settings toggle
+     * reflects live without a restart. No-op when not in normal home (the pill stays hidden).
+     */
+    public static void refreshSearchVisibility() {
+        ElyraHomeWidgetsController inst = sInstance;
+        if (inst != null && inst.mIsNormal) {
+            inst.showTrigger();
+        }
     }
 
     // ── Workspace scroll — search trigger fade while swiping pages ───────────

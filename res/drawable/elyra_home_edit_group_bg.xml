@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Group pill surface for Elyra Home Edit Mode top bar.
+    Uses a Material 3 dynamic surface-container tone (adaptive light/dark) instead of a
+    hardcoded translucent white. Paired with a no-op click listener until real icon grouping is implemented;
+    the control remains readable and visually balanced with Done.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/materialColorSurfaceContainerHigh" />
+    <corners android:radius="20dp" />
+</shape>

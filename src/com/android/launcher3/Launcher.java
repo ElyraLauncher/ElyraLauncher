@@ -1233,6 +1233,12 @@ public class Launcher extends StatefulActivity<LauncherState>
         // When multiple pages are visible, show persistent page indicator
         mWorkspace.getPageIndicator().setShouldAutoHide(!state.hasFlag(FLAG_MULTI_PAGE));
 
+        if (ALL_APPS.equals(state) && getAppsView() != null) {
+            // Reflect the Elyra "Show drawer search" preference each time the drawer opens.
+            com.android.launcher3.elyra.ElyraAllAppsController.applySearchVisibility(
+                    getAppsView().getSearchView(), this);
+        }
+
         mPrevLauncherState = mStateManager.getCurrentStableState();
         if (mPrevLauncherState != state && ALL_APPS.equals(state)
                 // Making sure mAllAppsSessionLogId is null to avoid double logging.
@@ -1277,6 +1283,12 @@ public class Launcher extends StatefulActivity<LauncherState>
 
             // Clear any rotation locks when going to normal state
             getRotationHelper().setCurrentStateRequest(REQUEST_NONE);
+
+            // Apply the Elyra "Show dock" preference now that we've settled into normal home
+            // (e.g. after exiting edit mode or All Apps).
+            com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
+            // Apply the Elyra workspace layout preferences (page indicator + icon labels).
+            com.android.launcher3.elyra.ElyraLayoutController.apply(this);
         }
 
         if (ALL_APPS.equals(mPrevLauncherState) && !ALL_APPS.equals(state)
@@ -1310,6 +1322,16 @@ public class Launcher extends StatefulActivity<LauncherState>
         }
 
         DragView.removeAllViews(this);
+
+        // Reflect Elyra home preferences when returning to normal home (e.g. back from the
+        // settings activity where they may have been toggled, which triggers no state change).
+        if (isInState(NORMAL)) {
+            com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
+            com.android.launcher3.elyra.ElyraFolderController.refreshFolderLabels(this);
+            com.android.launcher3.elyra.ElyraHomeWidgetsController.refreshSearchVisibility();
+            com.android.launcher3.elyra.ElyraLayoutController.apply(this);
+        }
+
         TraceHelper.INSTANCE.endSection();
     }
 
@@ -1415,6 +1437,7 @@ public class Launcher extends StatefulActivity<LauncherState>
                 this, R.attr.isWorkspaceDarkText) ? Color.BLACK : Color.WHITE);
 
         com.android.launcher3.elyra.ElyraHomeWidgetsController.attachTo(this);
+        com.android.launcher3.elyra.home.ElyraHomeEditModeController.attachTo(this);
     }
 
     /**
@@ -2694,6 +2717,31 @@ public class Launcher extends StatefulActivity<LauncherState>
     public void showDefaultOptions(float x, float y) {
         OptionsPopupView.show(this, getPopupTarget(x, y), OptionsPopupView.getOptions(this),
                 false);
+    }
+
+    /**
+     * True only while the empty-home long-press edit mode is active. Distinguishes that mode from
+     * a real app/icon drag, which also uses {@link LauncherState#EDIT_MODE}. Used to suppress the
+     * DropTargetBar (Hapus/DeleteDropTarget) in empty edit mode while keeping it for real drags.
+     */
+    private boolean mElyraEmptyHomeEditMode;
+
+    public boolean isElyraEmptyHomeEditMode() {
+        return mElyraEmptyHomeEditMode;
+    }
+
+    public void setElyraEmptyHomeEditMode(boolean active) {
+        mElyraEmptyHomeEditMode = active;
+    }
+
+    /**
+     * Enters the real Workspace edit/page-management state for empty-space long press.
+     */
+    public void showElyraHomeEditMode() {
+        if (isInState(NORMAL)) {
+            setElyraEmptyHomeEditMode(true);
+            mStateManager.goToState(EDIT_MODE);
+        }
     }
 
     @Override

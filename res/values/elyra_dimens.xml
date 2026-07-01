@@ -70,4 +70,9 @@
     <!-- Folder style dimensions (informational; actual size derived from numFolderRows/Cols × cell size) -->
     <dimen name="elyra_folder_preview_padding">12dp</dimen>
     <dimen name="elyra_folder_preview_icon_gap">6dp</dimen>
+
+    <!-- Home edit mode: symmetric horizontal inset for the bottom action row so the four
+         equal-weight actions do not span fully edge-to-edge. Left/right padding is preserved by
+         the controller's window-inset listener (which only adjusts top/bottom). -->
+    <dimen name="elyra_home_edit_action_row_padding_horizontal">20dp</dimen>
 </resources>

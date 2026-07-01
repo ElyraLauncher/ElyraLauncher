@@ -46,6 +46,10 @@ class EditModeState(id: Int) : LauncherState(id, StatsLogManager.LAUNCHER_STATE_
         }
     }
 
+    override fun getVisibleElements(launcher: Launcher): Int {
+        return WORKSPACE_PAGE_INDICATOR
+    }
+
     override fun getWorkspaceScaleAndTranslation(launcher: Launcher): ScaleAndTranslation {
         val scale = launcher.deviceProfile.getWorkspaceSpringLoadScale(launcher)
         return ScaleAndTranslation(scale, 0f, 0f)

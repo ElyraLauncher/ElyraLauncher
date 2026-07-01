@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Subtle translucent circular backdrop behind each Elyra Home Edit Mode action icon. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/elyra_home_edit_icon_bg" />
+</shape>

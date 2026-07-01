@@ -76,6 +76,10 @@ public class ItemLongClickListener {
         if (!(v.getTag() instanceof ItemInfo)) return false;
 
         launcher.setWaitingForResult(null);
+        // A real app/icon drag is starting. Clear the empty-home edit flag so the DropTargetBar
+        // (DeleteDropTarget/Hapus) shows normally for the drag — it is suppressed only while the
+        // empty-home edit mode is active, not for real drags that also use EDIT_MODE.
+        launcher.setElyraEmptyHomeEditMode(false);
         beginDrag(v, launcher, (ItemInfo) v.getTag(), new DragOptions());
         return true;
     }

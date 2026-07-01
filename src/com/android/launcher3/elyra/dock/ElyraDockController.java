@@ -20,6 +20,9 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.Hotseat;
+import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.elyra.ElyraFeatureFlags;
 
@@ -42,7 +45,34 @@ import com.android.launcher3.elyra.ElyraFeatureFlags;
  */
 public final class ElyraDockController {
 
+    /** SharedPreferences key backing the "Show dock" setting. */
+    public static final String KEY_SHOW_DOCK = "elyra_show_dock";
+    /** Default: the dock is shown. */
+    public static final boolean SHOW_DOCK_DEFAULT = true;
+
     private ElyraDockController() {}
+
+    /** Reads the persisted "Show dock" preference. */
+    public static boolean isDockEnabled(Context ctx) {
+        return ctx.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getBoolean(KEY_SHOW_DOCK, SHOW_DOCK_DEFAULT);
+    }
+
+    /**
+     * Applies the "Show dock" preference to the Hotseat view's visibility in normal home.
+     *
+     * <p>This governs NORMAL home only: edit mode and All Apps independently fade the Hotseat via
+     * their state animations (alpha), so this visibility toggle cooperates with them rather than
+     * fighting them. When the dock is hidden the Hotseat is set {@code GONE}; the workspace layout
+     * is unchanged (its bottom padding is owned by DeviceProfile), so no icons reflow.</p>
+     */
+    public static void applyDockVisibility(Launcher launcher) {
+        Hotseat hotseat = launcher.getHotseat();
+        if (hotseat == null) {
+            return;
+        }
+        hotseat.setVisibility(isDockEnabled(launcher) ? View.VISIBLE : View.GONE);
+    }
 
     /**
      * Rebuilds and applies the dock pill background with device-correct insets.

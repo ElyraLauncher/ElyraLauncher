@@ -324,6 +324,84 @@
     <string name="edit_home_screen">Edit Home Screen</string>
     <!-- Text for settings button [CHAR LIMIT=20]-->
     <string name="settings_button_text">Home settings</string>
+    <!-- Text for layout button in Elyra Home Edit Mode panel [CHAR LIMIT=20]-->
+    <string name="elyra_home_edit_layout_button_text">Layout</string>
+    <!-- Content description for the Elyra Home Edit Mode fullscreen overlay -->
+    <string name="elyra_home_edit_panel_description">Home edit mode</string>
+    <!-- Text for the Done button that exits Elyra Home Edit Mode [CHAR LIMIT=12]-->
+    <string name="elyra_home_edit_done_button_text">Done</string>
+    <!-- Text for the Group button in Elyra Home Edit Mode [CHAR LIMIT=12]-->
+    <string name="elyra_home_edit_group_button_text">Group</string>
+    <!-- Text for the Cancel button shown in the top bar while dragging an item in Elyra Home Edit Mode [CHAR LIMIT=12]-->
+    <string name="elyra_home_edit_cancel_button_text">Cancel</string>
+    <!-- Fallback title shown in the top bar while dragging an unnamed item in Elyra Home Edit Mode [CHAR LIMIT=24]-->
+    <string name="elyra_home_edit_drag_title_fallback">Move item</string>
+
+    <!-- ===== Elyra settings feature routes ===== -->
+    <!-- Dashboard section header grouping the launcher feature routes -->
+    <string name="elyra_settings_section_personalize">Personalization</string>
+    <!-- Generic summary shown on rows whose backend is not available yet -->
+    <string name="elyra_row_coming_soon">Coming soon</string>
+
+    <!-- Feature section: titles and dashboard summaries -->
+    <string name="elyra_section_dock_title">Dock</string>
+    <string name="elyra_section_dock_summary">Show dock, appearance, spacing</string>
+    <string name="elyra_section_drawer_title">App Drawer</string>
+    <string name="elyra_section_drawer_summary">Style, search, sort order</string>
+    <string name="elyra_section_folder_title">Folder</string>
+    <string name="elyra_section_folder_summary">Style, preview, labels</string>
+    <string name="elyra_section_appearance_title">Appearance</string>
+    <string name="elyra_section_appearance_summary">Theme, surfaces, icon style</string>
+    <string name="elyra_section_search_title">Search</string>
+    <string name="elyra_section_search_summary">Compact search, visibility</string>
+    <string name="elyra_section_editmode_title">Edit Mode</string>
+    <string name="elyra_section_editmode_summary">Workspace edit, page preview</string>
+
+    <!-- Home Screen detail rows -->
+    <string name="elyra_row_grid_title">Grid</string>
+    <string name="elyra_row_icon_size_title">Icon size</string>
+    <string name="elyra_row_labels_title">Icon labels</string>
+    <string name="elyra_row_labels_summary">Show names under home screen app icons</string>
+    <string name="elyra_row_page_indicator_title">Page indicator</string>
+    <string name="elyra_row_page_indicator_summary">Show the page dots on the home screen</string>
+
+    <!-- Dock detail rows -->
+    <string name="elyra_row_show_dock_title">Show dock</string>
+    <string name="elyra_row_show_dock_summary">Show the app dock on the home screen</string>
+    <string name="elyra_row_dock_appearance_title">Dock appearance</string>
+    <string name="elyra_row_dock_spacing_title">Icon spacing</string>
+
+    <!-- App Drawer detail rows -->
+    <string name="elyra_row_drawer_style_title">Drawer style</string>
+    <string name="elyra_row_drawer_search_title">Drawer search</string>
+    <string name="elyra_row_drawer_search_summary">Show the search bar in the app drawer</string>
+    <string name="elyra_row_sort_mode_title">Sort order</string>
+
+    <!-- Folder detail rows -->
+    <string name="elyra_row_folder_style_title">Folder style</string>
+    <string name="elyra_row_folder_preview_title">Folder preview</string>
+    <string name="elyra_row_folder_label_title">Folder labels</string>
+    <string name="elyra_row_folder_label_summary">Show labels under folder icons</string>
+
+    <!-- Appearance detail rows -->
+    <string name="elyra_row_theme_title">Theme &amp; accent</string>
+    <string name="elyra_row_adaptive_surfaces_title">Adaptive surfaces</string>
+    <string name="elyra_row_adaptive_surfaces_summary">Use tonal, raised surfaces in Elyra screens</string>
+    <string name="elyra_row_icon_bg_title">Icon background style</string>
+
+    <!-- Search detail rows -->
+    <string name="elyra_row_compact_search_title">Compact search bar</string>
+    <string name="elyra_row_compact_search_summary">Show the compact search pill on the home screen</string>
+    <string name="elyra_row_search_visibility_title">Search visibility</string>
+
+    <!-- Edit Mode detail rows -->
+    <string name="elyra_row_workspace_edit_title">Workspace edit behavior</string>
+    <string name="elyra_row_page_preview_title">Page preview</string>
+    <string name="elyra_row_drag_toolbar_title">Drag-aware toolbar</string>
+    <string name="elyra_row_drag_toolbar_summary">Show the dragged item name and Cancel while dragging</string>
+    <string name="elyra_row_reduce_dim_title">Reduce dim while dragging</string>
+    <string name="elyra_row_reduce_dim_summary">Fade the edit dim so the dragged icon stays clear</string>
+
     <!-- Message shown when a feature is disabled by the administrator -->
     <string name="msg_disabled_by_admin">Disabled by your admin</string>
 

@@ -328,6 +328,7 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
         updateBackgroundVisibility(mActivityContext.getDeviceProfile());
         mSearchUiManager.initializeSearch(this);
         ElyraAllAppsController.applySearchBox(mSearchContainer);
+        ElyraAllAppsController.applySearchVisibility(mSearchContainer, getContext());
     }
 
     @Override

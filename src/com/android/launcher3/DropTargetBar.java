@@ -322,6 +322,11 @@ public class DropTargetBar extends FrameLayout
      */
     @Override
     public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
+        // Suppress the drop target bar (DeleteDropTarget/Hapus) ONLY while the empty-home edit
+        // mode is active. Real app/icon drags clear this flag first, so they still show the bar.
+        if (mLauncher.isElyraEmptyHomeEditMode()) {
+            return;
+        }
         animateToVisibility(true);
     }
 
