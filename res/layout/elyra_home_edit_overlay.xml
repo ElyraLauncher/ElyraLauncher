@@ -10,13 +10,17 @@
 
     The middle area (between the top and bottom bars) is the scrim itself, so tapping
     the dimmed workspace exits edit mode the same way Done/back do.
+
+    NOTE: intentionally NO fitsSystemWindows here. The scrim must reach edge-to-edge so the
+    dim is one continuous surface with no bands behind the status/navigation bars. System-bar
+    insets are instead applied as padding to ONLY the top and bottom bars, in
+    ElyraHomeEditModeController#applyWindowInsets.
 -->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/elyra_home_edit_overlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:contentDescription="@string/elyra_home_edit_panel_description"
     android:visibility="gone">
 
@@ -28,6 +32,11 @@
         android:clickable="true"
         android:focusable="true" />
 
+    <!--
+        Top controls. paddingTop is small on purpose — the status-bar inset is added on top of
+        it programmatically (applyWindowInsets), so the pills sit just below the status area
+        rather than floating far down the screen.
+    -->
     <LinearLayout
         android:id="@+id/elyra_home_edit_top_bar"
         android:layout_width="match_parent"
@@ -35,10 +44,10 @@
         android:layout_gravity="top"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="12dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
         <!--
             Group is a placeholder for a not-yet-implemented icon-grouping feature.
@@ -49,20 +58,20 @@
             android:id="@+id/elyra_home_edit_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="96dp"
-            android:minHeight="48dp"
+            android:minWidth="72dp"
+            android:minHeight="40dp"
             android:gravity="center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:background="@drawable/elyra_home_edit_group_bg"
             android:clickable="false"
             android:focusable="false"
-            android:alpha="0.45"
-            android:textSize="15sp"
+            android:alpha="0.6"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@color/materialColorOnSurface"
             android:text="@string/elyra_home_edit_group_button_text" />
 
         <Space
@@ -74,19 +83,19 @@
             android:id="@+id/elyra_home_edit_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="96dp"
-            android:minHeight="48dp"
+            android:minWidth="72dp"
+            android:minHeight="40dp"
             android:gravity="center"
-            android:paddingStart="28dp"
-            android:paddingEnd="28dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:background="@drawable/elyra_home_edit_done_bg"
             android:clickable="true"
             android:focusable="true"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@color/materialColorOnPrimary"
             android:text="@string/elyra_home_edit_done_button_text" />
     </LinearLayout>
 

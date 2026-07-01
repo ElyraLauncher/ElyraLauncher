@@ -10,6 +10,7 @@
 
 package com.android.launcher3.elyra.home;
 
+import android.graphics.Insets;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
@@ -100,7 +101,30 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
             OptionsPopupView.startSettings(v);
         });
 
+        applyWindowInsets();
         mLauncher.getDragLayer().addView(mOverlay);
+    }
+
+    /**
+     * Pushes the system-bar insets onto ONLY the top and bottom bars, leaving the scrim
+     * edge-to-edge. This keeps the dim one continuous surface (no bands behind the status /
+     * navigation bars) while still keeping the pills and action row clear of the system UI.
+     * The status-bar inset collapses to 0 once the bar is hidden in edit mode, which lets the
+     * top pills rise closer to the screen edge.
+     */
+    private void applyWindowInsets() {
+        View topBar = mOverlay.findViewById(R.id.elyra_home_edit_top_bar);
+        View bottomBar = mOverlay.findViewById(R.id.elyra_home_edit_bottom_bar);
+        final int topBase = topBar.getPaddingTop();
+        final int bottomBase = bottomBar.getPaddingBottom();
+        mOverlay.setOnApplyWindowInsetsListener((v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
+            topBar.setPadding(topBar.getPaddingLeft(), topBase + bars.top,
+                    topBar.getPaddingRight(), topBar.getPaddingBottom());
+            bottomBar.setPadding(bottomBar.getPaddingLeft(), bottomBar.getPaddingTop(),
+                    bottomBar.getPaddingRight(), bottomBase + bars.bottom);
+            return insets;
+        });
     }
 
     private void exitEditMode() {
@@ -114,6 +138,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         mOverlay.animate().cancel();
         mOverlay.setAlpha(0f);
         mOverlay.setVisibility(View.VISIBLE);
+        mOverlay.requestApplyInsets();
         mOverlay.animate().alpha(1f).setDuration(ANIM_DURATION_MS).start();
 
         fadeOut(mLauncher.getHotseat());
