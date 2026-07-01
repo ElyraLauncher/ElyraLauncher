@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Group pill button surface for Elyra Home Edit Mode top bar. Muted/translucent —
+     paired with alpha="0.45" and clickable="false" in the layout to read as disabled,
+     since real icon grouping is not implemented yet. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#33FFFFFF" />
+    <corners android:radius="24dp" />
+</shape>

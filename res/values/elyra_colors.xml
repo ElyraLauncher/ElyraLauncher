@@ -47,6 +47,4 @@
 
     <!-- Elyra Home Edit Mode: dims the workspace/wallpaper behind the fullscreen overlay chrome -->
     <color name="elyra_home_edit_scrim">#73000000</color>
-    <!-- Elyra Home Edit Mode: top/bottom action bar surface -->
-    <color name="elyra_home_edit_panel_bg">#F2141829</color>
 </resources>
