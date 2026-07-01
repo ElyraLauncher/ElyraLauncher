@@ -151,11 +151,27 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         mLauncher.getStateManager().goToState(LauncherState.NORMAL);
     }
 
+    /**
+     * Adds a real trailing blank workspace page to swipe to. Posted so it runs after the
+     * EDIT_MODE transition frame is set up (insertNewWorkspaceScreen recomputes page scrolls and
+     * applies the current state to the new page, making it immediately swipeable and reflected in
+     * the page indicator). Guarded so we only add while still entering edit mode and not while the
+     * model is loading.
+     */
+    private void addExtraEmptyPage() {
+        mLauncher.getWorkspace().post(() -> {
+            if (mLauncher.isInState(LauncherState.EDIT_MODE)
+                    && !mLauncher.isWorkspaceLoading()
+                    && !mLauncher.getWorkspace().hasExtraEmptyScreens()) {
+                mLauncher.getWorkspace().addExtraEmptyScreens();
+            }
+        });
+    }
+
     private void enterEditMode() {
         ensureInflated();
         setStatusBarHidden(true);
-        // Real blank page to swipe to (stripped again on exit if unused).
-        mLauncher.getWorkspace().addExtraEmptyScreens();
+        addExtraEmptyPage();
 
         View done = mOverlay.findViewById(R.id.elyra_home_edit_done);
         done.setEnabled(true);
