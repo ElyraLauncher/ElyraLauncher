@@ -45,6 +45,8 @@
     <!-- Settings activity background: very dark blue-black -->
     <color name="elyra_settings_bg">#0D0F1A</color>
 
-    <!-- Elyra Home Edit Mode: dims the workspace/wallpaper behind the fullscreen overlay chrome -->
-    <color name="elyra_home_edit_scrim">#73000000</color>
+    <!-- Elyra Home Edit Mode: uniform, edge-to-edge neutral dim over the workspace/wallpaper.
+         Deliberately theme-independent black (not purple) so contrast for the on-wallpaper
+         action row is predictable across any wallpaper or dynamic theme. -->
+    <color name="elyra_home_edit_scrim">#66000000</color>
 </resources>
