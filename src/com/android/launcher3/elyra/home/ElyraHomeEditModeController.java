@@ -19,10 +19,13 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 
+import com.android.launcher3.DropTarget;
 import com.android.launcher3.InsettableFrameLayout;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
+import com.android.launcher3.dragndrop.DragController;
+import com.android.launcher3.dragndrop.DragOptions;
 import com.android.launcher3.statemanager.StateManager;
 import com.android.launcher3.views.OptionsPopupView;
 
@@ -45,9 +48,11 @@ import com.android.launcher3.views.OptionsPopupView;
  *
  * <p>Entry point: {@link Launcher#showElyraHomeEditMode()} calls {@code goToState(EDIT_MODE)}.
  */
-public final class ElyraHomeEditModeController implements StateManager.StateListener<LauncherState> {
+public final class ElyraHomeEditModeController implements StateManager.StateListener<LauncherState>,
+        DragController.DragListener {
 
     private static final long ANIM_DURATION_MS = 220L;
+    private static final long SCRIM_FADE_MS = 150L;
     private static final float BAR_SLIDE_DP = 18f;
     private static final float PAGE_INDICATOR_LIFT_DP = 132f;
 
@@ -64,6 +69,46 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         mLauncher = launcher;
         mBarSlidePx = BAR_SLIDE_DP * launcher.getResources().getDisplayMetrics().density;
         launcher.getStateManager().addStateListener(this);
+        // Listen for real drags so we can drop the dim scrim out from under the dragged icon while
+        // it is in flight, then bring it back on drop. Only the scrim fades — Group/Done, the
+        // bottom actions and the DropTargetBar (Hapus) are untouched.
+        launcher.getDragController().addDragListener(this);
+    }
+
+    /**
+     * Fades the dim scrim only, leaving Group/Done and the bottom action bar in place. Used to
+     * clear the dim from under a real dragged icon (which already renders topmost) without
+     * removing any edit chrome.
+     */
+    private void setScrimDimmed(boolean dimmed) {
+        if (mOverlay == null) {
+            return;
+        }
+        View scrim = mOverlay.findViewById(R.id.elyra_home_edit_scrim);
+        if (scrim == null) {
+            return;
+        }
+        scrim.animate().cancel();
+        scrim.animate().alpha(dimmed ? 1f : 0f).setDuration(SCRIM_FADE_MS).start();
+    }
+
+    @Override
+    public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
+        // A real app/icon drag is starting (DragViews only exist for real drags). While in edit
+        // mode, reduce the dim scrim so the dragged icon reads clearly; the icon itself is already
+        // topmost in the DragLayer, this just removes the dim behind it.
+        if (mLauncher.isInState(LauncherState.EDIT_MODE)) {
+            setScrimDimmed(false);
+        }
+    }
+
+    @Override
+    public void onDragEnd() {
+        // Restore the dim once the drag settles, but only if we are still in edit mode. If the drag
+        // took us out of edit mode, exitEditMode() fades the whole overlay and owns teardown.
+        if (mLauncher.isInState(LauncherState.EDIT_MODE)) {
+            setScrimDimmed(true);
+        }
     }
 
     @Override
@@ -238,6 +283,13 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
         View done = mOverlay.findViewById(R.id.elyra_home_edit_done);
         done.setEnabled(true);
+
+        // Reset the dim to full in case a prior drag that exited edit mode left the scrim faded.
+        View scrim = mOverlay.findViewById(R.id.elyra_home_edit_scrim);
+        if (scrim != null) {
+            scrim.animate().cancel();
+            scrim.setAlpha(1f);
+        }
 
         mOverlay.animate().cancel();
         mOverlay.setVisibility(View.VISIBLE);
