@@ -1326,6 +1326,7 @@ public class Launcher extends StatefulActivity<LauncherState>
         if (isInState(NORMAL)) {
             com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
             com.android.launcher3.elyra.ElyraFolderController.refreshFolderLabels(this);
+            com.android.launcher3.elyra.ElyraHomeWidgetsController.refreshSearchVisibility();
         }
 
         TraceHelper.INSTANCE.endSection();

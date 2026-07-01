@@ -10,6 +10,7 @@
 
 package com.android.launcher3.elyra;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
 
@@ -37,6 +39,17 @@ import com.android.launcher3.R;
  * <p>Views are inflated here but NOT attached to any parent.</p>
  */
 public final class ElyraSmartSpaceController {
+
+    /** SharedPreferences key backing the "Compact search bar" setting. */
+    public static final String KEY_COMPACT_SEARCH = "elyra_compact_search";
+    /** Default: the compact search pill is shown (preserves current behavior). */
+    public static final boolean COMPACT_SEARCH_DEFAULT = true;
+
+    /** Reads the persisted "Compact search bar" preference. */
+    public static boolean isCompactSearchEnabled(Context ctx) {
+        return ctx.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getBoolean(KEY_COMPACT_SEARCH, COMPACT_SEARCH_DEFAULT);
+    }
 
     private static final long SUBTITLE_ROTATE_MS = 5_000L;
 

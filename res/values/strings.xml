@@ -389,6 +389,7 @@
 
     <!-- Search detail rows -->
     <string name="elyra_row_compact_search_title">Compact search bar</string>
+    <string name="elyra_row_compact_search_summary">Show the compact search pill on the home screen</string>
     <string name="elyra_row_search_visibility_title">Search visibility</string>
 
     <!-- Edit Mode detail rows -->

@@ -30,6 +30,7 @@ import com.android.launcher3.R;
 import com.android.launcher3.elyra.ElyraAllAppsController;
 import com.android.launcher3.elyra.ElyraAppearanceController;
 import com.android.launcher3.elyra.ElyraFolderController;
+import com.android.launcher3.elyra.ElyraSmartSpaceController;
 import com.android.launcher3.elyra.dock.ElyraDockController;
 
 import java.util.ArrayList;
@@ -168,8 +169,11 @@ public final class ElyraFeatureDetailFragment extends Fragment {
                         R.string.elyra_row_icon_bg_title));
                 break;
             case SECTION_SEARCH:
-                rows.add(Row.soon(R.drawable.elyra_ic_search,
-                        R.string.elyra_row_compact_search_title));
+                rows.add(Row.toggle(R.drawable.elyra_ic_search,
+                        R.string.elyra_row_compact_search_title,
+                        R.string.elyra_row_compact_search_summary,
+                        ElyraSmartSpaceController.KEY_COMPACT_SEARCH,
+                        ElyraSmartSpaceController.COMPACT_SEARCH_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_search,
                         R.string.elyra_row_search_visibility_title));
                 break;

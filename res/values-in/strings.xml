@@ -266,6 +266,7 @@
     <string name="elyra_row_icon_bg_title">Gaya latar ikon</string>
 
     <string name="elyra_row_compact_search_title">Bilah pencarian ringkas</string>
+    <string name="elyra_row_compact_search_summary">Tampilkan pil pencarian ringkas di layar utama</string>
     <string name="elyra_row_search_visibility_title">Visibilitas pencarian</string>
 
     <string name="elyra_row_workspace_edit_title">Perilaku edit workspace</string>
