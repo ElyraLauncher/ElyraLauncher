@@ -252,6 +252,7 @@
 
     <string name="elyra_row_drawer_style_title">Gaya laci</string>
     <string name="elyra_row_drawer_search_title">Pencarian laci</string>
+    <string name="elyra_row_drawer_search_summary">Tampilkan bilah pencarian di laci aplikasi</string>
     <string name="elyra_row_sort_mode_title">Urutan aplikasi</string>
 
     <string name="elyra_row_folder_style_title">Gaya folder</string>

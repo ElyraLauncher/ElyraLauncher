@@ -1233,6 +1233,12 @@ public class Launcher extends StatefulActivity<LauncherState>
         // When multiple pages are visible, show persistent page indicator
         mWorkspace.getPageIndicator().setShouldAutoHide(!state.hasFlag(FLAG_MULTI_PAGE));
 
+        if (ALL_APPS.equals(state) && getAppsView() != null) {
+            // Reflect the Elyra "Show drawer search" preference each time the drawer opens.
+            com.android.launcher3.elyra.ElyraAllAppsController.applySearchVisibility(
+                    getAppsView().getSearchView(), this);
+        }
+
         mPrevLauncherState = mStateManager.getCurrentStableState();
         if (mPrevLauncherState != state && ALL_APPS.equals(state)
                 // Making sure mAllAppsSessionLogId is null to avoid double logging.

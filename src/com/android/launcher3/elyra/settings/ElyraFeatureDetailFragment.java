@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
+import com.android.launcher3.elyra.ElyraAllAppsController;
 import com.android.launcher3.elyra.dock.ElyraDockController;
 
 import java.util.ArrayList;
@@ -127,10 +128,13 @@ public final class ElyraFeatureDetailFragment extends Fragment {
                         R.string.elyra_row_dock_spacing_title));
                 break;
             case SECTION_DRAWER:
+                rows.add(Row.toggle(R.drawable.elyra_ic_drawer,
+                        R.string.elyra_row_drawer_search_title,
+                        R.string.elyra_row_drawer_search_summary,
+                        ElyraAllAppsController.KEY_DRAWER_SEARCH,
+                        ElyraAllAppsController.DRAWER_SEARCH_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_drawer,
                         R.string.elyra_row_drawer_style_title));
-                rows.add(Row.soon(R.drawable.elyra_ic_drawer,
-                        R.string.elyra_row_drawer_search_title));
                 rows.add(Row.soon(R.drawable.elyra_ic_drawer,
                         R.string.elyra_row_sort_mode_title));
                 break;

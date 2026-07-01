@@ -372,6 +372,7 @@
     <!-- App Drawer detail rows -->
     <string name="elyra_row_drawer_style_title">Drawer style</string>
     <string name="elyra_row_drawer_search_title">Drawer search</string>
+    <string name="elyra_row_drawer_search_summary">Show the search bar in the app drawer</string>
     <string name="elyra_row_sort_mode_title">Sort order</string>
 
     <!-- Folder detail rows -->

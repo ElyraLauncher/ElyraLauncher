@@ -15,6 +15,8 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.android.launcher3.LauncherFiles;
+
 /**
  * Applies Elyra visual styling to the All Apps drawer surface and search bar.
  *
@@ -28,7 +30,30 @@ import androidx.core.content.ContextCompat;
  */
 public final class ElyraAllAppsController {
 
+    /** SharedPreferences key backing the "Show drawer search" setting. */
+    public static final String KEY_DRAWER_SEARCH = "elyra_drawer_search";
+    /** Default: the drawer search bar is shown (preserves stock behavior). */
+    public static final boolean DRAWER_SEARCH_DEFAULT = true;
+
     private ElyraAllAppsController() {}
+
+    /** Reads the persisted "Show drawer search" preference. */
+    public static boolean isDrawerSearchEnabled(Context ctx) {
+        return ctx.getSharedPreferences(LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getBoolean(KEY_DRAWER_SEARCH, DRAWER_SEARCH_DEFAULT);
+    }
+
+    /**
+     * Applies the "Show drawer search" preference to the All Apps search bar visibility.
+     *
+     * <p>Only toggles the search container view; the app list, its adapter and scrolling are
+     * untouched, so the drawer stays fully usable when the search bar is hidden. Safe to call on
+     * every drawer open — a {@code null} container (not yet inflated) is ignored.</p>
+     */
+    public static void applySearchVisibility(View searchContainer, Context ctx) {
+        if (searchContainer == null) return;
+        searchContainer.setVisibility(isDrawerSearchEnabled(ctx) ? View.VISIBLE : View.GONE);
+    }
 
     /**
      * Swaps the search box background for the Elyra-branded drawable.
