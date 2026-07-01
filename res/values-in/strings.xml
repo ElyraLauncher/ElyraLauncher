@@ -258,6 +258,7 @@
     <string name="elyra_row_folder_style_title">Gaya folder</string>
     <string name="elyra_row_folder_preview_title">Pratinjau folder</string>
     <string name="elyra_row_folder_label_title">Label folder</string>
+    <string name="elyra_row_folder_label_summary">Tampilkan label di bawah ikon folder</string>
 
     <string name="elyra_row_theme_title">Tema &amp; aksen</string>
     <string name="elyra_row_adaptive_surfaces_title">Permukaan adaptif</string>

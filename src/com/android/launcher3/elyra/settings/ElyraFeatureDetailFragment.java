@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.elyra.ElyraAllAppsController;
+import com.android.launcher3.elyra.ElyraFolderController;
 import com.android.launcher3.elyra.dock.ElyraDockController;
 
 import java.util.ArrayList;
@@ -139,12 +140,15 @@ public final class ElyraFeatureDetailFragment extends Fragment {
                         R.string.elyra_row_sort_mode_title));
                 break;
             case SECTION_FOLDER:
+                rows.add(Row.toggle(R.drawable.elyra_ic_folder,
+                        R.string.elyra_row_folder_label_title,
+                        R.string.elyra_row_folder_label_summary,
+                        ElyraFolderController.KEY_SHOW_FOLDER_LABELS,
+                        ElyraFolderController.SHOW_FOLDER_LABELS_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_folder,
                         R.string.elyra_row_folder_style_title));
                 rows.add(Row.soon(R.drawable.elyra_ic_folder,
                         R.string.elyra_row_folder_preview_title));
-                rows.add(Row.soon(R.drawable.elyra_ic_folder,
-                        R.string.elyra_row_folder_label_title));
                 break;
             case SECTION_APPEARANCE:
                 rows.add(Row.soon(R.drawable.elyra_ic_appearance,

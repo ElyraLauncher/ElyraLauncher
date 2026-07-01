@@ -1321,10 +1321,11 @@ public class Launcher extends StatefulActivity<LauncherState>
 
         DragView.removeAllViews(this);
 
-        // Reflect the Elyra "Show dock" preference when returning to normal home (e.g. back from
-        // the settings activity where it may have been toggled, which triggers no state change).
+        // Reflect Elyra home preferences when returning to normal home (e.g. back from the
+        // settings activity where they may have been toggled, which triggers no state change).
         if (isInState(NORMAL)) {
             com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
+            com.android.launcher3.elyra.ElyraFolderController.refreshFolderLabels(this);
         }
 
         TraceHelper.INSTANCE.endSection();

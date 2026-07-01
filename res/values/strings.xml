@@ -379,6 +379,7 @@
     <string name="elyra_row_folder_style_title">Folder style</string>
     <string name="elyra_row_folder_preview_title">Folder preview</string>
     <string name="elyra_row_folder_label_title">Folder labels</string>
+    <string name="elyra_row_folder_label_summary">Show labels under folder icons</string>
 
     <!-- Appearance detail rows -->
     <string name="elyra_row_theme_title">Theme &amp; accent</string>
