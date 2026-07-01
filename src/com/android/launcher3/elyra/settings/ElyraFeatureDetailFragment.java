@@ -32,6 +32,7 @@ import com.android.launcher3.elyra.ElyraAppearanceController;
 import com.android.launcher3.elyra.ElyraFolderController;
 import com.android.launcher3.elyra.ElyraSmartSpaceController;
 import com.android.launcher3.elyra.dock.ElyraDockController;
+import com.android.launcher3.elyra.home.ElyraHomeEditModeController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,8 +179,16 @@ public final class ElyraFeatureDetailFragment extends Fragment {
                         R.string.elyra_row_search_visibility_title));
                 break;
             case SECTION_EDIT_MODE:
-                rows.add(Row.soon(R.drawable.elyra_ic_grid,
-                        R.string.elyra_row_workspace_edit_title));
+                rows.add(Row.toggle(R.drawable.elyra_ic_grid,
+                        R.string.elyra_row_drag_toolbar_title,
+                        R.string.elyra_row_drag_toolbar_summary,
+                        ElyraHomeEditModeController.KEY_DRAG_AWARE_TOOLBAR,
+                        ElyraHomeEditModeController.DRAG_AWARE_TOOLBAR_DEFAULT));
+                rows.add(Row.toggle(R.drawable.elyra_ic_grid,
+                        R.string.elyra_row_reduce_dim_title,
+                        R.string.elyra_row_reduce_dim_summary,
+                        ElyraHomeEditModeController.KEY_REDUCE_DIM_ON_DRAG,
+                        ElyraHomeEditModeController.REDUCE_DIM_ON_DRAG_DEFAULT));
                 rows.add(Row.soon(R.drawable.elyra_ic_grid,
                         R.string.elyra_row_page_preview_title));
                 break;

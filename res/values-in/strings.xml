@@ -271,4 +271,8 @@
 
     <string name="elyra_row_workspace_edit_title">Perilaku edit workspace</string>
     <string name="elyra_row_page_preview_title">Pratinjau halaman</string>
+    <string name="elyra_row_drag_toolbar_title">Bilah alat sadar-seret</string>
+    <string name="elyra_row_drag_toolbar_summary">Tampilkan nama item yang diseret dan Batal saat menyeret</string>
+    <string name="elyra_row_reduce_dim_title">Kurangi redup saat menyeret</string>
+    <string name="elyra_row_reduce_dim_summary">Redupkan lapisan edit agar ikon yang diseret tetap jelas</string>
 </resources>

@@ -395,6 +395,10 @@
     <!-- Edit Mode detail rows -->
     <string name="elyra_row_workspace_edit_title">Workspace edit behavior</string>
     <string name="elyra_row_page_preview_title">Page preview</string>
+    <string name="elyra_row_drag_toolbar_title">Drag-aware toolbar</string>
+    <string name="elyra_row_drag_toolbar_summary">Show the dragged item name and Cancel while dragging</string>
+    <string name="elyra_row_reduce_dim_title">Reduce dim while dragging</string>
+    <string name="elyra_row_reduce_dim_summary">Fade the edit dim so the dragged icon stays clear</string>
 
     <!-- Message shown when a feature is disabled by the administrator -->
     <string name="msg_disabled_by_admin">Disabled by your admin</string>

@@ -13,6 +13,7 @@ package com.android.launcher3.elyra.home;
 import static com.android.app.animation.Interpolators.EMPHASIZED_ACCELERATE;
 import static com.android.app.animation.Interpolators.EMPHASIZED_DECELERATE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.android.launcher3.InsettableFrameLayout;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
+import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.dragndrop.DragController;
 import com.android.launcher3.dragndrop.DragOptions;
 import com.android.launcher3.elyra.settings.ElyraSettingsActivity;
@@ -54,6 +56,15 @@ import com.android.launcher3.views.OptionsPopupView;
  */
 public final class ElyraHomeEditModeController implements StateManager.StateListener<LauncherState>,
         DragController.DragListener {
+
+    /** SharedPreferences key: swap the top bar to drag-aware controls during a real drag. */
+    public static final String KEY_DRAG_AWARE_TOOLBAR = "elyra_drag_aware_toolbar";
+    /** Default ON: preserves the current drag-aware toolbar behavior. */
+    public static final boolean DRAG_AWARE_TOOLBAR_DEFAULT = true;
+    /** SharedPreferences key: reduce the edit dim scrim while a real drag is in flight. */
+    public static final String KEY_REDUCE_DIM_ON_DRAG = "elyra_reduce_dim_on_drag";
+    /** Default ON: preserves the current scrim-reduction behavior. */
+    public static final boolean REDUCE_DIM_ON_DRAG_DEFAULT = true;
 
     private static final long ANIM_DURATION_MS = 220L;
     private static final long SCRIM_FADE_MS = 150L;
@@ -103,10 +114,26 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         // topmost in the DragLayer, this just removes the dim behind it. The top bar also switches
         // to drag-aware controls (Cancel + dragged item title) in place of Group/Done.
         if (mLauncher.isInState(LauncherState.EDIT_MODE)) {
-            setScrimDimmed(false);
-            ItemInfo info = dragObject != null ? dragObject.dragInfo : null;
-            setToolbarDragMode(true, info != null ? info.title : null);
+            if (isReduceDimOnDragEnabled()) {
+                setScrimDimmed(false);
+            }
+            if (isDragAwareToolbarEnabled()) {
+                ItemInfo info = dragObject != null ? dragObject.dragInfo : null;
+                setToolbarDragMode(true, info != null ? info.title : null);
+            }
         }
+    }
+
+    private boolean isDragAwareToolbarEnabled() {
+        return mLauncher.getSharedPreferences(
+                LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getBoolean(KEY_DRAG_AWARE_TOOLBAR, DRAG_AWARE_TOOLBAR_DEFAULT);
+    }
+
+    private boolean isReduceDimOnDragEnabled() {
+        return mLauncher.getSharedPreferences(
+                LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+                .getBoolean(KEY_REDUCE_DIM_ON_DRAG, REDUCE_DIM_ON_DRAG_DEFAULT);
     }
 
     @Override
