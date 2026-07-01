@@ -71,10 +71,18 @@ public final class ElyraHomeDetailFragment extends Fragment {
                 R.drawable.elyra_ic_grid, R.string.elyra_row_grid_title);
         bindSoonRow(view.findViewById(R.id.row_icon_size),
                 R.drawable.elyra_ic_grid, R.string.elyra_row_icon_size_title);
-        bindSoonRow(view.findViewById(R.id.row_labels),
-                R.drawable.elyra_ic_home, R.string.elyra_row_labels_title);
-        bindSoonRow(view.findViewById(R.id.row_page_indicator),
-                R.drawable.elyra_ic_home, R.string.elyra_row_page_indicator_title);
+        bindToggleRow(view.findViewById(R.id.row_labels),
+                R.drawable.elyra_ic_home,
+                R.string.elyra_row_labels_title,
+                R.string.elyra_row_labels_summary,
+                com.android.launcher3.elyra.ElyraLayoutController.KEY_ICON_LABELS,
+                com.android.launcher3.elyra.ElyraLayoutController.ICON_LABELS_DEFAULT);
+        bindToggleRow(view.findViewById(R.id.row_page_indicator),
+                R.drawable.elyra_ic_home,
+                R.string.elyra_row_page_indicator_title,
+                R.string.elyra_row_page_indicator_summary,
+                com.android.launcher3.elyra.ElyraLayoutController.KEY_PAGE_INDICATOR,
+                com.android.launcher3.elyra.ElyraLayoutController.PAGE_INDICATOR_DEFAULT);
     }
 
     private void setupNotificationDotsRow(View root) {

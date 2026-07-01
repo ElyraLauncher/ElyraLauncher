@@ -361,7 +361,9 @@
     <string name="elyra_row_grid_title">Grid</string>
     <string name="elyra_row_icon_size_title">Icon size</string>
     <string name="elyra_row_labels_title">Icon labels</string>
+    <string name="elyra_row_labels_summary">Show names under home screen app icons</string>
     <string name="elyra_row_page_indicator_title">Page indicator</string>
+    <string name="elyra_row_page_indicator_summary">Show the page dots on the home screen</string>
 
     <!-- Dock detail rows -->
     <string name="elyra_row_show_dock_title">Show dock</string>

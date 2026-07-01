@@ -1287,6 +1287,8 @@ public class Launcher extends StatefulActivity<LauncherState>
             // Apply the Elyra "Show dock" preference now that we've settled into normal home
             // (e.g. after exiting edit mode or All Apps).
             com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
+            // Apply the Elyra workspace layout preferences (page indicator + icon labels).
+            com.android.launcher3.elyra.ElyraLayoutController.apply(this);
         }
 
         if (ALL_APPS.equals(mPrevLauncherState) && !ALL_APPS.equals(state)
@@ -1327,6 +1329,7 @@ public class Launcher extends StatefulActivity<LauncherState>
             com.android.launcher3.elyra.dock.ElyraDockController.applyDockVisibility(this);
             com.android.launcher3.elyra.ElyraFolderController.refreshFolderLabels(this);
             com.android.launcher3.elyra.ElyraHomeWidgetsController.refreshSearchVisibility();
+            com.android.launcher3.elyra.ElyraLayoutController.apply(this);
         }
 
         TraceHelper.INSTANCE.endSection();

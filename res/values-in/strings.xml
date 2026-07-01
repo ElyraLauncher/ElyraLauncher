@@ -243,7 +243,9 @@
     <string name="elyra_row_grid_title">Grid</string>
     <string name="elyra_row_icon_size_title">Ukuran ikon</string>
     <string name="elyra_row_labels_title">Label ikon</string>
+    <string name="elyra_row_labels_summary">Tampilkan nama di bawah ikon aplikasi layar utama</string>
     <string name="elyra_row_page_indicator_title">Indikator halaman</string>
+    <string name="elyra_row_page_indicator_summary">Tampilkan titik halaman di layar utama</string>
 
     <string name="elyra_row_show_dock_title">Tampilkan dock</string>
     <string name="elyra_row_show_dock_summary">Tampilkan dock aplikasi di layar utama</string>
