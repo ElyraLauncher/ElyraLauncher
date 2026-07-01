@@ -1,56 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Elyra Home Edit Mode bottom action panel.
-    Root is the ElyraHomeEditPanel floating view; it manually lays out mContent
-    bottom-centered (see ElyraHomeEditPanel#onLayout), so root-level layout params here
-    are not used by the LinearLayout arrangement logic.
+    Elyra Home Edit Mode fullscreen overlay.
+
+    Added directly to DragLayer as a plain (non-floating-view) child; visibility and
+    animation are driven entirely by ElyraHomeEditModeController reacting to
+    LauncherState.EDIT_MODE transitions. The scaled/dimmed workspace itself is handled
+    by EditModeState (see LauncherState#EDIT_MODE) — this overlay only supplies the
+    top/bottom chrome plus an extra scrim for a guaranteed, theme-independent dim.
+
+    The middle area (between the top and bottom bars) is the scrim itself, so tapping
+    the dimmed workspace exits edit mode the same way Done/back do.
 -->
-<com.android.launcher3.elyra.homeedit.ElyraHomeEditPanel
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/elyra_home_edit_overlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/elyra_home_edit_panel_description">
+    android:fitsSystemWindows="true"
+    android:contentDescription="@string/elyra_home_edit_panel_description"
+    android:visibility="gone">
+
+    <View
+        android:id="@+id/elyra_home_edit_scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/elyra_home_edit_scrim"
+        android:clickable="true"
+        android:focusable="true" />
 
     <LinearLayout
-        android:id="@+id/elyra_home_edit_panel_content"
+        android:id="@+id/elyra_home_edit_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_gravity="top"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|end"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/elyra_home_edit_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="72dp"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/elyra_hero_action_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="@string/elyra_home_edit_done_button_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/elyra_home_edit_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:background="@drawable/elyra_home_edit_panel_bg"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:elevation="8dp">
-
-        <LinearLayout
-            android:id="@+id/elyra_home_edit_action_wallpaper"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
-
-            <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:tint="@android:color/white"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_palette" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"
-                android:text="@string/styles_wallpaper_button_text" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/elyra_home_edit_action_widget"
@@ -79,6 +97,35 @@
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:text="@string/widget_button_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/elyra_home_edit_action_wallpaper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:tint="@android:color/white"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_palette" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:text="@string/styles_wallpaper_button_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -140,4 +187,5 @@
         </LinearLayout>
 
     </LinearLayout>
-</com.android.launcher3.elyra.homeedit.ElyraHomeEditPanel>
+
+</FrameLayout>

@@ -326,8 +326,10 @@
     <string name="settings_button_text">Home settings</string>
     <!-- Text for layout button in Elyra Home Edit Mode panel [CHAR LIMIT=20]-->
     <string name="elyra_home_edit_layout_button_text">Layout</string>
-    <!-- Content description for the Elyra Home Edit Mode bottom panel -->
+    <!-- Content description for the Elyra Home Edit Mode fullscreen overlay -->
     <string name="elyra_home_edit_panel_description">Home edit mode</string>
+    <!-- Text for the Done button that exits Elyra Home Edit Mode [CHAR LIMIT=12]-->
+    <string name="elyra_home_edit_done_button_text">Done</string>
     <!-- Message shown when a feature is disabled by the administrator -->
     <string name="msg_disabled_by_admin">Disabled by your admin</string>
 

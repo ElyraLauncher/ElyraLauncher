@@ -272,7 +272,7 @@ public class OptionsPopupView<T extends Context & ActivityContext> extends Arrow
         }
     }
 
-    /** Also used by {@link com.android.launcher3.elyra.homeedit.ElyraHomeEditPanel}. */
+    /** Also used by {@link com.android.launcher3.elyra.home.ElyraHomeEditModeController}. */
     public static boolean startSettings(View view) {
         TestLogging.recordEvent(TestProtocol.SEQUENCE_MAIN, "start: startSettings");
         Launcher launcher = Launcher.getLauncher(view.getContext());
@@ -284,9 +284,9 @@ public class OptionsPopupView<T extends Context & ActivityContext> extends Arrow
 
     /**
      * Event handler for the wallpaper picker button that appears after a long press
-     * on the home screen.
+     * on the home screen. Also used by
+     * {@link com.android.launcher3.elyra.home.ElyraHomeEditModeController}.
      */
-    /** Also used by {@link com.android.launcher3.elyra.homeedit.ElyraHomeEditPanel}. */
     public static boolean startWallpaperPicker(View v) {
         Launcher launcher = Launcher.getLauncher(v.getContext());
         if (!Utilities.isWallpaperAllowed(launcher)) {
