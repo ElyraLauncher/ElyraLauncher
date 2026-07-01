@@ -71,6 +71,17 @@
     <string name="elyra_charging_takeover_title">Ambil Alih Pengisian Daya</string>
     <string name="elyra_charging_takeover_summary">Tampilkan info baterai saat mengisi daya</string>
 
+    <!-- ElyraSettingsActivity header -->
+    <string name="elyra_settings_back">Kembali</string>
+
+    <!-- Dashboard section labels -->
+    <string name="elyra_settings_section_general">Pengaturan</string>
+    <string name="elyra_settings_section_main">Pengaturan utama</string>
+    <string name="elyra_settings_section_quick">Pengaturan cepat</string>
+
+    <!-- Dashboard row summaries -->
+    <string name="elyra_row_notif_dots_summary">Buka pengaturan notifikasi sistem</string>
+
     <!-- Settings hero card strings -->
     <string name="elyra_hero_title">Pusat Elyra</string>
     <string name="elyra_hero_info_pill">Info dinamis</string>

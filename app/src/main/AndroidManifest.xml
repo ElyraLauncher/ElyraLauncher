@@ -82,11 +82,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Launcher settings activity -->
+        <!-- Elyra settings shell — receives APPLICATION_PREFERENCES intent -->
         <activity
-            android:name="com.android.launcher3.settings.SettingsActivity"
+            android:name="com.android.launcher3.elyra.settings.ElyraSettingsActivity"
             android:label="@string/settings_button_text"
-            android:theme="@style/HomeSettings.Theme"
+            android:theme="@style/ElyraSettings.Theme"
             android:exported="true"
             android:taskAffinity=""
             android:launchMode="singleTask">
@@ -95,6 +95,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Legacy AOSP settings (no longer the entry point) -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsActivity"
+            android:label="@string/settings_button_text"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="false"
+            android:taskAffinity=""
+            android:launchMode="singleTask" />
 
         <!-- Widget restore receiver -->
         <receiver

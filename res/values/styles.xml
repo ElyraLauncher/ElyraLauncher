@@ -174,6 +174,25 @@
     <!-- Elyra dark settings: AppCompat base so AndroidX preferences + alert dialogs resolve
          AppCompat attrs (listLayout, etc.). Parent was Theme.DeviceDefault.Settings (AOSP)
          which lacks those attrs and produced brown/default Material appearance. -->
+    <!-- Theme for ElyraSettingsActivity — always AppCompat-based, no v31 DeviceDefault override.
+         This guarantees a normal 56dp toolbar, no OEM giant header, and correct SwitchCompat
+         attr resolution on all API levels. -->
+    <style name="ElyraSettings.Theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/elyra_settings_bg</item>
+        <item name="android:colorBackground">@color/elyra_settings_bg</item>
+        <item name="colorPrimary">@color/elyra_accent</item>
+        <item name="colorPrimaryDark">@color/elyra_accent</item>
+        <item name="colorAccent">@color/elyra_accent</item>
+        <item name="android:textColorPrimary">@color/elyra_hero_text_primary</item>
+        <item name="android:textColorSecondary">@color/elyra_hero_text_secondary</item>
+        <item name="android:statusBarColor">@color/elyra_settings_bg</item>
+        <item name="android:navigationBarColor">@color/elyra_settings_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="selectableItemBackground">@drawable/elyra_settings_item_bg</item>
+        <item name="selectableItemBackgroundBorderless">@drawable/elyra_settings_item_bg</item>
+    </style>
+
     <style name="HomeSettings.Theme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/elyra_settings_bg</item>
         <item name="android:colorBackground">@color/elyra_settings_bg</item>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Background for the rounded settings card on the Elyra dashboard.
+    Slightly elevated over the dark settings background (#0D0F1A) using a dark navy fill.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#141829" />
+    <corners android:radius="20dp" />
+</shape>
