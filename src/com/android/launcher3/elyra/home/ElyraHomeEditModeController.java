@@ -83,6 +83,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         // EDIT_MODE (e.g. EDIT_MODE -> ALL_APPS via a stray swipe, or an instant state set that
         // skipped the animated start callback). Idempotent with exitEditMode().
         if (finalState != LauncherState.EDIT_MODE) {
+            mLauncher.setElyraEmptyHomeEditMode(false);
             setStatusBarHidden(false);
             restorePageIndicatorAfterEditMode();
             if (!mLauncher.isWorkspaceLoading()) {
@@ -261,6 +262,10 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
     }
 
     private void exitEditMode() {
+        // Always clear the empty-edit flag on any exit (Done, Back, exit to NORMAL/ALL_APPS, or a
+        // widget/wallpaper/settings action which routes through exitToNormal). Cleared before the
+        // early return so it never sticks true even if the overlay was already torn down.
+        mLauncher.setElyraEmptyHomeEditMode(false);
         if (mOverlay == null || mOverlay.getVisibility() != View.VISIBLE) {
             return;
         }

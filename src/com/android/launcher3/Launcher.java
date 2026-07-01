@@ -2698,10 +2698,26 @@ public class Launcher extends StatefulActivity<LauncherState>
     }
 
     /**
+     * True only while the empty-home long-press edit mode is active. Distinguishes that mode from
+     * a real app/icon drag, which also uses {@link LauncherState#EDIT_MODE}. Used to suppress the
+     * DropTargetBar (Hapus/DeleteDropTarget) in empty edit mode while keeping it for real drags.
+     */
+    private boolean mElyraEmptyHomeEditMode;
+
+    public boolean isElyraEmptyHomeEditMode() {
+        return mElyraEmptyHomeEditMode;
+    }
+
+    public void setElyraEmptyHomeEditMode(boolean active) {
+        mElyraEmptyHomeEditMode = active;
+    }
+
+    /**
      * Enters the real Workspace edit/page-management state for empty-space long press.
      */
     public void showElyraHomeEditMode() {
         if (isInState(NORMAL)) {
+            setElyraEmptyHomeEditMode(true);
             mStateManager.goToState(EDIT_MODE);
         }
     }
