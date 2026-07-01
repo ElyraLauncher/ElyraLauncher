@@ -1415,6 +1415,7 @@ public class Launcher extends StatefulActivity<LauncherState>
                 this, R.attr.isWorkspaceDarkText) ? Color.BLACK : Color.WHITE);
 
         com.android.launcher3.elyra.ElyraHomeWidgetsController.attachTo(this);
+        com.android.launcher3.elyra.home.ElyraHomeEditModeController.attachTo(this);
     }
 
     /**
@@ -2694,6 +2695,15 @@ public class Launcher extends StatefulActivity<LauncherState>
     public void showDefaultOptions(float x, float y) {
         OptionsPopupView.show(this, getPopupTarget(x, y), OptionsPopupView.getOptions(this),
                 false);
+    }
+
+    /**
+     * Enters the real Workspace edit/page-management state for empty-space long press.
+     */
+    public void showElyraHomeEditMode() {
+        if (isInState(NORMAL)) {
+            mStateManager.goToState(EDIT_MODE);
+        }
     }
 
     @Override
