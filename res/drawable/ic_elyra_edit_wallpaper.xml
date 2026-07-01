@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Elyra Home Edit Mode action icon: Home screen settings (gear: ring + eight teeth).
-     Outline style, tintable, weight-matched to the other three edit-mode icons. -->
+<!-- Elyra Home Edit Mode action icon: Wallpaper & style (framed image, sun + hills).
+     Outline, tintable. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
@@ -13,12 +13,19 @@
         android:strokeWidth="1.8"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M12,12 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+        android:pathData="M4,4 L20,4 L20,20 L4,20 Z" />
     <path
         android:fillColor="@android:color/transparent"
         android:strokeColor="@android:color/white"
         android:strokeWidth="1.8"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M12,3.5 L12,6 M12,18 L12,20.5 M3.5,12 L6,12 M18,12 L20.5,12 M6,6 L7.8,7.8 M16.2,16.2 L18,18 M18,6 L16.2,7.8 M7.8,16.2 L6,18" />
+        android:pathData="M8.5,9 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@android:color/white"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M4,20 L10,13.5 L13,16.5 L16.5,12.5 L20,16" />
 </vector>
