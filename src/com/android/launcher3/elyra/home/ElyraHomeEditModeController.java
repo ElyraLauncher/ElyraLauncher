@@ -13,6 +13,7 @@ package com.android.launcher3.elyra.home;
 import static com.android.app.animation.Interpolators.EMPHASIZED_ACCELERATE;
 import static com.android.app.animation.Interpolators.EMPHASIZED_DECELERATE;
 
+import android.content.Intent;
 import android.graphics.Insets;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
 import com.android.launcher3.dragndrop.DragController;
 import com.android.launcher3.dragndrop.DragOptions;
+import com.android.launcher3.elyra.settings.ElyraSettingsActivity;
 import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.statemanager.StateManager;
 import com.android.launcher3.views.OptionsPopupView;
@@ -216,7 +218,7 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
         mOverlay.findViewById(R.id.elyra_home_edit_action_wallpaper).setOnClickListener(v ->
                 runAfterExit(() -> OptionsPopupView.startWallpaperPicker(v)));
         mOverlay.findViewById(R.id.elyra_home_edit_action_layout).setOnClickListener(v ->
-                runAfterExit(() -> OptionsPopupView.startSettings(v)));
+                runAfterExit(this::openLayoutSettings));
         mOverlay.findViewById(R.id.elyra_home_edit_action_settings).setOnClickListener(v ->
                 runAfterExit(() -> OptionsPopupView.startSettings(v)));
 
@@ -284,6 +286,17 @@ public final class ElyraHomeEditModeController implements StateManager.StateList
 
     private void exitToNormal() {
         mLauncher.getStateManager().goToState(LauncherState.NORMAL);
+    }
+
+    /**
+     * Opens the Elyra settings shell deep-linked to the Home Screen (layout) detail, so the
+     * "Layout" action lands on layout controls rather than the dashboard root. "Home screen
+     * settings" still opens the dashboard root via the shared settings route.
+     */
+    private void openLayoutSettings() {
+        mLauncher.startActivity(new Intent(mLauncher, ElyraSettingsActivity.class)
+                .putExtra(ElyraSettingsActivity.EXTRA_ROUTE, ElyraSettingsActivity.ROUTE_HOME)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     private void runAfterExit(Runnable action) {

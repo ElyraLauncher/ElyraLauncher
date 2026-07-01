@@ -32,6 +32,11 @@ import com.android.launcher3.R;
  */
 public final class ElyraSettingsActivity extends AppCompatActivity {
 
+    /** Optional intent extra requesting a specific landing route (see ROUTE_* below). */
+    public static final String EXTRA_ROUTE = "com.android.launcher3.elyra.EXTRA_ROUTE";
+    /** Land directly on the Home Screen (layout) detail, with the dashboard behind it. */
+    public static final String ROUTE_HOME = "home";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,11 @@ public final class ElyraSettingsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             showDashboard();
+            // Deep-link: the edit-mode "Layout" action lands on the Home Screen detail with the
+            // dashboard placed behind it, so Back returns to the dashboard then to home.
+            if (ROUTE_HOME.equals(getIntent().getStringExtra(EXTRA_ROUTE))) {
+                showHomeDetail();
+            }
         }
     }
 
